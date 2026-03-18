@@ -1,0 +1,100 @@
+**Product Name (working title):** snips
+
+**Version:** 1.0 MVP
+**Date:** March 2026
+**Author:** Bossadi Zenith (@bossadizenith)
+**Status:** Draft for brainstorming & early scoping
+
+### 1. Overview / Problem Statement
+
+Developers, educators, and content creators struggle to make code explanations engaging. Static images (Carbon) are boring; single-snippet animations (Snipcast) lack storytelling. Manual tools (After Effects, Manim) take too long. Existing multi-slide tools (Snappify) require manual diff tagging — no automatic "what changed" intelligence.
+
+**Opportunity:** Build an intuitive tool that auto-detects changes between slides, animates precisely those parts (morph unchanged tokens, fade/strike removes, type/highlight inserts), and exports polished videos/GIFs in minutes.
+
+**Core Value Prop:** Turn any code evolution (refactor, tutorial steps, bug fix demo) into a smooth, professional animated story — no design skills needed.
+
+**Target Users:**
+
+- Indie devs / open-source maintainers posting threads on X
+- YouTube Shorts / TikTok / Reels creators doing code tutorials
+- Tech educators (Udemy, bootcamps)
+- Conference speakers / job portfolio builders
+
+**User Goals:**
+
+- Create & export first animated code video in < 10 minutes
+- 3×–5× higher engagement vs static code posts (self-reported or tracked)
+
+**Success KPIs:**
+
+- Completion rate: >70% of started projects reach export
+- Average project: 4–8 slides
+- NPS > 40 after first 100 exports
+- Viral coefficient >1.1 from social shares
+
+### 3. User Personas (Primary)
+
+- **Alex the Indie Dev** (main): 25–35, posts daily tips on X, wants quick high-engagement videos, budget $5–10/mo.
+- **Sara the Educator** — Creates course clips, needs reliable exports, multi-language support.
+- **Jordan the Speaker** — Preps conference demos, wants git/PR import later.
+
+### 4. Key Features (MVP Scope — Must-Have)
+
+Prioritized for MVP; everything else → post-MVP.
+
+1. **Project / Presentation Creation**
+   - Create new "Code Story" (multi-slide project)
+   - Add/edit/delete slides (each = title + code block + optional notes)
+
+2. **Code Editor per Slide**
+   - syntax highlighting (via Shiki)
+   - Support 50+ languages (JS/TS, Python, Rust, Go, etc.)
+   - Duplicate previous slide for easy iteration
+
+3. **Smart Diff Detection & Preview**
+   - Real-time preview pane showing transition from current → next slide
+   - Auto-compute changes using diff engine (Shiki Magic Move core + diff-match-patch logic)
+   - Visual cues:
+     - Unchanged tokens: smooth morph/FLIP animation
+     - Inserts: green fade-in + optional typing effect
+     - Deletes: red fade-out/strike-through
+     - Moves: line/token sliding/morphing
+
+4. **Animation Controls**
+   - Per-transition timing (duration 0.5–3s)
+   - Global options: theme (dark/light + popular like One Dark, Dracula), font size, line numbers toggle, background color/gradient
+   - Auto-zoom/pan to changed regions (nice-to-have if easy)
+
+5. **Export**
+   - Primary: MP4 video (1080p/60fps default, via Remotion)
+   - Secondary: GIF (shorter loops), static PNG per slide
+   - Watermark toggle (remove on paid)
+   - Export with/without slide titles
+
+6. **Basic Auth & Storage**
+   - Sign up/login (email + Google/GitHub OAuth)
+   - Save projects to cloud (per user)
+
+### 5. Non-Functional Requirements
+
+- Performance: < 2s to compute diff/preview on 500-line files
+- Browser support: Latest Chrome/Edge/Firefox/Safari
+- Mobile: Responsive editor (but export on desktop preferred)
+- Accessibility: Keyboard nav in editor, high-contrast themes
+- Security: Code snippets stored encrypted at rest, no execution
+
+### 6. Tech Stack Recommendation (MVP-friendly)
+
+- Frontend: Next.js 15 (App Router) + Tailwind
+- Editor
+- Highlighting + Diff Animation: Shiki + shiki-magic-move (core magic)
+- Video Rendering: Remotion (React-based, serverless render possible)
+- Backend: Next.js API routes + Vercel Postgres (or Supabase)
+- Auth: Better auth
+- Diff fallback: diff-match-patch-es (if custom needs arise)
+
+### 9. Risks & Mitigations
+
+- Diff accuracy on messy code → Use Shiki Magic Move's proven pairing logic
+- Render times/cost on Remotion → Start with client-side render, add serverless queue later
+- Competition (Snappify, existing tools) → Differentiate hard on **auto-smart diffs** + video-first
