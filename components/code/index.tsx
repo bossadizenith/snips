@@ -44,8 +44,9 @@ export function Code() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
+    <div className="flex">
       <FrameContextStore>
+        <Slides />
         <NavigationActions>
           <InfoDialog />
           <FormatButton />
@@ -57,8 +58,7 @@ export function Code() {
             <Controls />
           </NoSSR>
         </div>
-        <Slides />
       </FrameContextStore>
-    </>
+    </div>
   );
 }

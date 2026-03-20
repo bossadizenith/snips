@@ -68,7 +68,7 @@ export function NavigationActions({
   return (
     <div
       className={cn(
-        "h-12.5 flex items-center justify-end fixed top-0 right-scrollbar-offset gap-2 z-10 left-68.5",
+        "h-12.5 flex items-center justify-end fixed top-0 right-0 gap-2 z-10  w-[calc(100%-var(--sidebar-width))] bg-background border-b",
         className,
       )}
     >
