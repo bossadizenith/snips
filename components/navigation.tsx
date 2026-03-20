@@ -68,7 +68,7 @@ export function NavigationActions({
   return (
     <div
       className={cn(
-        "h-12.5 flex items-center justify-end fixed top-0 left-0 gap-2 z-10  w-[calc(100%-var(--sidebar-width))] bg-background border-b",
+        "h-12.5 flex items-center justify-end px-4 gap-2 bg-background border-b w-full sticky top-0 z-10",
         className,
       )}
     >

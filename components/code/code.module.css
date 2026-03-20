@@ -1,6 +1,6 @@
 .app {
   display: grid;
-  width: calc(100% - var(--sidebar-width));
+  width: 100%;
   height: 100%;
   align-items: center;
   justify-items: center;

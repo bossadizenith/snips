@@ -44,21 +44,25 @@ export function Code() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen w-screen overflow-hidden translate-z-0">
       <FrameContextStore>
+        <main className="flex-1 flex flex-col min-w-0 relative">
+          <NavigationActions>
+            <InfoDialog />
+            <FormatButton />
+            <ExportButton />
+          </NavigationActions>
+          <div className="flex-1 overflow-auto relative flex justify-center items-center">
+            <div className={styles.app}>
+              <NoSSR>
+                {highlighter && <Frame />}
+                <Controls />
+              </NoSSR>
+            </div>
+          </div>
+        </main>
         <Slides />
-        <NavigationActions>
-          <InfoDialog />
-          <FormatButton />
-          <ExportButton />
-        </NavigationActions>
-        <div className={styles.app}>
-          <NoSSR>
-            {highlighter && <Frame />}
-            <Controls />
-          </NoSSR>
-        </div>
       </FrameContextStore>
     </div>
   );
-}
+};

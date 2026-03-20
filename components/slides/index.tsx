@@ -33,7 +33,7 @@ export const Slides = () => {
   }, [activeSlideId, title, code, updateActiveSlide]);
 
   return (
-    <aside className="fixed top-0 right-0 h-screen z-50 w-(--sidebar-width) border-l border-gray-2 p-4 bg-sidebar">
+    <aside className="h-screen w-(--sidebar-width) border-l border-gray-2 p-4 bg-sidebar shrink-0 overflow-y-auto">
       <div className="mb-3 flex items-center justify-between">
         <h2 className="text-sm font-semibold">Slides</h2>
         <Button
