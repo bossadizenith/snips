@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React, { useCallback } from "react";
-import useHotkeys from "@/utils/useHotkeys";
+import useHotkeys from "@/hooks/useHotkeys";
 import ControlContainer from "./ControlContainer";
 import { Switch } from "@/components/ui/switch";
 import { showLineNumbersAtom } from "@/store";

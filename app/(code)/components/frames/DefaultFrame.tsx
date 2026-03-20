@@ -8,7 +8,7 @@ import {
   themeBackgroundAtom,
   themeDarkModeAtom,
 } from "@/store/themes";
-import useIsSafari from "@/utils/useIsSafari";
+import useIsSafari from "@/hooks/useIsSafari";
 import Editor from "../Editor";
 import styles from "./DefaultFrame.module.css";
 

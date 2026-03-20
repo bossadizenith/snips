@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { CSSTransition } from "react-transition-group";
 import { derivedFlashMessageAtom, flashShownAtom } from "@/store/flash";
 import classNames from "classnames";
-import useAudio from "@/utils/useAudio";
+import useAudio from "@/hooks/useAudio";
 
 import styles from "./FlashMessage.module.css";
 

@@ -4,7 +4,7 @@ import { WandIcon } from "@raycast/icons";
 import formatCode, { formatterSupportedLanguages } from "@/utils/formatCode";
 import { useAtom } from "jotai";
 import { codeAtom, selectedLanguageAtom } from "@/store/code";
-import useHotkeys from "@/utils/useHotkeys";
+import useHotkeys from "@/hooks/useHotkeys";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";

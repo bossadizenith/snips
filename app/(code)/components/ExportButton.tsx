@@ -13,10 +13,10 @@ import { FrameContext } from "@/store/FrameContextStore";
 import { derivedFlashMessageAtom, flashShownAtom } from "@/store/flash";
 import { fileNameAtom } from "@/store";
 import download from "@/utils/download";
-import { toPng, toSvg, toBlob } from "../lib/image";
+import { toPng, toSvg, toBlob } from "@/lib/image";
 
-import useHotkeys from "@/utils/useHotkeys";
-import usePngClipboardSupported from "@/utils/usePngClipboardSupported";
+import useHotkeys from "@/hooks/useHotkeys";
+import usePngClipboardSupported from "@/hooks/usePngClipboardSupported";
 import { useAtom, useAtomValue } from "jotai";
 import {
   EXPORT_SIZE_OPTIONS,

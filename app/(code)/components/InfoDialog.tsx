@@ -7,10 +7,10 @@ import {
 } from "@/components/ui/dialog";
 import { Shortcut } from "@/components/ui/kbd";
 import { SocialFooter } from "@/components/social-footer";
-import useHotkeys from "@/utils/useHotkeys";
+import useHotkeys from "@/hooks/useHotkeys";
 import { Info02Icon } from "@raycast/icons";
 import { useCallback, useState } from "react";
-import usePngClipboardSupported from "@/utils/usePngClipboardSupported";
+import usePngClipboardSupported from "@/hooks/usePngClipboardSupported";
 
 export function InfoDialog() {
   const [isOpen, setIsOpen] = useState(false);

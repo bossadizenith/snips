@@ -6,7 +6,7 @@ import { showBackgroundAtom, windowWidthAtom } from "@/store";
 import { codeAtom } from "@/store/code";
 import { paddingAtom } from "@/store/padding";
 import { themeDarkModeAtom } from "@/store/themes";
-import useIsSafari from "@/utils/useIsSafari";
+import useIsSafari from "@/hooks/useIsSafari";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
