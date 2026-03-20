@@ -134,7 +134,7 @@ const ThemeControl: React.FC = () => {
         itemToStringLabel={(theme) => theme?.name ?? ""}
         isItemEqualToValue={(item, selected) => item.id === selected.id}
       >
-        <ComboboxTrigger size="small" className="w-[60px]" icon={ChevronUpIcon}>
+        <ComboboxTrigger size="small" className="w-15" icon={ChevronUpIcon}>
           <ComboboxValue<Theme>>
             {(value) =>
               value ? <ThemePreview theme={value} /> : "Select theme"

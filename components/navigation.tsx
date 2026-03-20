@@ -15,7 +15,7 @@ export function Navigation() {
     : segments.length > 2;
 
   return (
-    <nav className="flex items-center gap-3 h-[50px] pl-4 pr-5 bg-gray-2 text-white w-full fixed z-10">
+    <nav className="flex items-center gap-3 h-12.5 pl-4 pr-5 bg-gray-2 text-white w-full fixed z-10">
       <div
         className={cn(
           "flex items-center gap-3 transition-transform ease-in-out",
@@ -38,9 +38,9 @@ export function Navigation() {
             <ChevronLeftIcon className="w-4 h-4 shrink-0" />
           </Link>
         </Button>
-        <div className="-ml-2 flex items-center relative z-10 gap-[4px]">
+        <div className="-ml-2 flex items-center relative z-10 gap-1">
           <span className="text-sm text-gray-9">by </span>
-          <Button variant="transparent" asChild className="pl-[8px]">
+          <Button variant="transparent" asChild className="pl-2">
             <a
               href="https://raycast.com#ref=ray-so"
               target="_blank"
@@ -68,7 +68,7 @@ export function NavigationActions({
   return (
     <div
       className={cn(
-        "h-[50px] flex items-center justify-end fixed top-0 right-scrollbar-offset gap-2 z-10 left-[275px]",
+        "h-12.5 flex items-center justify-end fixed top-0 right-scrollbar-offset gap-2 z-10 left-68.5",
         className,
       )}
     >

@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 import getWasm from "shiki/wasm";
 import { highlighterAtom } from "@/store";
