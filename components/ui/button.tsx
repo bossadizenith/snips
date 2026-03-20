@@ -16,6 +16,13 @@ const buttonVariants = cva(
           "bg-gray-a3 text-gray-a11 hover:bg-gray-a4 hover:text-gray-12 shadow-[inset_0_0_0_1px_var(--gray-a2)] focus-visible:ring-gray-a7 focus-visible:shadow-[inset_0_0_0_1px_var(--gray-a7)]",
         transparent:
           "text-gray-a11 hover:bg-gray-a4 hover:text-gray-12 focus-visible:ring-gray-a7 focus-visible:ring-2",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        link: "text-primary underline-offset-4 hover:underline",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
       },
       size: {
         medium: "h-[30px] rounded-md px-3 text-sm gap-1.5",

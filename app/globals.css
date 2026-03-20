@@ -92,4 +92,7 @@
   html {
     @apply font-sans;
   }
+  button {
+    @apply transition-all active:scale-98 duration-150 ease-in-out;
+  }
 }

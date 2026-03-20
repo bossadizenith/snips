@@ -1,6 +1,6 @@
 .app {
   display: grid;
-  width: 100%;
+  width: calc(100% - var(--sidebar-width));
   height: 100%;
   align-items: center;
   justify-content: center;
@@ -9,7 +9,7 @@
     "content"
     "footer";
   grid-template-columns: 1fr;
-  grid-template-rows: 15px auto 110px;
+  grid-template-rows: 50px auto 110px;
   isolation: isolate;
 }
 
