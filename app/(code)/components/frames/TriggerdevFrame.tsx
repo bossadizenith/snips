@@ -6,7 +6,7 @@ import { selectedLanguageAtom } from "../../store/code";
 import { flashShownAtom } from "../../store/flash";
 import { paddingAtom } from "../../store/padding";
 import { themeBackgroundAtom, themeDarkModeAtom } from "../../store/themes";
-import triggerPattern from "@/public/assets/triggerdev/pattern.svg?url";
+import triggerPattern from "@/public/assets/triggerdev/pattern.svg";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";

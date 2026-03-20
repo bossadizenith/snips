@@ -1509,7 +1509,7 @@ export const THEMES: { [index: string]: Theme } = {
       to: "#000",
     },
     icon: FirecrawlLogo,
-    iconUrl: `${BASE_URL}${FirecrawlLogoUrl.src}`,
+    iconUrl: `${BASE_URL}${FirecrawlLogoUrl}`,
     font: "geist-mono",
     partner: true,
     syntax: {

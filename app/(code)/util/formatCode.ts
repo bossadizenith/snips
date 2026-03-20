@@ -9,10 +9,12 @@ const parsers = {
   CSS: { import: () => import("prettier/plugins/postcss"), name: "css" },
   SCSS: { import: () => import("prettier/plugins/postcss"), name: "css" },
   YAML: { import: () => import("prettier/plugins/yaml"), name: "yaml" },
-  Python: { import: () => Promise.resolve({ default: {} }), name: "python" },
 };
 
-export const formatterSupportedLanguages: Language["name"][] = Object.keys(parsers);
+export const formatterSupportedLanguages: Language["name"][] = [
+  ...Object.keys(parsers),
+  "Python",
+] as Language["name"][];
 
 const prettierConfig = {
   singleQuote: false,
@@ -25,10 +27,10 @@ const formatCode = async (code: string, language: Language | null) => {
   }
 
   if (language.name === "Python") {
-    const { default: initRuff, Workspace } = await import("@astral-sh/ruff-wasm-web");
+    const { default: initRuff, Workspace, PositionEncoding } = await import("@astral-sh/ruff-wasm-web");
     await initRuff();
 
-    const workspace = new Workspace(Workspace.defaultSettings());
+    const workspace = new Workspace(Workspace.defaultSettings(), PositionEncoding.Utf16);
     const formatted = workspace.format(code);
     return formatted.replace(/\n$/, "");
   }

@@ -1,5 +1,5 @@
 import { refProps } from "@/app/api/shorten-url/route";
-import { toast } from "@/components/";
+import { toast } from "@/components/ui/toast";
 
 export const BASE_URL = {
   development: "http://localhost:3000",

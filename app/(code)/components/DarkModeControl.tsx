@@ -26,7 +26,7 @@ const BackgroundControl: React.FC = () => {
     <ControlContainer title="Dark mode">
       <Switch
         checked={darkMode}
-        onCheckedChange={setDarkMode}
+        onCheckedChange={() => setDarkMode((old) => !old)}
         disabled={!canToggle}
       />
     </ControlContainer>

@@ -22,7 +22,7 @@ const LineNumberControl: React.FC = () => {
     <ControlContainer title="Line numbers">
       <Switch
         checked={showLineNumbers}
-        onCheckedChange={setShowLineNumbers}
+        onCheckedChange={() => setShowLineNumbers((old) => !old)}
         disabled={isDisabled}
       />
     </ControlContainer>

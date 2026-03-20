@@ -64,11 +64,12 @@ function DialogContent({
             data-slot="dialog-close"
             render={
               <Button
-                variant="ghost"
+                variant="transparent"
                 className="absolute top-2 right-2"
-                size="icon-sm"
+                size="medium"
+                iconOnly
               >
-                <XIcon />
+                <XIcon className="w-4 h-4" />
                 <span className="sr-only">Close</span>
               </Button>
             }
@@ -109,7 +110,7 @@ function DialogFooter({
       {children}
       {showCloseButton && (
         <DialogPrimitive.Close
-          render={<Button variant="outline">Close</Button>}
+          render={<Button variant="secondary">Close</Button>}
         />
       )}
     </div>
