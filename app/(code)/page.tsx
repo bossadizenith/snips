@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import OgPhoto from "./assets/og.png";
+import OgPhoto from "/assets/og.png";
 import { Code } from "./code";
 import { BASE_URL } from "@/utils/common";
 
@@ -37,7 +37,8 @@ export const metadata: Metadata = {
       },
     ],
   },
-  keywords: "generate, create, convert, source, code, snippet, image, picture, share, export",
+  keywords:
+    "generate, create, convert, source, code, snippet, image, picture, share, export",
 };
 
 export default function Page() {
