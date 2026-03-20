@@ -7,11 +7,12 @@ import {
   ChevronDownIcon,
   CopyClipboardIcon as ClipboardIcon,
   ArrowsExpandIcon as ArrowsExpandingIcon,
+  VideoIcon,
 } from "@raycast/icons";
 
 import { FrameContext } from "@/store/FrameContextStore";
 import { derivedFlashMessageAtom, flashShownAtom } from "@/store/flash";
-import { fileNameAtom } from "@/store";
+import { fileNameAtom, showVideoPreviewAtom } from "@/store";
 import download from "@/utils/download";
 import { toPng, toSvg, toBlob } from "@/lib/image";
 
@@ -25,6 +26,9 @@ import {
 } from "@/store/image";
 import { autoDetectLanguageAtom, selectedLanguageAtom } from "@/store/code";
 import { LANGUAGES } from "@/utils/languages";
+import { slidesAtom } from "@/store/slide";
+import { themeAtom, darkModeAtom } from "@/store/themes";
+import { paddingAtom } from "@/store/padding";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +48,7 @@ import { Kbd, Kbds } from "@/components/ui/kbd";
 
 const ExportButton: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isRenderingVideo, setIsRenderingVideo] = useState(false);
   const pngClipboardSupported = usePngClipboardSupported();
   const frameContext = useContext(FrameContext);
   const [, setFlashMessage] = useAtom(derivedFlashMessageAtom);
@@ -53,6 +58,12 @@ const ExportButton: React.FC = () => {
   const [exportSize, setExportSize] = useAtom(exportSizeAtom);
   const selectedLanguage = useAtomValue(selectedLanguageAtom);
   const autoDetectLanguage = useAtomValue(autoDetectLanguageAtom);
+  const showVideo = useAtomValue(showVideoPreviewAtom);
+  const slides = useAtomValue(slidesAtom);
+  const theme = useAtomValue(themeAtom);
+  const darkMode = useAtomValue(darkModeAtom);
+  const language = useAtomValue(selectedLanguageAtom);
+  const padding = useAtomValue(paddingAtom);
 
   const savePng = async () => {
     if (!frameContext?.current) {
@@ -107,6 +118,41 @@ const ExportButton: React.FC = () => {
     download(dataUrl, `${fileName}.svg`);
 
     setFlashShown(false);
+  };
+
+  const saveVideo = async () => {
+    if (isRenderingVideo) return;
+    setIsRenderingVideo(true);
+    setFlashMessage({ icon: <VideoIcon />, message: "Rendering video… this may take a minute" });
+
+    try {
+      const response = await fetch("/api/render-video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slides, theme, darkMode, language, padding }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Server error ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${fileName}.mp4`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      setFlashMessage({ icon: <VideoIcon />, message: "Video exported!", timeout: 2000 });
+    } catch (err) {
+      console.error("[ExportButton] Video render failed:", err);
+      setFlashMessage({ icon: <VideoIcon />, message: `Export failed: ${String(err)}`, timeout: 4000 });
+    } finally {
+      setIsRenderingVideo(false);
+      setFlashShown(false);
+    }
   };
 
   const dropdownHandler = (handler: () => void) => {
@@ -240,6 +286,14 @@ const ExportButton: React.FC = () => {
               <Kbd>C</Kbd>
             </Kbds>
           </DropdownMenuItem>
+          {showVideo && (
+            <DropdownMenuItem
+              onSelect={dropdownHandler(saveVideo)}
+              disabled={isRenderingVideo}
+            >
+              <VideoIcon /> {isRenderingVideo ? "Rendering…" : "Export Video"}
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>

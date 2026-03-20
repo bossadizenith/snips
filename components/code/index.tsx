@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import getWasm from "shiki/wasm";
 import { highlighterAtom } from "@/store";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
 import { shikiTheme } from "@/store/themes";
 
@@ -24,9 +24,13 @@ import { NavigationActions } from "@/components/navigation";
 import { InfoDialog } from "@/components/InfoDialog";
 import FormatButton from "@/components/FormatCodeButton";
 import { Slides } from "@/components/slides";
+import { VideoPreview } from "@/components/VideoPreview";
+import { showVideoPreviewAtom } from "@/store";
+
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
+  const showVideo = useAtomValue(showVideoPreviewAtom);
 
   useEffect(() => {
     getHighlighterCore({
@@ -55,7 +59,7 @@ export function Code() {
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
             <div className={styles.app}>
               <NoSSR>
-                {highlighter && <Frame />}
+                {highlighter && (showVideo ? <VideoPreview /> : <Frame />)}
                 <Controls />
               </NoSSR>
             </div>
@@ -65,4 +69,4 @@ export function Code() {
       </FrameContextStore>
     </div>
   );
-};
+}

@@ -7,10 +7,12 @@ import LanguageControl from "./LanguageControl";
 import LineNumberControl from "./LineNumberControl";
 import PaddingControl from "./PaddingControl";
 import ThemeControl from "./ThemeControl";
+import VideoToggle from "./VideoToggle";
 
 const Controls: React.FC = () => {
   return (
     <div className={styles.controls}>
+      <VideoToggle />
       <ThemeControl />
       <BackgroundControl />
       <DarkModeControl />

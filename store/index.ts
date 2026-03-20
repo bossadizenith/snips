@@ -29,3 +29,5 @@ export const highlightedLinesAtom = atomWithHash<number[]>("highlightedLines", [
     return str ? str.split(",").map(Number) : [];
   },
 });
+
+export const showVideoPreviewAtom = atom<boolean>(false);
