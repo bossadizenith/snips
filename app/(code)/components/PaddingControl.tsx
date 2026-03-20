@@ -10,8 +10,8 @@ import {
   Padding,
   paddingAtom,
   PADDING_OPTIONS,
-} from "../store/padding";
-import useHotkeys from "../../../utils/useHotkeys";
+} from "@/store/padding";
+import useHotkeys from "@/utils/useHotkeys";
 
 const PaddingControl: React.FC = () => {
   const [padding, setPadding] = useAtom(paddingAtom);

@@ -2,10 +2,10 @@ import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
 import beams from "@/public/assets/tailwind/beams.png";
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
-import useIsSafari from "../../util/useIsSafari";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
+import useIsSafari from "@/utils/useIsSafari";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";

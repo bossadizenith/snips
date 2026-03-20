@@ -2,10 +2,10 @@ import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 import React, { useEffect, useRef, useState } from "react";
 
-import { showBackgroundAtom } from "../../store";
-import { exportSizeAtom } from "../../store/image";
-import { paddingAtom } from "../../store/padding";
-import { darkModeAtom } from "../../store/themes";
+import { showBackgroundAtom } from "@/store";
+import { exportSizeAtom } from "@/store/image";
+import { paddingAtom } from "@/store/padding";
+import { darkModeAtom } from "@/store/themes";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -82,7 +82,12 @@ function FirecrawlFrameCanvas({
       const rect = el.getBoundingClientRect();
       const w = Math.round(rect.width);
       const h = Math.round(rect.height);
-      if (w > 0 && h > 0) setSize((prev) => (prev.width === w && prev.height === h ? prev : { width: w, height: h }));
+      if (w > 0 && h > 0)
+        setSize((prev) =>
+          prev.width === w && prev.height === h
+            ? prev
+            : { width: w, height: h },
+        );
     };
     const ro = new ResizeObserver(() => measure());
     ro.observe(el);
@@ -97,7 +102,10 @@ function FirecrawlFrameCanvas({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || size.width === 0 || size.height === 0) return;
-    const displayDpr = Math.min(2, typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1);
+    const displayDpr = Math.min(
+      2,
+      typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
+    );
     /* Use at least export scale so the canvas stays sharp when user exports at 2x/4x/6x. */
     const dpr = Math.max(displayDpr, exportPixelRatio);
     canvas.width = size.width * dpr;
@@ -110,7 +118,11 @@ function FirecrawlFrameCanvas({
 
   return (
     <div ref={overlayRef} className={styles.frameOverlay} data-grid>
-      <canvas ref={canvasRef} style={{ display: "block", width: "100%", height: "100%" }} aria-hidden />
+      <canvas
+        ref={canvasRef}
+        style={{ display: "block", width: "100%", height: "100%" }}
+        aria-hidden
+      />
     </div>
   );
 }
@@ -133,7 +145,12 @@ const FirecrawlFrame = () => {
       )}
       style={{ padding, ["--frame-padding" as string]: `${padding}px` }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
       <div className={styles.window}>
         {showBackground && (
           <div className={styles.asciiArtContainer}>
@@ -142,7 +159,11 @@ const FirecrawlFrame = () => {
         )}
         <Editor />
         {showBackground && (
-          <FirecrawlFrameCanvas gridColor={gridColor} padding={padding} exportPixelRatio={exportSize} />
+          <FirecrawlFrameCanvas
+            gridColor={gridColor}
+            padding={padding}
+            exportPixelRatio={exportSize}
+          />
         )}
       </div>
     </div>

@@ -10,7 +10,7 @@ import { SocialFooter } from "@/components/social-footer";
 import useHotkeys from "@/utils/useHotkeys";
 import { Info02Icon } from "@raycast/icons";
 import { useCallback, useState } from "react";
-import usePngClipboardSupported from "../util/usePngClipboardSupported";
+import usePngClipboardSupported from "@/utils/usePngClipboardSupported";
 
 export function InfoDialog() {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { flashShownAtom } from "../../store/flash";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
-import useIsSafari from "../../util/useIsSafari";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { flashShownAtom } from "@/store/flash";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
+import useIsSafari from "@/utils/useIsSafari";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -31,12 +31,22 @@ const GeminiFrame = () => {
       )}
       style={{ padding }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
-      {showBackground && <img src="/stars.svg" alt="stars" className={styles.stars} />}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
+      {showBackground && (
+        <img src="/stars.svg" alt="stars" className={styles.stars} />
+      )}
       <div className={styles.window}>
         {fileName.length > 0 ? (
           <div className={styles.header}>
-            <div className={classNames(sharedStyles.fileName, styles.fileName)} data-value={fileName}>
+            <div
+              className={classNames(sharedStyles.fileName, styles.fileName)}
+              data-value={fileName}
+            >
               <input
                 type="text"
                 value={fileName}
@@ -49,7 +59,10 @@ const GeminiFrame = () => {
           </div>
         ) : flashShown ? null : (
           <div className={styles.header} data-ignore-in-export>
-            <div className={classNames(sharedStyles.fileName, styles.fileName)} data-value={fileName}>
+            <div
+              className={classNames(sharedStyles.fileName, styles.fileName)}
+              data-value={fileName}
+            >
               <input
                 type="text"
                 value={fileName}

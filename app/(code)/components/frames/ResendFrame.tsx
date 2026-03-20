@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { selectedLanguageAtom } from "../../store/code";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { selectedLanguageAtom } from "@/store/code";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -27,10 +27,18 @@ const ResendFrame = () => {
       )}
       style={{ padding }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
       <div className={styles.window}>
         <div className={styles.header}>
-          <div className={classNames(sharedStyles.fileName, styles.fileName)} data-value={fileName}>
+          <div
+            className={classNames(sharedStyles.fileName, styles.fileName)}
+            data-value={fileName}
+          >
             <input
               type="text"
               value={fileName}

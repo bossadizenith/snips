@@ -7,9 +7,9 @@ import {
   selectSlideAtom,
   slidesAtom,
   updateActiveSlideAtom,
-} from "../../store/slide";
-import { codeAtom } from "../../store/code";
-import { fileNameAtom } from "../../store";
+} from "@/store/slide";
+import { codeAtom } from "@/store/code";
+import { fileNameAtom } from "@/store";
 
 export const Slides = () => {
   const slides = useAtomValue(slidesAtom);
@@ -37,7 +37,9 @@ export const Slides = () => {
         <h2 className="text-sm font-semibold">Slides</h2>
         <button
           type="button"
-          onClick={() => addSlide({ title: `Slide ${slides.length + 1}`, code: "" })}
+          onClick={() =>
+            addSlide({ title: `Slide ${slides.length + 1}`, code: "" })
+          }
           className="rounded border border-gray-2 px-2 py-1 text-xs"
         >
           New
@@ -58,7 +60,9 @@ export const Slides = () => {
               }}
               className={`rounded border cursor-pointer px-3 py-2 text-left text-sm ${isActive ? "border-foreground" : "border-gray-2"}`}
             >
-              <span className="block truncate">{slide.title || `Slide ${index + 1}`}</span>
+              <span className="block truncate">
+                {slide.title || `Slide ${index + 1}`}
+              </span>
             </button>
           );
         })}

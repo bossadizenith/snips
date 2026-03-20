@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { Language, LANGUAGES } from "../util/languages";
+import { Language, LANGUAGES } from "@/utils/languages";
 import { ShikiMagicMove } from "shiki-magic-move/react";
 
 import styles from "./Editor.module.css";
@@ -8,10 +8,10 @@ import {
   highlightedLinesAtom,
   highlighterAtom,
   loadingLanguageAtom,
-} from "../store";
+} from "@/store";
 import { useAtomValue, useSetAtom } from "jotai";
-import { themeDarkModeAtom, themeAtom } from "../store/themes";
-import { animateSlideTransitionAtom } from "../store/slide";
+import { themeDarkModeAtom, themeAtom } from "@/store/themes";
+import { animateSlideTransitionAtom } from "@/store/slide";
 
 type PropTypes = {
   selectedLanguage: Language | null;

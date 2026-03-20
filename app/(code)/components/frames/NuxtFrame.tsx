@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import { showBackgroundAtom } from "../../store";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
+import { showBackgroundAtom } from "@/store";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -25,7 +25,12 @@ const NuxtFrame = () => {
       )}
       style={{ padding }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
       <img src="/stars.svg" alt="stars" className={styles.stars} />
       <div className={styles.window}>
         <span data-frameborder />

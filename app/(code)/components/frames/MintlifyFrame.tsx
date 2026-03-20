@@ -1,9 +1,9 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
 import mintlifyPatternDark from "@/public/assets/mintlify-pattern-dark.svg?url";
 import mintlifyPatternLight from "@/public/assets/mintlify-pattern-light.svg?url";
 

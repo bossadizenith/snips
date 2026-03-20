@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { useAtom } from "jotai";
-import { windowWidthAtom } from "../store";
+import { windowWidthAtom } from "@/store";
 import classnames from "classnames";
 import { CSSTransition } from "react-transition-group";
 

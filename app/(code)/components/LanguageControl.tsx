@@ -1,13 +1,13 @@
 import { useAtom } from "jotai";
 import React, { useMemo } from "react";
-import { autoDetectLanguageAtom, selectedLanguageAtom } from "../store/code";
+import { autoDetectLanguageAtom, selectedLanguageAtom } from "@/store/code";
 import ControlContainer from "./ControlContainer";
-import { Language, LANGUAGES } from "../util/languages";
+import { Language, LANGUAGES } from "@/utils/languages";
 
 import styles from "./LanguageControl.module.css";
 
-import useHotkeys from "../../../utils/useHotkeys";
-import { loadingLanguageAtom } from "../store";
+import useHotkeys from "@/utils/useHotkeys";
+import { loadingLanguageAtom } from "@/store";
 import {
   Combobox,
   ComboboxContent,

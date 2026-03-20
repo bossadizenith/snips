@@ -2,10 +2,10 @@ import classNames from "classnames";
 import { useAtomValue } from "jotai";
 import { useEffect, useRef, useState } from "react";
 
-import { showBackgroundAtom, windowWidthAtom } from "../../store";
-import { codeAtom } from "../../store/code";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
+import { showBackgroundAtom, windowWidthAtom } from "@/store";
+import { codeAtom } from "@/store/code";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -28,7 +28,9 @@ const ElevenLabsFrame = () => {
       if (windowRef.current) {
         const boxWidth = windowRef.current.offsetWidth;
         const boxHeight = windowRef.current.offsetHeight;
-        const diagonal = Math.sqrt(Math.pow(boxWidth, 2) + Math.pow(boxHeight, 2));
+        const diagonal = Math.sqrt(
+          Math.pow(boxWidth, 2) + Math.pow(boxHeight, 2),
+        );
         setCircleDiameter(diagonal);
       }
     };
@@ -65,10 +67,18 @@ const ElevenLabsFrame = () => {
       )}
       style={{ padding }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
       <div className={styles.window} ref={windowRef}>
         <span
-          className={classNames(styles.circle, isTransitioning && styles.isTransitioning)}
+          className={classNames(
+            styles.circle,
+            isTransitioning && styles.isTransitioning,
+          )}
           style={{
             width: `${circleDiameter}px`,
             height: `${circleDiameter}px`,

@@ -9,22 +9,22 @@ import {
   ArrowsExpandIcon as ArrowsExpandingIcon,
 } from "@raycast/icons";
 
-import { FrameContext } from "../store/FrameContextStore";
-import { derivedFlashMessageAtom, flashShownAtom } from "../store/flash";
-import { fileNameAtom } from "../store";
-import download from "../util/download";
+import { FrameContext } from "@/store/FrameContextStore";
+import { derivedFlashMessageAtom, flashShownAtom } from "@/store/flash";
+import { fileNameAtom } from "@/store";
+import download from "@/utils/download";
 import { toPng, toSvg, toBlob } from "../lib/image";
 
-import useHotkeys from "../../../utils/useHotkeys";
-import usePngClipboardSupported from "../util/usePngClipboardSupported";
+import useHotkeys from "@/utils/useHotkeys";
+import usePngClipboardSupported from "@/utils/usePngClipboardSupported";
 import { useAtom, useAtomValue } from "jotai";
 import {
   EXPORT_SIZE_OPTIONS,
   SIZE_LABELS,
   exportSizeAtom,
-} from "../store/image";
-import { autoDetectLanguageAtom, selectedLanguageAtom } from "../store/code";
-import { LANGUAGES } from "../util/languages";
+} from "@/store/image";
+import { autoDetectLanguageAtom, selectedLanguageAtom } from "@/store/code";
+import { LANGUAGES } from "@/utils/languages";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 import {

@@ -13,8 +13,8 @@ import {
   codeAtom,
   isCodeExampleAtom,
   selectedLanguageAtom,
-} from "../store/code";
-import { animateSlideTransitionAtom } from "../store/slide";
+} from "@/store/code";
+import { animateSlideTransitionAtom } from "@/store/slide";
 import {
   THEMES,
   themeAtom,
@@ -22,13 +22,13 @@ import {
   themeFontAtom,
   themeLineNumbersAtom,
   unlockedThemesAtom,
-} from "../store/themes";
-import useHotkeys from "../../../utils/useHotkeys";
+} from "@/store/themes";
+import useHotkeys from "@/utils/useHotkeys";
 import HighlightedCode from "./HighlightedCode";
 import classNames from "classnames";
-import { derivedFlashMessageAtom } from "../store/flash";
-import { highlightedLinesAtom, showLineNumbersAtom } from "../store";
-import { LANGUAGES } from "../util/languages";
+import { derivedFlashMessageAtom } from "@/store/flash";
+import { highlightedLinesAtom, showLineNumbersAtom } from "@/store";
+import { LANGUAGES } from "@/utils/languages";
 
 function indentText(text: string) {
   return text

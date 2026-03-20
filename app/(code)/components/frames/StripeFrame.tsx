@@ -2,11 +2,11 @@ import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 import React, { useEffect, useRef, useState } from "react";
 
-import { showBackgroundAtom, windowWidthAtom } from "../../store";
-import { codeAtom } from "../../store/code";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
-import useIsSafari from "../../util/useIsSafari";
+import { showBackgroundAtom, windowWidthAtom } from "@/store";
+import { codeAtom } from "@/store/code";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
+import useIsSafari from "@/utils/useIsSafari";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -70,12 +70,21 @@ const StripeFrame = () => {
       style={{ padding }}
       ref={frameRef}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
       {showBackground && (
         <div className={styles.background}>
           <div
             className={styles.backgroundGridlineContainer}
-            style={{ "--window-width": `${innerWindowWidth}px` } as React.CSSProperties}
+            style={
+              {
+                "--window-width": `${innerWindowWidth}px`,
+              } as React.CSSProperties
+            }
           >
             <div className={styles.backgroundGridline}></div>
             <div className={styles.backgroundGridline}></div>
@@ -87,7 +96,11 @@ const StripeFrame = () => {
           <div className={classNames(styles.stripe)}>
             <div
               className={styles.backgroundGridlineContainer}
-              style={{ "--window-width": `${innerWindowWidth}px` } as React.CSSProperties}
+              style={
+                {
+                  "--window-width": `${innerWindowWidth}px`,
+                } as React.CSSProperties
+              }
             >
               <div className={styles.backgroundGridline}></div>
               <div className={styles.backgroundGridline}></div>
@@ -95,7 +108,12 @@ const StripeFrame = () => {
               <div className={styles.backgroundGridline}></div>
               <div className={styles.backgroundGridline}></div>
 
-              <div className={classNames(styles.set, frameHeight < 240 && styles.isSmall)}>
+              <div
+                className={classNames(
+                  styles.set,
+                  frameHeight < 240 && styles.isSmall,
+                )}
+              >
                 <div className={styles.layer1} />
                 <div className={styles.layer2} />
                 <div className={styles.intersection} />
@@ -105,7 +123,10 @@ const StripeFrame = () => {
         </div>
       )}
 
-      <div className={classNames(styles.window, isSafari && styles.isSafari)} ref={windowRef}>
+      <div
+        className={classNames(styles.window, isSafari && styles.isSafari)}
+        ref={windowRef}
+      >
         <Editor />
       </div>
     </div>

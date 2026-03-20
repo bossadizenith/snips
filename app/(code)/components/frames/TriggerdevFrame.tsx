@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { selectedLanguageAtom } from "../../store/code";
-import { flashShownAtom } from "../../store/flash";
-import { paddingAtom } from "../../store/padding";
-import { themeBackgroundAtom, themeDarkModeAtom } from "../../store/themes";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { selectedLanguageAtom } from "@/store/code";
+import { flashShownAtom } from "@/store/flash";
+import { paddingAtom } from "@/store/padding";
+import { themeBackgroundAtom, themeDarkModeAtom } from "@/store/themes";
 import triggerPattern from "@/public/assets/triggerdev/pattern.svg?url";
 
 import Editor from "../Editor";

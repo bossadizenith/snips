@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { selectedLanguageAtom } from "../../store/code";
-import { flashShownAtom } from "../../store/flash";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { selectedLanguageAtom } from "@/store/code";
+import { flashShownAtom } from "@/store/flash";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -30,13 +30,21 @@ const CloudflareFrame = () => {
       )}
       style={{ padding }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
       <div className={styles.window}>
         <span className={styles.gridlinesHorizontal} data-grid></span>
         <span className={styles.gridlinesVertical} data-grid></span>
         {fileName.length > 0 ? (
           <div className={styles.header}>
-            <div className={classNames(sharedStyles.fileName, styles.fileName)} data-value={fileName}>
+            <div
+              className={classNames(sharedStyles.fileName, styles.fileName)}
+              data-value={fileName}
+            >
               <input
                 type="text"
                 value={fileName}
@@ -50,7 +58,10 @@ const CloudflareFrame = () => {
           </div>
         ) : flashShown ? null : (
           <div className={styles.header} data-ignore-in-export>
-            <div className={classNames(sharedStyles.fileName, styles.fileName)} data-value={fileName}>
+            <div
+              className={classNames(sharedStyles.fileName, styles.fileName)}
+              data-value={fileName}
+            >
               <input
                 type="text"
                 value={fileName}

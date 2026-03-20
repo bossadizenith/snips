@@ -1,20 +1,20 @@
 "use client";
 import { useEffect } from "react";
 import getWasm from "shiki/wasm";
-import { highlighterAtom } from "./store";
+import { highlighterAtom } from "@/store";
 import { useAtom } from "jotai";
 
-import { shikiTheme } from "./store/themes";
+import { shikiTheme } from "@/store/themes";
 
 import Frame from "./components/Frame";
 import Controls from "./components/Controls";
-import FrameContextStore from "./store/FrameContextStore";
+import FrameContextStore from "@/store/FrameContextStore";
 
 import styles from "./code.module.css";
 import NoSSR from "./components/NoSSR";
 
 import { Highlighter, getHighlighterCore } from "shiki";
-import { LANGUAGES } from "./util/languages";
+import { LANGUAGES } from "@/utils/languages";
 
 import tailwindLight from "@/public/assets/tailwind/light.json";
 import tailwindDark from "@/public/assets/tailwind/dark.json";

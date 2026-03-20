@@ -1,11 +1,11 @@
 import { useAtom } from "jotai";
 import React, { useEffect, useMemo } from "react";
-import { themeAtom, THEMES, Theme, unlockedThemesAtom } from "../store/themes";
+import { themeAtom, THEMES, Theme, unlockedThemesAtom } from "@/store/themes";
 import ControlContainer from "./ControlContainer";
 
 import styles from "./ThemeControl.module.css";
-import useHotkeys from "../../../utils/useHotkeys";
-import { paddingAtom } from "../store/padding";
+import useHotkeys from "@/utils/useHotkeys";
+import { paddingAtom } from "@/store/padding";
 import {
   Combobox,
   ComboboxTrigger,

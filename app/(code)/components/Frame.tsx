@@ -1,8 +1,8 @@
 import { useAtom, useAtomValue } from "jotai";
 import { useContext } from "react";
 
-import { THEMES, themeAtom, themeDarkModeAtom } from "../store/themes";
-import { FrameContext } from "../store/FrameContextStore";
+import { THEMES, themeAtom, themeDarkModeAtom } from "@/store/themes";
+import { FrameContext } from "@/store/FrameContextStore";
 
 import FlashMessage from "./FlashMessage";
 import ResizableFrame from "./ResizableFrame";
@@ -82,7 +82,10 @@ const Frame = ({ resize = true }: { resize?: boolean }) => {
   }
 
   return (
-    <div className={styles.frameContainer} data-theme={darkMode ? "dark" : "light"}>
+    <div
+      className={styles.frameContainer}
+      data-theme={darkMode ? "dark" : "light"}
+    >
       <ResizableFrame>
         <FlashMessage />
         <div className={styles.outerFrame} ref={frameContext} id="frame">

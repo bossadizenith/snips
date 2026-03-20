@@ -1,9 +1,9 @@
 "use client";
 
 import { WandIcon } from "@raycast/icons";
-import formatCode, { formatterSupportedLanguages } from "../util/formatCode";
+import formatCode, { formatterSupportedLanguages } from "@/utils/formatCode";
 import { useAtom } from "jotai";
-import { codeAtom, selectedLanguageAtom } from "../store/code";
+import { codeAtom, selectedLanguageAtom } from "@/store/code";
 import useHotkeys from "@/utils/useHotkeys";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";

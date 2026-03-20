@@ -1,10 +1,14 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { paddingAtom } from "../../store/padding";
-import { themeAtom, themeBackgroundAtom, themeDarkModeAtom } from "../../store/themes";
-import useIsSafari from "../../util/useIsSafari";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { paddingAtom } from "@/store/padding";
+import {
+  themeAtom,
+  themeBackgroundAtom,
+  themeDarkModeAtom,
+} from "@/store/themes";
+import useIsSafari from "@/utils/useIsSafari";
 import Editor from "../Editor";
 import styles from "./DefaultFrame.module.css";
 
@@ -30,7 +34,9 @@ const DefaultFrame = () => {
         backgroundImage: showBackground ? themeBackground : "",
       }}
     >
-      {!showBackground && <div data-ignore-in-export className={styles.transparentPattern}></div>}
+      {!showBackground && (
+        <div data-ignore-in-export className={styles.transparentPattern}></div>
+      )}
       <div
         className={classNames(styles.window, {
           [styles.withBorder]: !isSafari,
@@ -51,7 +57,9 @@ const DefaultFrame = () => {
               spellCheck={false}
               tabIndex={-1}
             />
-            {fileName.length === 0 ? <span data-ignore-in-export>Untitled-1</span> : null}
+            {fileName.length === 0 ? (
+              <span data-ignore-in-export>Untitled-1</span>
+            ) : null}
           </div>
         </div>
         <Editor />

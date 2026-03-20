@@ -1,10 +1,10 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import React, { useCallback } from "react";
-import useHotkeys from "../../../utils/useHotkeys";
+import useHotkeys from "@/utils/useHotkeys";
 import ControlContainer from "./ControlContainer";
 import { Switch } from "@/components/ui/switch";
-import { showLineNumbersAtom } from "../store";
-import { themeAtom, themeLineNumbersAtom } from "../store/themes";
+import { showLineNumbersAtom } from "@/store";
+import { themeAtom, themeLineNumbersAtom } from "@/store/themes";
 
 const LineNumberControl: React.FC = () => {
   const theme = useAtomValue(themeAtom);
