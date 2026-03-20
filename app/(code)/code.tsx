@@ -16,8 +16,8 @@ import NoSSR from "./components/NoSSR";
 import { Highlighter, getHighlighterCore } from "shiki";
 import { LANGUAGES } from "./util/languages";
 
-import tailwindLight from "/assets/tailwind/light.json";
-import tailwindDark from "/assets/tailwind/dark.json";
+import tailwindLight from "@/public/assets/tailwind/light.json";
+import tailwindDark from "@/public/assets/tailwind/dark.json";
 import ExportButton from "./components/ExportButton";
 import { NavigationActions } from "@/components/navigation";
 import { InfoDialog } from "./components/InfoDialog";

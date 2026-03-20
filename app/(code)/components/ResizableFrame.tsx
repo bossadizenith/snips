@@ -12,7 +12,7 @@ import { CSSTransition } from "react-transition-group";
 
 import styles from "./ResizableFrame.module.css";
 
-import XMarkIcon from "/assets/icons/x-mark-circle-filled-16.svg";
+import XMarkIcon from "@/public/assets/icons/x-mark-circle-filled-16.svg";
 
 type Handle = "right" | "left";
 

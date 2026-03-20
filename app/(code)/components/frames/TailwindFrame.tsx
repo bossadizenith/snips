@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import beams from "/assets/tailwind/beams.png";
+import beams from "@/public/assets/tailwind/beams.png";
 import { fileNameAtom, showBackgroundAtom } from "../../store";
 import { paddingAtom } from "../../store/padding";
 import { themeDarkModeAtom } from "../../store/themes";

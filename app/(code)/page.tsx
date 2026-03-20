@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import OgPhoto from "/assets/og.png";
+import OgPhoto from "@/public/assets/og.png";
 import { Code } from "./code";
 import { BASE_URL } from "@/utils/common";
 

@@ -4,8 +4,8 @@ import { useAtom, useAtomValue } from "jotai";
 import { fileNameAtom, showBackgroundAtom } from "../../store";
 import { paddingAtom } from "../../store/padding";
 import { themeDarkModeAtom } from "../../store/themes";
-import mintlifyPatternDark from "/assets/mintlify-pattern-dark.svg?url";
-import mintlifyPatternLight from "/assets/mintlify-pattern-light.svg?url";
+import mintlifyPatternDark from "@/public/assets/mintlify-pattern-dark.svg";
+import mintlifyPatternLight from "@/public/assets/mintlify-pattern-light.svg";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";

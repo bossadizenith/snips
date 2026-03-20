@@ -2,9 +2,9 @@ import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 import React from "react";
 
-import { fileNameAtom, showBackgroundAtom } from "../../store";
-import { paddingAtom } from "../../store/padding";
-import { themeDarkModeAtom } from "../../store/themes";
+import { fileNameAtom, showBackgroundAtom } from "@/store";
+import { paddingAtom } from "@/store/padding";
+import { themeDarkModeAtom } from "@/store/themes";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -27,7 +27,12 @@ const BrowserbaseFrame = () => {
       )}
       style={{ padding }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
       {showBackground && (
         <div className={styles.background}>
           <div className={styles.backgroundGridline}></div>
@@ -54,13 +59,18 @@ const BrowserbaseFrame = () => {
               spellCheck={false}
               tabIndex={-1}
             />
-            {fileName.length === 0 ? <span data-ignore-in-export>Untitled-1</span> : null}
+            {fileName.length === 0 ? (
+              <span data-ignore-in-export>Untitled-1</span>
+            ) : null}
           </div>
           <div />
         </div>
         <Editor />
       </div>
-      <div className={styles.outline} style={{ "--padding": `${padding}px` } as React.CSSProperties}></div>
+      <div
+        className={styles.outline}
+        style={{ "--padding": `${padding}px` } as React.CSSProperties}
+      ></div>
     </div>
   );
 };
