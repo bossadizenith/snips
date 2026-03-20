@@ -44,7 +44,7 @@ export function Code() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
       <FrameContextStore>
         <Slides />
         <NavigationActions>

@@ -21,7 +21,7 @@
   @media (min-width: 768px) {
     --radius: 16px;
 
-    left: 50%;
+    left: calc((100% - var(--sidebar-width)) / 2);
     overflow: initial;
     width: auto;
     border: none;
