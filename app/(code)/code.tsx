@@ -6,23 +6,23 @@ import { useAtom } from "jotai";
 
 import { shikiTheme } from "@/store/themes";
 
-import Frame from "./components/Frame";
-import Controls from "./components/Controls";
+import Frame from "@/components/Frame";
+import Controls from "@/components/Controls";
 import FrameContextStore from "@/store/FrameContextStore";
 
 import styles from "./code.module.css";
-import NoSSR from "./components/NoSSR";
+import NoSSR from "@/components/NoSSR";
 
 import { Highlighter, getHighlighterCore } from "shiki";
 import { LANGUAGES } from "@/utils/languages";
 
 import tailwindLight from "@/public/assets/tailwind/light.json";
 import tailwindDark from "@/public/assets/tailwind/dark.json";
-import ExportButton from "./components/ExportButton";
+import ExportButton from "@/components/ExportButton";
 import { NavigationActions } from "@/components/navigation";
-import { InfoDialog } from "./components/InfoDialog";
-import FormatButton from "./components/FormatCodeButton";
-import { Slides } from "./components/slides";
+import { InfoDialog } from "@/components/InfoDialog";
+import FormatButton from "@/components/FormatCodeButton";
+import { Slides } from "@/components/slides";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
