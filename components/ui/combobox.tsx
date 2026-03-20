@@ -230,7 +230,7 @@ const ComboboxContent = React.forwardRef<
         <ComboboxPrimitive.Popup
           ref={ref}
           className={cn(
-            `relative min-w-[6rem] overflow-hidden rounded-md border border-gray-4 bg-panel shadow-lg
+            `relative min-w-[6rem] overflow-hidden rounded-md border border-gray-4 bg-sidebar shadow-lg
             origin-[var(--transform-origin)] transition-[transform,scale,opacity] duration-100
             data-[starting-style]:scale-95 data-[starting-style]:opacity-0
             data-[ending-style]:scale-95 data-[ending-style]:opacity-0`,
@@ -279,7 +279,7 @@ function ComboboxList<Value>({
   return (
     <ComboboxPrimitive.List
       className={cn(
-        "p-1 overflow-y-auto max-h-[min(20rem,calc(var(--available-height)-3rem))] outline-none overscroll-contain scroll-py-1",
+        "p-1 overflow-y-auto no-scrollbar max-h-[min(20rem,calc(var(--available-height)-3rem))] outline-none overscroll-contain scroll-py-1",
         className,
       )}
       {...props}

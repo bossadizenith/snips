@@ -80,6 +80,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   --sidebar-width: 240px;
+  --radius: 0.25rem;
 }
 
 @layer base {
@@ -94,5 +95,14 @@
   }
   button {
     @apply transition-all active:scale-98 duration-150 ease-in-out;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
