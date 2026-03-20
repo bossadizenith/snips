@@ -3,40 +3,40 @@ import { atomWithHash } from "jotai-location";
 import { atomWithStorage } from "jotai/utils";
 import { CSSProperties } from "react";
 import { Font } from "./font";
-import FirecrawlLogo from "../assets/firecrawl/logo.svg";
-import FirecrawlLogoUrl from "../assets/firecrawl/logo.svg?url";
-import CloudflareLogo from "../assets/cloudflare.svg";
-import CloudflareLogoUrl from "../assets/cloudflare.svg?url";
-import VercelLogo from "../assets/vercel.svg";
-import VercelLogoUrl from "../assets/vercel.svg?url";
-import RabbitLogo from "../assets/rabbit.svg";
-import RabbitLogoUrl from "../assets/rabbit.svg?url";
-import SupabaseLogo from "../assets/supabase.svg";
-import SupabaseLogoUrl from "../assets/supabase.svg?url";
-import TailwindLogo from "../assets/tailwind.svg";
-import TailwindLogoUrl from "../assets/tailwind.svg?url";
-import TriggerLogo from "../assets/triggerdev.svg";
-import TriggerLogoUrl from "../assets/triggerdev.svg?url";
-import GeminiLogo from "../assets/gemini.svg";
-import GeminiLogoUrl from "../assets/gemini.svg?url";
-import OpenAiLogo from "../assets/openai.svg";
-import OpenAiLogoUrl from "../assets/openai.svg?url";
-import ClerkLogo from "../assets/clerk.svg";
-import ClerkLogoUrl from "../assets/clerk.svg?url";
-import PrismaLogo from "../assets/prisma.svg";
-import PrismaLogoUrl from "../assets/prisma.svg?url";
-import MintlifyLogo from "../assets/mintlify.svg";
-import MintlifyLogoUrl from "../assets/mintlify.svg?url";
-import ElevenLabsLogo from "../assets/elevenlabs.svg";
-import ElevenLabsLogoUrl from "../assets/elevenlabs.svg?url";
-import ResendLogo from "../assets/resend.svg";
-import ResendLogoUrl from "../assets/resend.svg?url";
-import BrowserbaseLogo from "../assets/browserbase.svg";
-import BrowserbaseLogoUrl from "../assets/browserbase.svg?url";
-import NuxtLogo from "../assets/nuxt.svg";
-import NuxtLogoUrl from "../assets/nuxt.svg?url";
-import StripeLogo from "../assets/stripe/logo.svg";
-import StripeLogoUrl from "../assets/stripe/logo.svg?url";
+import FirecrawlLogo from "/assets/firecrawl/logo.svg";
+import FirecrawlLogoUrl from "/assets/firecrawl/logo.svg?url";
+import CloudflareLogo from "/assets/cloudflare.svg";
+import CloudflareLogoUrl from "/assets/cloudflare.svg?url";
+import VercelLogo from "/assets/vercel.svg";
+import VercelLogoUrl from "/assets/vercel.svg?url";
+import RabbitLogo from "/assets/rabbit.svg";
+import RabbitLogoUrl from "/assets/rabbit.svg?url";
+import SupabaseLogo from "/assets/supabase.svg";
+import SupabaseLogoUrl from "/assets/supabase.svg?url";
+import TailwindLogo from "/assets/tailwind.svg";
+import TailwindLogoUrl from "/assets/tailwind.svg?url";
+import TriggerLogo from "/assets/triggerdev.svg";
+import TriggerLogoUrl from "/assets/triggerdev.svg?url";
+import GeminiLogo from "/assets/gemini.svg";
+import GeminiLogoUrl from "/assets/gemini.svg?url";
+import OpenAiLogo from "/assets/openai.svg";
+import OpenAiLogoUrl from "/assets/openai.svg?url";
+import ClerkLogo from "/assets/clerk.svg";
+import ClerkLogoUrl from "/assets/clerk.svg?url";
+import PrismaLogo from "/assets/prisma.svg";
+import PrismaLogoUrl from "/assets/prisma.svg?url";
+import MintlifyLogo from "/assets/mintlify.svg";
+import MintlifyLogoUrl from "/assets/mintlify.svg?url";
+import ElevenLabsLogo from "/assets/elevenlabs.svg";
+import ElevenLabsLogoUrl from "/assets/elevenlabs.svg?url";
+import ResendLogo from "/assets/resend.svg";
+import ResendLogoUrl from "/assets/resend.svg?url";
+import BrowserbaseLogo from "/assets/browserbase.svg";
+import BrowserbaseLogoUrl from "/assets/browserbase.svg?url";
+import NuxtLogo from "/assets/nuxt.svg";
+import NuxtLogoUrl from "/assets/nuxt.svg?url";
+import StripeLogo from "/assets/stripe/logo.svg";
+import StripeLogoUrl from "/assets/stripe/logo.svg?url";
 import { showLineNumbersAtom } from ".";
 import { createCssVariablesTheme } from "../util/theme-css-variables";
 import { BASE_URL } from "@/utils/common";
@@ -112,7 +112,9 @@ export type Theme = {
   hidden?: boolean;
   lineNumbers?: boolean;
   lineNumbersToggleable?: boolean;
-  syntax: { light: CSSProperties; dark?: CSSProperties } | { light?: CSSProperties; dark: CSSProperties };
+  syntax:
+    | { light: CSSProperties; dark?: CSSProperties }
+    | { light?: CSSProperties; dark: CSSProperties };
 };
 
 export const THEMES: { [index: string]: Theme } = {
@@ -1568,7 +1570,11 @@ const themeAtom = atomWithHash<Theme>(
   })(),
   {
     serialize(value) {
-      return Object.keys(THEMES).find((key) => THEMES[key].name.toLowerCase() === value.name.toLowerCase()) || "";
+      return (
+        Object.keys(THEMES).find(
+          (key) => THEMES[key].name.toLowerCase() === value.name.toLowerCase(),
+        ) || ""
+      );
     },
     deserialize(key) {
       if (key && key in THEMES) {
@@ -1605,7 +1611,9 @@ const themeDarkModeAtom = atom<boolean>((get) => {
 const themeCSSAtom = atom<CSSProperties>((get) => {
   const isDark = get(themeDarkModeAtom);
   const syntax = get(themeAtom).syntax;
-  return (isDark ? syntax.dark : syntax.light) || syntax.light || syntax.dark || {};
+  return (
+    (isDark ? syntax.dark : syntax.light) || syntax.light || syntax.dark || {}
+  );
 });
 
 const themeBackgroundAtom = atom<string>((get) => {
@@ -1613,7 +1621,9 @@ const themeBackgroundAtom = atom<string>((get) => {
   return `linear-gradient(140deg, ${from}, ${to})`;
 });
 
-const themeFontAtom = atom<Font | null>((get) => get(themeAtom)?.font || "jetbrains-mono");
+const themeFontAtom = atom<Font | null>(
+  (get) => get(themeAtom)?.font || "jetbrains-mono",
+);
 
 const themeLineNumbersAtom = atom<boolean>((get) => {
   const theme = get(themeAtom);

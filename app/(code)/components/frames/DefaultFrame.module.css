@@ -6,8 +6,10 @@
 .transparentPattern {
   position: absolute;
   z-index: -1;
-  background-image: linear-gradient(45deg, #1d1d1d 25%, transparent 0),
-    linear-gradient(-45deg, #1d1d1d 25%, transparent 0), linear-gradient(45deg, transparent 75%, #1d1d1d 0),
+  background-image:
+    linear-gradient(45deg, #1d1d1d 25%, transparent 0),
+    linear-gradient(-45deg, #1d1d1d 25%, transparent 0),
+    linear-gradient(45deg, transparent 75%, #1d1d1d 0),
     linear-gradient(-45deg, transparent 75%, #1d1d1d 0);
   background-position:
     0 0,
@@ -125,7 +127,7 @@
 
   &.withBackground {
     background-color: black;
-    background-image: url("../../assets/manifesto.png") !important;
+    background-image: url("/assets/manifesto.png") !important;
     background-position: center top;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -140,7 +142,7 @@
   --frame-background: rgba(255, 255, 255, 0.95);
 
   &.withBackground {
-    background-image: url("../../assets/distortion.png") !important;
+    background-image: url("/assets/distortion.png") !important;
     background-position: center;
     background-size: cover;
   }
@@ -156,7 +158,10 @@
 
   &.withBackground {
     background-color: var(--background) !important;
-    background-image: radial-gradient(var(--dot-color) 1px, transparent 0) !important;
+    background-image: radial-gradient(
+      var(--dot-color) 1px,
+      transparent 0
+    ) !important;
     background-position: -8.5px -8.5px;
     background-repeat: repeat;
     background-size: 17px 17px;

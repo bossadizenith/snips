@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useAtom, useAtomValue } from "jotai";
 
-import beams from "../../assets/tailwind/beams.png";
+import beams from "/assets/tailwind/beams.png";
 import { fileNameAtom, showBackgroundAtom } from "../../store";
 import { paddingAtom } from "../../store/padding";
 import { themeDarkModeAtom } from "../../store/themes";
@@ -30,8 +30,15 @@ const TailwindFrame = () => {
       )}
       style={{ padding }}
     >
-      {!showBackground && <div data-ignore-in-export className={sharedStyles.transparentPattern}></div>}
-      {showBackground && <img src={beams.src} alt="beams" className={styles.beams} />}
+      {!showBackground && (
+        <div
+          data-ignore-in-export
+          className={sharedStyles.transparentPattern}
+        ></div>
+      )}
+      {showBackground && (
+        <img src={beams.src} alt="beams" className={styles.beams} />
+      )}
       <div className={styles.beams} />
       <div className={styles.window}>
         {showBackground && (
@@ -48,9 +55,15 @@ const TailwindFrame = () => {
         )}
         <div className={classNames(sharedStyles.header, styles.header)}>
           <div className={sharedStyles.controls}>
-            <div className={classNames(sharedStyles.control, styles.control)}></div>
-            <div className={classNames(sharedStyles.control, styles.control)}></div>
-            <div className={classNames(sharedStyles.control, styles.control)}></div>
+            <div
+              className={classNames(sharedStyles.control, styles.control)}
+            ></div>
+            <div
+              className={classNames(sharedStyles.control, styles.control)}
+            ></div>
+            <div
+              className={classNames(sharedStyles.control, styles.control)}
+            ></div>
           </div>
         </div>
         <Editor />

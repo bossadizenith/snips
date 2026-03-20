@@ -1,4 +1,10 @@
-import React, { MouseEventHandler, PropsWithChildren, useCallback, useRef, useState } from "react";
+import React, {
+  MouseEventHandler,
+  PropsWithChildren,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import { useAtom } from "jotai";
 import { windowWidthAtom } from "../store";
 import classnames from "classnames";
@@ -6,7 +12,7 @@ import { CSSTransition } from "react-transition-group";
 
 import styles from "./ResizableFrame.module.css";
 
-import XMarkIcon from "../assets/icons/x-mark-circle-filled-16.svg";
+import XMarkIcon from "/assets/icons/x-mark-circle-filled-16.svg";
 
 type Handle = "right" | "left";
 
@@ -28,9 +34,11 @@ const ResizableFrame: React.FC<PropsWithChildren> = ({ children }) => {
       let newWidth;
 
       if (currentHandleRef.current === "left") {
-        newWidth = startWidthRef.current! - (event.clientX - startXRef.current!) * 2;
+        newWidth =
+          startWidthRef.current! - (event.clientX - startXRef.current!) * 2;
       } else {
-        newWidth = startWidthRef.current! + (event.clientX - startXRef.current!) * 2;
+        newWidth =
+          startWidthRef.current! + (event.clientX - startXRef.current!) * 2;
       }
 
       if (newWidth > maxWidth) {
@@ -77,7 +85,12 @@ const ResizableFrame: React.FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <div className={classnames(styles.resizableFrame, isResizing && styles.isResizing)}>
+    <div
+      className={classnames(
+        styles.resizableFrame,
+        isResizing && styles.isResizing,
+      )}
+    >
       <div
         className={classnames(styles.windowSizeDragPoint, styles.left)}
         onMouseDown={handleResizeFrameX("left")}
