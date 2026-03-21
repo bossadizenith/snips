@@ -27,7 +27,6 @@ export const CodeComposition: React.FC<CodeCompositionProps> = (props) => {
             <VideoSlideRender 
               {...props} 
               slideIndex={index} 
-              startFrame={0} 
             />
           </Series.Sequence>
         ))}

@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import os from "os";
 import fs from "fs";
+import { getHighlighterCore } from "shiki";
+import getWasm from "shiki/wasm";
+import { createCssVariablesTheme } from "@/utils/theme-css-variables";
+import { LANGUAGES } from "@/utils/languages";
 
 // Force Node.js runtime — @remotion/bundler and @remotion/renderer are Node.js-only packages
 export const runtime = "nodejs";
@@ -11,6 +15,7 @@ interface Slide {
   id: string;
   title: string;
   code: string;
+  tokens?: any[];
 }
 
 interface RenderRequestBody {
@@ -44,17 +49,77 @@ export async function POST(req: NextRequest) {
   const entryPoint = path.join(process.cwd(), "remotion", "index.tsx");
   const SLIDE_DURATION = 90;
 
+  // 0. Tokenize slides with Shiki
+  const shikiTheme = createCssVariablesTheme({
+    name: "css-variables",
+    variablePrefix: "--ray-",
+    variableDefaults: {},
+    fontStyle: true,
+  });
+
+  const tokenizedSlides = await (async () => {
+    // Determine the language name (Shiki identifier)
+    let shikiLang = language?.name?.toLowerCase() || "javascript";
+    if (shikiLang === "typescript") shikiLang = "tsx"; // Common alias for this app
+
+    // Find the language entry in our local map to get the loader function
+    const langEntry = Object.values(LANGUAGES).find(
+      (l) => l.name.toLowerCase() === (language?.name?.toLowerCase() || "javascript")
+    );
+
+    const highlighter = await getHighlighterCore({
+      themes: [shikiTheme],
+      langs: [],
+      loadWasm: getWasm,
+    });
+
+    // Load the requested language into the highlighter
+    if (langEntry) {
+      await highlighter.loadLanguage(await langEntry.src());
+    } else {
+      // Fallback: at least try to load javascript if entry not found
+      try {
+        await highlighter.loadLanguage(await LANGUAGES.javascript.src());
+      } catch (e) {
+        console.error("[render-video] Failed to load fallback javascript lang:", e);
+      }
+    }
+
+    return slides.map((slide) => {
+      try {
+        const tokens = highlighter.codeToTokens(slide.code, {
+          lang: shikiLang,
+          theme: "css-variables",
+        });
+        console.log(`[render-video] Slide ${slide.id} tokenized. Tokens type: ${typeof tokens}, isArray: ${Array.isArray(tokens)}`);
+        return { ...slide, tokens };
+      } catch (err) {
+        console.warn(`[render-video] Failed to tokenize slide ${slide.id}:`, err);
+        return slide;
+      }
+    });
+  })();
+
   try {
     // 1. Bundle the composition
     const bundleLocation = await bundle({
       entryPoint,
-      // Enable webpack caching for faster subsequent renders
-      webpackOverride: (config) => config,
+      // Teach Remotion's webpack about the @/ path alias (Next.js tsconfig paths)
+      webpackOverride: (config) => ({
+        ...config,
+        resolve: {
+          ...config.resolve,
+          alias: {
+            ...((config.resolve?.alias as Record<string, string>) ?? {}),
+            "@": path.resolve(process.cwd()),
+          },
+        },
+      }),
     });
 
     // 2. The input props to inject into the composition
     const inputProps = {
-      slides,
+      slides: tokenizedSlides,
       theme,
       darkMode,
       language,

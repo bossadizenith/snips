@@ -44,6 +44,7 @@ export function VideoPreview() {
           controls
           loop
           autoPlay
+          acknowledgeRemotionLicense
         />
       </div>
     </div>

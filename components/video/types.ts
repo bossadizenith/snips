@@ -1,6 +1,16 @@
-import { Slide } from "@/store/slide";
+import { Slide as BaseSlide } from "@/store/slide";
 import { Theme } from "@/store/themes";
 import { Language } from "@/utils/languages";
+
+export interface Token {
+  content: string;
+  color?: string;
+  fontStyle?: string | number;
+}
+
+export interface Slide extends BaseSlide {
+  tokens?: Token[][];
+}
 
 export interface CodeCompositionProps {
   slides: Slide[];

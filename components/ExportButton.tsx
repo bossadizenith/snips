@@ -121,9 +121,13 @@ const ExportButton: React.FC = () => {
   };
 
   const saveVideo = async () => {
+    console.log("username");
     if (isRenderingVideo) return;
     setIsRenderingVideo(true);
-    setFlashMessage({ icon: <VideoIcon />, message: "Rendering video… this may take a minute" });
+    setFlashMessage({
+      icon: <VideoIcon />,
+      message: "Rendering video… this may take a minute",
+    });
 
     try {
       const response = await fetch("/api/render-video", {
@@ -145,10 +149,18 @@ const ExportButton: React.FC = () => {
       a.click();
       URL.revokeObjectURL(url);
 
-      setFlashMessage({ icon: <VideoIcon />, message: "Video exported!", timeout: 2000 });
+      setFlashMessage({
+        icon: <VideoIcon />,
+        message: "Video exported!",
+        timeout: 2000,
+      });
     } catch (err) {
       console.error("[ExportButton] Video render failed:", err);
-      setFlashMessage({ icon: <VideoIcon />, message: `Export failed: ${String(err)}`, timeout: 4000 });
+      setFlashMessage({
+        icon: <VideoIcon />,
+        message: `Export failed: ${String(err)}`,
+        timeout: 4000,
+      });
     } finally {
       setIsRenderingVideo(false);
       setFlashShown(false);
@@ -217,16 +229,19 @@ const ExportButton: React.FC = () => {
     event.preventDefault();
     savePng();
   });
+
   useHotkeys("ctrl+c,cmd+c", (event) => {
     if (pngClipboardSupported) {
       event.preventDefault();
       copyPng();
     }
   });
+
   useHotkeys("ctrl+shift+c,cmd+shift+c", (event) => {
     event.preventDefault();
     copyUrl();
   });
+
   useHotkeys("ctrl+shift+s,cmd+shift+s", (event) => {
     event.preventDefault();
     saveSvg();
@@ -246,22 +261,18 @@ const ExportButton: React.FC = () => {
         open={dropdownOpen}
         onOpenChange={(open) => setDropdownOpen(open)}
       >
-        <DropdownMenuTrigger
-          render={(props) => (
-            <Button variant="primary" aria-label="See other export options">
-              <ChevronDownIcon className="w-4 h-4" />
-            </Button>
-          )}
-        />
+        <DropdownMenuTrigger className="size-9 border flex items-center justify-center">
+          <ChevronDownIcon className="w-4 h-4" />
+        </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="end">
-          <DropdownMenuItem onSelect={dropdownHandler(savePng)}>
-            <ImageIcon /> Save PNG{" "}
+          <DropdownMenuItem onClick={dropdownHandler(savePng)}>
+            <ImageIcon /> Save PNG{"\ "}
             <Kbds>
               <Kbd>⌘</Kbd>
               <Kbd>S</Kbd>
             </Kbds>
           </DropdownMenuItem>
-          <DropdownMenuItem onSelect={dropdownHandler(saveSvg)}>
+          <DropdownMenuItem onClick={dropdownHandler(saveSvg)}>
             <ImageIcon /> Save SVG
             <Kbds>
               <Kbd>⌘</Kbd>
@@ -270,7 +281,7 @@ const ExportButton: React.FC = () => {
             </Kbds>
           </DropdownMenuItem>
           {pngClipboardSupported && (
-            <DropdownMenuItem onSelect={dropdownHandler(copyPng)}>
+            <DropdownMenuItem onClick={dropdownHandler(copyPng)}>
               <ClipboardIcon /> Copy Image
               <Kbds>
                 <Kbd>⌘</Kbd>
@@ -278,7 +289,7 @@ const ExportButton: React.FC = () => {
               </Kbds>
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem onSelect={dropdownHandler(copyUrl)}>
+          <DropdownMenuItem onClick={dropdownHandler(copyUrl)}>
             <LinkIcon /> Copy URL
             <Kbds>
               <Kbd>⌘</Kbd>
@@ -288,7 +299,7 @@ const ExportButton: React.FC = () => {
           </DropdownMenuItem>
           {showVideo && (
             <DropdownMenuItem
-              onSelect={dropdownHandler(saveVideo)}
+              onClick={dropdownHandler(saveVideo)}
               disabled={isRenderingVideo}
             >
               <VideoIcon /> {isRenderingVideo ? "Rendering…" : "Export Video"}
