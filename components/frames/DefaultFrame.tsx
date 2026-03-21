@@ -21,6 +21,8 @@ const DefaultFrame = ({
   themeBackground: propThemeBackground,
   theme: propTheme,
   darkMode: propDarkMode,
+  code: propCode,
+  language: propLanguage,
 }: FrameProps) => {
   const [atomPadding] = useAtom(paddingAtom);
   const isSafari = useIsSafari();
@@ -78,7 +80,9 @@ const DefaultFrame = ({
             ) : null}
           </div>
         </div>
-        {children || <Editor />}
+        {children || (
+          <Editor code={propCode} selectedLanguage={propLanguage} />
+        )}
       </div>
     </div>
   );

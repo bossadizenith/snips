@@ -15,6 +15,8 @@ const VercelFrame = ({
   padding: propPadding,
   showBackground: propShowBackground,
   darkMode: propDarkMode,
+  code: propCode,
+  language: propLanguage,
 }: FrameProps) => {
   const atomDarkMode = useAtomValue(themeDarkModeAtom);
   const [atomPadding] = useAtom(paddingAtom);
@@ -46,7 +48,9 @@ const VercelFrame = ({
         <span className={styles.gridlinesVertical} data-grid></span>
         <span className={styles.bracketLeft} data-grid></span>
         <span className={styles.bracketRight} data-grid></span>
-        {children || <Editor />}
+        {children || (
+          <Editor code={propCode} selectedLanguage={propLanguage} />
+        )}
       </div>
     </div>
   );

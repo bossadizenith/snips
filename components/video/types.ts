@@ -18,6 +18,7 @@ export interface CodeCompositionProps {
   darkMode: boolean;
   language: Language | null;
   padding: number;
+  windowWidth: number | null;
 }
 
 export interface SlideTimeline {

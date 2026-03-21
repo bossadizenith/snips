@@ -12,7 +12,7 @@ import {
 
 import { FrameContext } from "@/store/FrameContextStore";
 import { derivedFlashMessageAtom, flashShownAtom } from "@/store/flash";
-import { fileNameAtom, showVideoPreviewAtom } from "@/store";
+import { fileNameAtom, showVideoPreviewAtom, windowWidthAtom } from "@/store";
 import download from "@/utils/download";
 import { toPng, toSvg, toBlob } from "@/lib/image";
 
@@ -64,6 +64,7 @@ const ExportButton: React.FC = () => {
   const darkMode = useAtomValue(darkModeAtom);
   const language = useAtomValue(selectedLanguageAtom);
   const padding = useAtomValue(paddingAtom);
+  const windowWidth = useAtomValue(windowWidthAtom);
 
   const savePng = async () => {
     if (!frameContext?.current) {
@@ -133,7 +134,7 @@ const ExportButton: React.FC = () => {
       const response = await fetch("/api/render-video", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slides, theme, darkMode, language, padding }),
+        body: JSON.stringify({ slides, theme, darkMode, language, padding, windowWidth }),
       });
 
       if (!response.ok) {

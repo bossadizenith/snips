@@ -66,7 +66,7 @@ export const autoDetectLanguageAtom = atom<boolean>((get) => {
 });
 
 const detectedLanguageAtom = atom<Language | null>(null);
-const userInputtedLanguageAtom = atomWithHash<Language | null>(
+export const userInputtedLanguageAtom = atomWithHash<Language | null>(
   "language",
   null,
   {

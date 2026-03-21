@@ -6,6 +6,7 @@ import { useAtomValue } from "jotai";
 import { slidesAtom } from "@/store/slide";
 import { themeAtom, darkModeAtom } from "@/store/themes";
 import { selectedLanguageAtom } from "@/store/code";
+import { windowWidthAtom } from "@/store";
 import { paddingAtom } from "@/store/padding";
 import { CodeComposition } from "@/components/video/CodeComposition";
 import type { CodeCompositionProps } from "@/components/video/types";
@@ -19,6 +20,7 @@ export function VideoPreview() {
   const darkMode = useAtomValue(darkModeAtom);
   const language = useAtomValue(selectedLanguageAtom);
   const padding = useAtomValue(paddingAtom);
+  const windowWidth = useAtomValue(windowWidthAtom);
 
   const totalFrames = SLIDE_DURATION * Math.max(slides.length, 1);
 
@@ -28,6 +30,7 @@ export function VideoPreview() {
     darkMode,
     language,
     padding,
+    windowWidth,
   };
 
   return (

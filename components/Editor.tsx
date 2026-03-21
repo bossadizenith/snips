@@ -28,7 +28,7 @@ import HighlightedCode from "./HighlightedCode";
 import classNames from "classnames";
 import { derivedFlashMessageAtom } from "@/store/flash";
 import { highlightedLinesAtom, showLineNumbersAtom } from "@/store";
-import { LANGUAGES } from "@/utils/languages";
+import { Language, LANGUAGES } from "@/utils/languages";
 
 function indentText(text: string) {
   return text
@@ -147,10 +147,16 @@ const fontMap = {
   "google-sans-code": styles.googleSansCode,
 } as const;
 
-function Editor() {
+function Editor({
+  code: propCode,
+  selectedLanguage: propLanguage,
+}: {
+  code?: string;
+  selectedLanguage?: Language | null;
+} = {}) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [code, setCode] = useAtom(codeAtom);
-  const [selectedLanguage, setSelectedLanguage] = useAtom(selectedLanguageAtom);
+  const [storeCode, setCode] = useAtom(codeAtom);
+  const [storeLanguage, setSelectedLanguage] = useAtom(selectedLanguageAtom);
   const [themeCSS] = useAtom(themeCSSAtom);
   const [isCodeExample] = useAtom(isCodeExampleAtom);
   const [themeFont] = useAtom(themeFontAtom);
@@ -161,6 +167,10 @@ function Editor() {
   const [isHighlightingLines, setIsHighlightingLines] = useState(false);
   const [showLineNumbers] = useAtom(themeLineNumbersAtom);
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
+
+  const code = propCode ?? storeCode;
+  const selectedLanguage = propLanguage ?? storeLanguage;
+
   const [prevCode, setPrevCode] = useState(code);
   const numberOfLines = (code.match(/\n/g) || []).length;
 
