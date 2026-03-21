@@ -87,10 +87,11 @@ export async function POST(req: NextRequest) {
 
     return slides.map((slide) => {
       try {
-        const tokens = highlighter.codeToTokens(slide.code, {
+        const result = highlighter.codeToTokens(slide.code, {
           lang: shikiLang,
           theme: "css-variables",
         });
+        const tokens = Array.isArray(result) ? result : (result as any).tokens;
         console.log(`[render-video] Slide ${slide.id} tokenized. Tokens type: ${typeof tokens}, isArray: ${Array.isArray(tokens)}`);
         return { ...slide, tokens };
       } catch (err) {

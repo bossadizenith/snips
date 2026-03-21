@@ -8,13 +8,16 @@ interface StaticCodeProps {
   className?: string;
 }
 
-export const StaticCode: React.FC<StaticCodeProps> = ({ tokens, className }) => {
+export const StaticCode: React.FC<StaticCodeProps> = ({ tokens: propTokens, className }) => {
+  // Shiki 1.0+ often returns an object with a tokens property
+  const tokens = Array.isArray(propTokens) ? propTokens : (propTokens as any)?.tokens || [];
+
   return (
     <div className={classNames(styles.formatted, className)}>
       <pre>
-        {tokens.map((line, i) => (
+        {Array.isArray(tokens) && tokens.map((line: any, i: number) => (
           <div key={i} className={styles.line} data-line={i + 1}>
-            {line.map((token, j) => (
+            {line.map((token: any, j: number) => (
               <span
                 key={j}
                 style={{
