@@ -2,14 +2,12 @@ import React from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
   addSlideAtom,
-  activeSlideIdAtom,
   initializeSlidesAtom,
   selectSlideAtom,
-  slidesAtom,
   updateActiveSlideAtom,
 } from "@/store/slide";
 import { codeAtom } from "@/store/code";
-import { fileNameAtom } from "@/store";
+import { fileNameAtom, activeSlideIdAtom, slidesAtom } from "@/store";
 import { Button } from "@/components/ui/button";
 
 export const Slides = () => {
@@ -26,11 +24,6 @@ export const Slides = () => {
   React.useEffect(() => {
     initializeSlides();
   }, [initializeSlides]);
-
-  React.useEffect(() => {
-    if (!activeSlideId) return;
-    updateActiveSlide({ title, code });
-  }, [activeSlideId, title, code, updateActiveSlide]);
 
   return (
     <aside className="h-screen w-(--sidebar-width) border-l border-gray-2 p-4 bg-sidebar shrink-0 overflow-y-auto">

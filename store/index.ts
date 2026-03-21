@@ -31,3 +31,13 @@ export const highlightedLinesAtom = atomWithHash<number[]>("highlightedLines", [
 });
 
 export const showVideoPreviewAtom = atom<boolean>(false);
+
+export type Slide = {
+  id: string;
+  title: string;
+  code: string;
+};
+
+export const slidesAtom = atom<Slide[]>([]);
+export const activeSlideIdAtom = atom<string | null>(null);
+export const animateSlideTransitionAtom = atom(false);

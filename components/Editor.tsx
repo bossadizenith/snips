@@ -14,11 +14,17 @@ import {
   isCodeExampleAtom,
   selectedLanguageAtom,
 } from "@/store/code";
-import { animateSlideTransitionAtom } from "@/store/slide";
+import {
+  activeSlideIdAtom,
+  animateSlideTransitionAtom,
+  slidesAtom,
+} from "@/store";
 import {
   THEMES,
+  Theme,
   themeAtom,
   themeCSSAtom,
+  themeDarkModeAtom,
   themeFontAtom,
   themeLineNumbersAtom,
   unlockedThemesAtom,
@@ -150,9 +156,13 @@ const fontMap = {
 function Editor({
   code: propCode,
   selectedLanguage: propLanguage,
+  theme: propTheme,
+  darkMode: propDarkMode,
 }: {
   code?: string;
   selectedLanguage?: Language | null;
+  theme?: Theme;
+  darkMode?: boolean;
 } = {}) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [storeCode, setCode] = useAtom(codeAtom);
@@ -160,16 +170,19 @@ function Editor({
   const [themeCSS] = useAtom(themeCSSAtom);
   const [isCodeExample] = useAtom(isCodeExampleAtom);
   const [themeFont] = useAtom(themeFontAtom);
-  const [theme, setTheme] = useAtom(themeAtom);
+  const [storeTheme, setTheme] = useAtom(themeAtom);
   const [unlockedThemes, setUnlockedThemes] = useAtom(unlockedThemesAtom);
   const setFlashMessage = useSetAtom(derivedFlashMessageAtom);
   const setHighlightedLines = useSetAtom(highlightedLinesAtom);
   const [isHighlightingLines, setIsHighlightingLines] = useState(false);
   const [showLineNumbers] = useAtom(themeLineNumbersAtom);
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
+  const storeDarkMode = useAtomValue(themeDarkModeAtom);
 
   const code = propCode ?? storeCode;
   const selectedLanguage = propLanguage ?? storeLanguage;
+  const theme = propTheme ?? storeTheme;
+  const darkMode = propDarkMode ?? storeDarkMode;
 
   const [prevCode, setPrevCode] = useState(code);
   const numberOfLines = (code.match(/\n/g) || []).length;
@@ -337,7 +350,12 @@ function Editor({
         onFocus={handleFocus}
         data-enable-grammarly="false"
       />
-      <HighlightedCode code={code} selectedLanguage={selectedLanguage} />
+      <HighlightedCode
+        code={code}
+        selectedLanguage={selectedLanguage}
+        theme={theme}
+        darkMode={darkMode}
+      />
     </div>
   );
 }

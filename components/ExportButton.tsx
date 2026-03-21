@@ -12,7 +12,7 @@ import {
 
 import { FrameContext } from "@/store/FrameContextStore";
 import { derivedFlashMessageAtom, flashShownAtom } from "@/store/flash";
-import { fileNameAtom, showVideoPreviewAtom, windowWidthAtom } from "@/store";
+import { fileNameAtom, slidesAtom, showVideoPreviewAtom, windowWidthAtom } from "@/store";
 import download from "@/utils/download";
 import { toPng, toSvg, toBlob } from "@/lib/image";
 
@@ -26,7 +26,6 @@ import {
 } from "@/store/image";
 import { autoDetectLanguageAtom, selectedLanguageAtom } from "@/store/code";
 import { LANGUAGES } from "@/utils/languages";
-import { slidesAtom } from "@/store/slide";
 import { themeAtom, darkModeAtom } from "@/store/themes";
 import { paddingAtom } from "@/store/padding";
 import { ButtonGroup } from "@/components/ui/button-group";

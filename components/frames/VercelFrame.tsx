@@ -3,7 +3,7 @@ import { useAtom, useAtomValue } from "jotai";
 
 import { showBackgroundAtom } from "@/store";
 import { paddingAtom } from "@/store/padding";
-import { themeDarkModeAtom } from "@/store/themes";
+import { themeDarkModeAtom, themeAtom, Theme } from "@/store/themes";
 
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
@@ -15,6 +15,7 @@ const VercelFrame = ({
   padding: propPadding,
   showBackground: propShowBackground,
   darkMode: propDarkMode,
+  theme,
   code: propCode,
   language: propLanguage,
 }: FrameProps) => {
@@ -49,7 +50,12 @@ const VercelFrame = ({
         <span className={styles.bracketLeft} data-grid></span>
         <span className={styles.bracketRight} data-grid></span>
         {children || (
-          <Editor code={propCode} selectedLanguage={propLanguage} />
+          <Editor 
+            code={propCode} 
+            selectedLanguage={propLanguage} 
+            theme={theme}
+            darkMode={darkMode}
+          />
         )}
       </div>
     </div>

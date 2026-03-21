@@ -5,17 +5,19 @@ import { ShikiMagicMove } from "shiki-magic-move/react";
 
 import styles from "./Editor.module.css";
 import {
+  animateSlideTransitionAtom,
   highlightedLinesAtom,
   highlighterAtom,
   loadingLanguageAtom,
 } from "@/store";
 import { useAtomValue, useSetAtom } from "jotai";
-import { themeDarkModeAtom, themeAtom } from "@/store/themes";
-import { animateSlideTransitionAtom } from "@/store/slide";
+import { themeDarkModeAtom, themeAtom, Theme } from "@/store/themes";
 
 type PropTypes = {
   selectedLanguage: Language | null;
   code: string;
+  theme?: Theme;
+  darkMode?: boolean;
 };
 
 const MAGIC_MOVE_OPTIONS = {
@@ -28,16 +30,25 @@ const MAGIC_MOVE_OPTIONS = {
   delayMove: 0.1,
 } as const;
 
-const HighlightedCode: React.FC<PropTypes> = ({ selectedLanguage, code }) => {
+const HighlightedCode: React.FC<PropTypes> = ({ 
+  selectedLanguage, 
+  code,
+  theme: propTheme,
+  darkMode: propDarkMode 
+}) => {
   const [isLanguageReady, setIsLanguageReady] = useState(false);
   const [prevCode, setPrevCode] = useState(code);
   const highlighter = useAtomValue(highlighterAtom);
   const setIsLoadingLanguage = useSetAtom(loadingLanguageAtom);
   const highlightedLines = useAtomValue(highlightedLinesAtom);
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const theme = useAtomValue(themeAtom);
+  const storeDarkMode = useAtomValue(themeDarkModeAtom);
+  const storeTheme = useAtomValue(themeAtom);
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
   const setAnimateSlideTransition = useSetAtom(animateSlideTransitionAtom);
+
+  const theme = propTheme ?? storeTheme;
+  const darkMode = propDarkMode ?? storeDarkMode;
+
   const themeName =
     theme.id === "tailwind"
       ? darkMode

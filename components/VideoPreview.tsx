@@ -3,7 +3,7 @@
 import React from "react";
 import { Player } from "@remotion/player";
 import { useAtomValue } from "jotai";
-import { slidesAtom } from "@/store/slide";
+import { slidesAtom } from "@/store";
 import { themeAtom, darkModeAtom } from "@/store/themes";
 import { selectedLanguageAtom } from "@/store/code";
 import { windowWidthAtom } from "@/store";
@@ -25,7 +25,7 @@ export function VideoPreview() {
   const totalFrames = SLIDE_DURATION * Math.max(slides.length, 1);
 
   const inputProps: CodeCompositionProps = {
-    slides,
+    slides: slides as any,
     theme,
     darkMode,
     language,

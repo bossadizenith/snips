@@ -81,7 +81,12 @@ const DefaultFrame = ({
           </div>
         </div>
         {children || (
-          <Editor code={propCode} selectedLanguage={propLanguage} />
+          <Editor 
+            code={propCode} 
+            selectedLanguage={propLanguage} 
+            theme={theme}
+            darkMode={darkMode}
+          />
         )}
       </div>
     </div>

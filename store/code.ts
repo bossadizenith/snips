@@ -3,6 +3,7 @@ import { Base64 } from "js-base64";
 import hljs from "highlight.js";
 import { atomWithHash } from "jotai-location";
 import { LANGUAGES, Language } from "../utils/languages";
+import { slidesAtom, activeSlideIdAtom, Slide } from ".";
 
 type CodeSample = {
   language: Language;
@@ -157,6 +158,17 @@ export const codeAtom = atom(
 
     searchParams.set("code", Base64.encodeURI(newCode));
     window.location.hash = `#${searchParams.toString()}`;
+
+    // Sync with slides synchronously
+    const activeSlideId = get(activeSlideIdAtom);
+    if (activeSlideId) {
+      set(slidesAtom, (prev: Slide[]) =>
+        prev.map((slide: Slide) => {
+          if (slide.id !== activeSlideId) return slide;
+          return { ...slide, code: newCode };
+        }),
+      );
+    }
 
     detectLanguage(newCode).then((language) => {
       if (LANGUAGES[language]) {

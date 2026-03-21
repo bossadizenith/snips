@@ -1,12 +1,6 @@
 import { atom } from "jotai";
 import { codeAtom } from "./code";
-import { fileNameAtom } from ".";
-
-export type Slide = {
-  id: string;
-  title: string;
-  code: string;
-};
+import { fileNameAtom, Slide, slidesAtom, activeSlideIdAtom, animateSlideTransitionAtom } from ".";
 
 type SlidePatch = {
   title?: string;
@@ -18,15 +12,9 @@ function createSlideId() {
 }
 
 function normalizeSlideTitle(title: string) {
-  const trimmed = title.trim();
+  const trimmed = title.trim() || "";
   return trimmed.length > 0 ? trimmed : "Untitled Slide";
 }
-
-export const slidesAtom = atom<Slide[]>([]);
-
-export const activeSlideIdAtom = atom<string | null>(null);
-
-export const animateSlideTransitionAtom = atom(false);
 
 export const activeSlideAtom = atom((get) => {
   const activeSlideId = get(activeSlideIdAtom);

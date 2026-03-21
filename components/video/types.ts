@@ -1,4 +1,4 @@
-import { Slide as BaseSlide } from "@/store/slide";
+import { Slide as BaseSlide } from "@/store";
 import { Theme } from "@/store/themes";
 import { Language } from "@/utils/languages";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Series, useCurrentFrame, interpolate } from "remotion";
-import { CodeCompositionProps } from "./types";
+import { CodeCompositionProps, Slide } from "./types";
 import { VideoSlideRender } from "./VideoSlideRender";
 import { ProgressBar } from "./ProgressBar";
 
