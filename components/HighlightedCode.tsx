@@ -128,14 +128,11 @@ const HighlightedCode: React.FC<PropTypes> = ({ selectedLanguage, code }) => {
         lang={lang}
         theme={themeName}
         code={code}
-        // previousCode={animateSlideTransition ? prevCode : undefined}
-        // animate={animateSlideTransition}
         options={MAGIC_MOVE_OPTIONS}
         onEnd={() => {
           setAnimateSlideTransition(false);
           setPrevCode(code);
         }}
-        className={styles.magicMove}
       />
     </div>
   );

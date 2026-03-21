@@ -1,10 +1,8 @@
+import { Theme } from "@/store/themes";
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
-import { CodeCompositionProps } from "./types";
-import { Theme } from "@/store/themes";
 import ThemeFrame from "./ThemeFrame";
-import HighlightedCode from "../HighlightedCode";
-import { LANGUAGES } from "@/utils/languages";
+import { CodeCompositionProps } from "./types";
 
 interface VideoSlideRenderProps extends CodeCompositionProps {
   slideIndex: number;
@@ -65,12 +63,7 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = ({
         themeBackground={themeBackground}
         fileName={slide.title || ""}
         code={slide.code}
-      >
-        <HighlightedCode
-          selectedLanguage={LANGUAGES.typescript}
-          code={slide.code}
-        />
-      </ThemeFrame>
+      />
     </AbsoluteFill>
   );
 };
