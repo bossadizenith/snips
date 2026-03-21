@@ -10,13 +10,23 @@ import useIsSafari from "@/hooks/useIsSafari";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./TailwindFrame.module.css";
+import { FrameProps } from "./types";
 
-const TailwindFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
+const TailwindFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
   useAtom(fileNameAtom);
   const isSafari = useIsSafari();
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
 
   return (
     <div
@@ -66,7 +76,7 @@ const TailwindFrame = () => {
             ></div>
           </div>
         </div>
-        <Editor />
+        {children || <Editor />}
       </div>
     </div>
   );

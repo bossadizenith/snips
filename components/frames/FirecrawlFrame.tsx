@@ -10,6 +10,7 @@ import { darkModeAtom } from "@/store/themes";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./FirecrawlFrame.module.css";
+import { FrameProps } from "./types";
 
 const FIRECRAWL_ASCII_ART = `                                   .. ..-
                                    :          .
@@ -127,11 +128,20 @@ function FirecrawlFrameCanvas({
   );
 }
 
-const FirecrawlFrame = () => {
-  const [darkMode] = useAtom(darkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
+const FirecrawlFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const [atomDarkMode] = useAtom(darkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
   const exportSize = useAtomValue(exportSizeAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
   const gridColor = darkMode ? "#444" : "#ededed";
 
   return (
@@ -157,7 +167,7 @@ const FirecrawlFrame = () => {
             <pre className={styles.asciiArt}>{FIRECRAWL_ASCII_ART}</pre>
           </div>
         )}
-        <Editor />
+        {children || <Editor />}
         {showBackground && (
           <FirecrawlFrameCanvas
             gridColor={gridColor}

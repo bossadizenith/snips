@@ -8,11 +8,21 @@ import { themeDarkModeAtom } from "@/store/themes";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./VercelFrame.module.css";
+import { FrameProps } from "./types";
 
-const VercelFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
+const VercelFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
 
   return (
     <div
@@ -36,7 +46,7 @@ const VercelFrame = () => {
         <span className={styles.gridlinesVertical} data-grid></span>
         <span className={styles.bracketLeft} data-grid></span>
         <span className={styles.bracketRight} data-grid></span>
-        <Editor />
+        {children || <Editor />}
       </div>
     </div>
   );

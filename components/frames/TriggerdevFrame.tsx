@@ -11,15 +11,29 @@ import triggerPattern from "@/public/assets/triggerdev/pattern.svg?url";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./TriggerdevFrame.module.css";
+import { FrameProps } from "./types";
 
-const TriggerdevFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
-  const [themeBackground] = useAtom(themeBackgroundAtom);
-  const [fileName, setFileName] = useAtom(fileNameAtom);
+const TriggerdevFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  fileName: propFileName,
+  darkMode: propDarkMode,
+  themeBackground: propThemeBackground,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+  const [atomThemeBackground] = useAtom(themeBackgroundAtom);
+  const [atomFileName, setFileName] = useAtom(fileNameAtom);
   const [selectedLanguage] = useAtom(selectedLanguageAtom);
   const flashShown = useAtomValue(flashShownAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
+  const themeBackground = propThemeBackground ?? atomThemeBackground;
+  const fileName = propFileName ?? atomFileName;
 
   return (
     <div
@@ -92,7 +106,7 @@ const TriggerdevFrame = () => {
             <span className={styles.language}>{selectedLanguage?.name}</span>
           </div>
         )}
-        <Editor />
+        {children || <Editor />}
       </div>
     </div>
   );

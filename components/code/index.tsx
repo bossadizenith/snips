@@ -27,7 +27,6 @@ import { Slides } from "@/components/slides";
 import { VideoPreview } from "@/components/VideoPreview";
 import { showVideoPreviewAtom } from "@/store";
 
-
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
   const showVideo = useAtomValue(showVideoPreviewAtom);
@@ -57,12 +56,16 @@ export function Code() {
             <ExportButton />
           </NavigationActions>
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
-            <div className={styles.app}>
-              <NoSSR>
-                {highlighter && (showVideo ? <VideoPreview /> : <Frame />)}
-                <Controls />
-              </NoSSR>
-            </div>
+            {highlighter && showVideo ? (
+              <VideoPreview />
+            ) : (
+              <div className={styles.app}>
+                <NoSSR>
+                  {highlighter && <Frame />}
+                  <Controls />
+                </NoSSR>
+              </div>
+            )}
           </div>
         </main>
         <Slides />

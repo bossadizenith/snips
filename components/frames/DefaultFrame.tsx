@@ -11,15 +11,31 @@ import {
 import useIsSafari from "@/hooks/useIsSafari";
 import Editor from "../Editor";
 import styles from "./DefaultFrame.module.css";
+import { FrameProps } from "./types";
 
-const DefaultFrame = () => {
-  const [padding] = useAtom(paddingAtom);
+const DefaultFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  fileName: propFileName,
+  themeBackground: propThemeBackground,
+  theme: propTheme,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const [atomPadding] = useAtom(paddingAtom);
   const isSafari = useIsSafari();
-  const [showBackground] = useAtom(showBackgroundAtom);
-  const [fileName, setFileName] = useAtom(fileNameAtom);
-  const [themeBackground] = useAtom(themeBackgroundAtom);
-  const [theme] = useAtom(themeAtom);
-  const darkMode = useAtomValue(themeDarkModeAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+  const [atomFileName, setFileName] = useAtom(fileNameAtom);
+  const [atomThemeBackground] = useAtom(themeBackgroundAtom);
+  const [atomTheme] = useAtom(themeAtom);
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
+  const fileName = propFileName ?? atomFileName;
+  const themeBackground = propThemeBackground ?? atomThemeBackground;
+  const theme = propTheme ?? atomTheme;
+  const darkMode = propDarkMode ?? atomDarkMode;
 
   return (
     <div
@@ -62,7 +78,7 @@ const DefaultFrame = () => {
             ) : null}
           </div>
         </div>
-        <Editor />
+        {children || <Editor />}
       </div>
     </div>
   );

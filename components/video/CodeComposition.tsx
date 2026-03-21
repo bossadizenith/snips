@@ -1,14 +1,14 @@
 import React from "react";
-import { AbsoluteFill, Series, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Series, useCurrentFrame, interpolate } from "remotion";
 import { CodeCompositionProps } from "./types";
 import { VideoSlideRender } from "./VideoSlideRender";
 import { ProgressBar } from "./ProgressBar";
 
+const SLIDE_DURATION = 90; // 3 seconds at 30fps
+
 export const CodeComposition: React.FC<CodeCompositionProps> = (props) => {
   const { slides } = props;
   const frame = useCurrentFrame();
-  const SLIDE_DURATION = 90; // 3 seconds at 30fps
-  
   const currentSlideIndex = Math.floor(frame / SLIDE_DURATION);
 
   return (

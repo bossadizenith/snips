@@ -11,14 +11,24 @@ import useIsSafari from "@/hooks/useIsSafari";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./StripeFrame.module.css";
+import { FrameProps } from "./types";
 
-const StripeFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
+const StripeFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
   const code = useAtomValue(codeAtom);
   const windowWidth = useAtomValue(windowWidthAtom);
   const isSafari = useIsSafari();
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
 
   const windowRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
@@ -127,7 +137,7 @@ const StripeFrame = () => {
         className={classNames(styles.window, isSafari && styles.isSafari)}
         ref={windowRef}
       >
-        <Editor />
+        {children || <Editor />}
       </div>
     </div>
   );

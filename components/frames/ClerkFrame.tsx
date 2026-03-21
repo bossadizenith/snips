@@ -9,11 +9,21 @@ import clerkPattern from "@/public/assets/clerk/pattern.svg?url";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./ClerkFrame.module.css";
+import { FrameProps } from "./types";
 
-const ClerkFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
+const ClerkFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
 
   return (
     <div
@@ -36,9 +46,7 @@ const ClerkFrame = () => {
         <img src={clerkPattern} alt="" className={styles.pattern} />
       )}
       <div className={styles.window}>
-        <div className={styles.code}>
-          <Editor />
-        </div>
+        <div className={styles.code}>{children || <Editor />}</div>
       </div>
     </div>
   );

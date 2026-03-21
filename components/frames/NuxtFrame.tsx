@@ -8,11 +8,21 @@ import { themeDarkModeAtom } from "@/store/themes";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./NuxtFrame.module.css";
+import { FrameProps } from "./types";
 
-const NuxtFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
+const NuxtFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
 
   return (
     <div
@@ -36,7 +46,7 @@ const NuxtFrame = () => {
         <span data-frameborder />
         <span data-frameborder />
         <span data-frameborder />
-        <Editor />
+        {children || <Editor />}
       </div>
     </div>
   );

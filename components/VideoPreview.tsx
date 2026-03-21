@@ -31,7 +31,7 @@ export function VideoPreview() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full gap-4">
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <div className="rounded-xl overflow-hidden shadow-2xl" style={{ width: "100%", maxWidth: 960 }}>
         <Player
           component={CodeComposition as unknown as React.ComponentType<Record<string, unknown>>}

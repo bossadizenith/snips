@@ -10,13 +10,25 @@ import { themeDarkModeAtom } from "@/store/themes";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./ElevenLabsFrame.module.css";
+import { FrameProps } from "./types";
 
-const ElevenLabsFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const padding = useAtomValue(paddingAtom);
-  const showBackground = useAtomValue(showBackgroundAtom);
+const ElevenLabsFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+  code: propCode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const atomPadding = useAtomValue(paddingAtom);
+  const atomShowBackground = useAtomValue(showBackgroundAtom);
   const windowWidth = useAtomValue(windowWidthAtom);
-  const code = useAtomValue(codeAtom);
+  const atomCode = useAtomValue(codeAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
+  const code = propCode ?? atomCode;
 
   const windowRef = useRef<HTMLDivElement>(null);
   const [circleDiameter, setCircleDiameter] = useState(0);
@@ -103,9 +115,7 @@ const ElevenLabsFrame = () => {
         <span className={styles.gridlineCornerBottomRight} data-grid></span>
         <span className={styles.gridlineCornerBottomLeft} data-grid></span>
 
-        <div className={styles.editor}>
-          <Editor />
-        </div>
+        <div className={styles.editor}>{children || <Editor />}</div>
       </div>
     </div>
   );

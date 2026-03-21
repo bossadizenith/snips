@@ -8,11 +8,21 @@ import { themeDarkModeAtom } from "@/store/themes";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./SupabaseFrame.module.css";
+import { FrameProps } from "./types";
 
-const SupabaseFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
+const SupabaseFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
 
   return (
     <div
@@ -31,9 +41,7 @@ const SupabaseFrame = () => {
           className={sharedStyles.transparentPattern}
         ></div>
       )}
-      <div className={styles.window}>
-        <Editor />
-      </div>
+      <div className={styles.window}>{children || <Editor />}</div>
     </div>
   );
 };

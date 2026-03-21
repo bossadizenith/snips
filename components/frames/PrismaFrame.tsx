@@ -9,13 +9,25 @@ import { themeDarkModeAtom } from "@/store/themes";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./PrismaFrame.module.css";
+import { FrameProps } from "./types";
 
-const PrismaFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
-  const [fileName, setFileName] = useAtom(fileNameAtom);
+const PrismaFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  fileName: propFileName,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+  const [atomFileName, setFileName] = useAtom(fileNameAtom);
   const flashShown = useAtomValue(flashShownAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
+  const fileName = propFileName ?? atomFileName;
 
   return (
     <div
@@ -73,7 +85,7 @@ const PrismaFrame = () => {
             </div>
           </div>
         )}
-        <Editor />
+        {children || <Editor />}
       </div>
     </div>
   );

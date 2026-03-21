@@ -10,14 +10,26 @@ import useIsSafari from "@/hooks/useIsSafari";
 import Editor from "../Editor";
 import sharedStyles from "./DefaultFrame.module.css";
 import styles from "./GeminiFrame.module.css";
+import { FrameProps } from "./types";
 
-const GeminiFrame = () => {
-  const darkMode = useAtomValue(themeDarkModeAtom);
-  const [padding] = useAtom(paddingAtom);
-  const [showBackground] = useAtom(showBackgroundAtom);
-  const [fileName, setFileName] = useAtom(fileNameAtom);
+const GeminiFrame = ({
+  children,
+  padding: propPadding,
+  showBackground: propShowBackground,
+  fileName: propFileName,
+  darkMode: propDarkMode,
+}: FrameProps) => {
+  const atomDarkMode = useAtomValue(themeDarkModeAtom);
+  const [atomPadding] = useAtom(paddingAtom);
+  const [atomShowBackground] = useAtom(showBackgroundAtom);
+  const [atomFileName, setFileName] = useAtom(fileNameAtom);
   const isSafari = useIsSafari();
   const flashShown = useAtomValue(flashShownAtom);
+
+  const darkMode = propDarkMode ?? atomDarkMode;
+  const padding = propPadding ?? atomPadding;
+  const showBackground = propShowBackground ?? atomShowBackground;
+  const fileName = propFileName ?? atomFileName;
 
   return (
     <div
@@ -76,9 +88,7 @@ const GeminiFrame = () => {
           </div>
         )}
 
-        <div>
-          <Editor />
-        </div>
+        <div>{children || <Editor />}</div>
       </div>
     </div>
   );
