@@ -10,8 +10,8 @@ interface VideoSlideRenderProps extends CodeCompositionProps {
 
 /** Returns true if the theme has a dark variant */
 function getIsDark(theme: Theme, darkMode: boolean): boolean {
-  const hasDark = !!theme.syntax.dark;
-  const hasLight = !!theme.syntax.light;
+  const hasDark = !!theme.syntax?.dark;
+  const hasLight = !!theme.syntax?.light;
   if (hasDark && !hasLight) return true;
   if (hasLight && !hasDark) return false;
   return darkMode;
@@ -39,9 +39,9 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = ({
   const themeBackground = `linear-gradient(140deg, ${bgFrom}, ${bgTo})`;
 
   const syntax =
-    (isDark ? theme.syntax.dark : theme.syntax.light) ??
-    theme.syntax.dark ??
-    theme.syntax.light ??
+    (isDark ? theme.syntax?.dark : theme.syntax?.light) ??
+    theme.syntax?.dark ??
+    theme.syntax?.light ??
     {};
   const syntaxRecord = syntax as Record<string, string>;
   const foreground =

@@ -109,10 +109,12 @@ export async function POST(req: NextRequest) {
         ...config,
         resolve: {
           ...config.resolve,
-          alias: {
-            ...((config.resolve?.alias as Record<string, string>) ?? {}),
-            "@": path.resolve(process.cwd()),
-          },
+            alias: {
+              ...((config.resolve?.alias as Record<string, string>) ?? {}),
+              "@": path.resolve(process.cwd()),
+              "/public": path.resolve(process.cwd(), "public"),
+              "/assets": path.resolve(process.cwd(), "public", "assets"),
+            },
         },
       }),
     });
