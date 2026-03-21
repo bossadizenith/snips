@@ -3,6 +3,8 @@ import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { CodeCompositionProps } from "./types";
 import { Theme } from "@/store/themes";
 import ThemeFrame from "./ThemeFrame";
+import HighlightedCode from "../HighlightedCode";
+import { LANGUAGES } from "@/utils/languages";
 
 interface VideoSlideRenderProps extends CodeCompositionProps {
   slideIndex: number;
@@ -64,81 +66,10 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = ({
         fileName={slide.title || ""}
         code={slide.code}
       >
-        <div style={{ padding: "32px 36px", ...syntaxRecord }}>
-          <pre
-            style={{
-              margin: 0,
-              fontFamily:
-                "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
-              fontSize: 20,
-              lineHeight: 1.6,
-              color: foreground,
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            {(() => {
-              const tokens = slide.tokens
-                ? Array.isArray(slide.tokens)
-                  ? slide.tokens
-                  : (slide.tokens as any).tokens
-                : null;
-
-              if (!tokens || !Array.isArray(tokens)) {
-                return <div style={{ color: foreground }}>{slide.code}</div>;
-              }
-
-              return tokens.map((line: any, i: number) => {
-                const start = i * 1.5;
-                const opacity = interpolate(
-                  frame,
-                  [start, start + 10],
-                  [0, 1],
-                  {
-                    extrapolateLeft: "clamp",
-                    extrapolateRight: "clamp",
-                  },
-                );
-                const translateY = interpolate(
-                  frame,
-                  [start, start + 10],
-                  [10, 0],
-                  {
-                    extrapolateLeft: "clamp",
-                    extrapolateRight: "clamp",
-                  },
-                );
-
-                return (
-                  <div
-                    key={i}
-                    style={{
-                      opacity,
-                      transform: `translateY(${translateY}px)`,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      minHeight: "1.6em",
-                    }}
-                  >
-                    {line.length === 0
-                      ? "\u00A0"
-                      : line.map((token: any, j: number) => (
-                          <span
-                            key={j}
-                            style={{
-                              color: token.color,
-                              fontStyle:
-                                token.fontStyle === 1 ? "italic" : "normal",
-                            }}
-                          >
-                            {token.content}
-                          </span>
-                        ))}
-                  </div>
-                );
-              });
-            })()}
-          </pre>
-        </div>
+        <HighlightedCode
+          selectedLanguage={LANGUAGES.typescript}
+          code={slide.code}
+        />
       </ThemeFrame>
     </AbsoluteFill>
   );

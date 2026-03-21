@@ -57,7 +57,10 @@ export function Code() {
           </NavigationActions>
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
             {highlighter && showVideo ? (
-              <VideoPreview />
+              <NoSSR>
+                <VideoPreview />
+                <Controls />
+              </NoSSR>
             ) : (
               <div className={styles.app}>
                 <NoSSR>
