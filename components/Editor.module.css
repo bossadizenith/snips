@@ -65,12 +65,12 @@
   counter-increment: step 0;
   counter-reset: step;
   font-family: inherit;
-  font-size: 15px;
+  font-size: var(--editor-font-size, 15px);
   font-variant-ligatures: none;
   font-weight: inherit;
   grid-area: 1 / 1 / 2 / 2;
   letter-spacing: 0.1px;
-  line-height: 22.5px;
+  line-height: var(--editor-line-height, 22.5px);
   tab-size: 2;
   transition: padding 0.2s;
   white-space: pre-wrap;
@@ -141,7 +141,10 @@
 
 :global(.shiki-magic-move-item) {
   display: inline-block;
-  transition-delay: calc(var(--smm-delay-move, 0) * var(--smm-duration, 500ms) + var(--smm-stagger, 0ms));
+  transition-delay: calc(
+    var(--smm-delay-move, 0) * var(--smm-duration, 500ms) +
+      var(--smm-stagger, 0ms)
+  );
   transition-duration: var(--smm-duration, 500ms);
   transition-property: transform, opacity, color, background-color;
   transition-timing-function: var(--smm-easing, ease);
@@ -157,11 +160,17 @@
 }
 
 :global(.shiki-magic-move-leave-active) {
-  transition-delay: calc(var(--smm-delay-leave, 0) * var(--smm-duration, 500ms) + var(--smm-stagger, 0ms));
+  transition-delay: calc(
+    var(--smm-delay-leave, 0) * var(--smm-duration, 500ms) +
+      var(--smm-stagger, 0ms)
+  );
 }
 
 :global(.shiki-magic-move-enter-active) {
-  transition-delay: calc(var(--smm-delay-enter, 0) * var(--smm-duration, 500ms) + var(--smm-stagger, 0ms));
+  transition-delay: calc(
+    var(--smm-delay-enter, 0) * var(--smm-duration, 500ms) +
+      var(--smm-stagger, 0ms)
+  );
 }
 
 :global(.shiki-magic-move-leave-from),
@@ -181,7 +190,10 @@
 }
 
 :global(.shiki-magic-move-move) {
-  transition-delay: calc(var(--smm-delay-move, 0) * var(--smm-duration, 500ms) + var(--smm-stagger, 0ms));
+  transition-delay: calc(
+    var(--smm-delay-move, 0) * var(--smm-duration, 500ms) +
+      var(--smm-stagger, 0ms)
+  );
   transition-duration: var(--smm-duration, 500ms);
   transition-property: transform, opacity, color, background-color;
   transition-timing-function: var(--smm-easing, ease);
@@ -190,7 +202,9 @@
 :global(.shiki-magic-move-container-resize),
 :global(.shiki-magic-move-container-restyle) {
   overflow: hidden;
-  transition-delay: calc(var(--smm-delay-container, 0) * var(--smm-duration, 500ms));
+  transition-delay: calc(
+    var(--smm-delay-container, 0) * var(--smm-duration, 500ms)
+  );
   transition-duration: var(--smm-duration, 500ms);
   transition-property: width, height, color, background-color;
   transition-timing-function: var(--smm-easing, ease);
@@ -216,51 +230,71 @@
 }
 
 .jetBrainsMono {
-  font-family: var(--font-jetbrainsmono), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-jetbrainsmono), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 500;
 }
 
 .ibmPlexMono {
-  font-family: var(--font-ibmplexmono), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-ibmplexmono), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 500;
 }
 
 .firaCode {
-  font-family: var(--font-firacode), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-firacode), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }
 
 .geistMono {
-  font-family: var(--font-geist-mono), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-geist-mono), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }
 
 .soehneMono {
-  font-family: var(--font-soehne-mono), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-soehne-mono), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }
 
 .robotoMono {
-  font-family: var(--font-roboto-mono), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-roboto-mono), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }
 
 .commitMono {
-  font-family: var(--font-commitmono), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-commitmono), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }
 
 .spaceMono {
-  font-family: var(--font-space-mono), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-space-mono), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }
 
 .sourceCodePro {
-  font-family: var(--font-source-code-pro), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-source-code-pro), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }
 
 .googleSansCode {
-  font-family: var(--font-google-sans-code), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", monospace;
+  font-family:
+    var(--font-google-sans-code), "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", monospace;
   font-weight: 400;
 }

@@ -50,9 +50,9 @@ const VercelFrame = ({
         <span className={styles.bracketLeft} data-grid></span>
         <span className={styles.bracketRight} data-grid></span>
         {children || (
-          <Editor 
-            code={propCode} 
-            selectedLanguage={propLanguage} 
+          <Editor
+            code={propCode}
+            selectedLanguage={propLanguage}
             theme={theme}
             darkMode={darkMode}
           />

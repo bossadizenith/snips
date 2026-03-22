@@ -1,20 +1,53 @@
 import { Theme, shikiTheme } from "@/store/themes";
 import React, { useEffect } from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame, delayRender, continueRender } from "remotion";
+import {
+  AbsoluteFill,
+  interpolate,
+  useCurrentFrame,
+  delayRender,
+  continueRender,
+} from "remotion";
 import ThemeFrame from "./ThemeFrame";
-import { CodeCompositionProps, Slide } from "./types";
+import { CodeCompositionProps, Slide, Token } from "./types";
 import { Provider, useAtom } from "jotai";
-import { highlighterAtom, slidesAtom } from "@/store";
+import { highlighterAtom } from "@/store";
 import { Language, LANGUAGES } from "@/utils/languages";
 import { getHighlighterCore } from "shiki";
 import getWasm from "shiki/wasm";
 import tailwindLight from "@/public/assets/tailwind/light.json";
 import tailwindDark from "@/public/assets/tailwind/dark.json";
+import classNames from "classnames";
+import styles from "../Editor.module.css";
+import { ShikiMagicMove } from "shiki-magic-move/react";
 import { StaticCode } from "./StaticCode";
 
-interface VideoSlideRenderProps extends CodeCompositionProps {
-  slideIndex: number;
-}
+interface VideoSlideRenderProps extends CodeCompositionProps {}
+
+const SLIDE_DURATION = 90;
+const TRANSITION_FRAMES = 14;
+
+const FONT_CLASS_MAP: Record<string, string> = {
+  "jetbrains-mono": styles.jetBrainsMono,
+  "geist-mono": styles.geistMono,
+  "ibm-plex-mono": styles.ibmPlexMono,
+  "fira-code": styles.firaCode,
+  "soehne-mono": styles.soehneMono,
+  "roboto-mono": styles.robotoMono,
+  "commit-mono": styles.commitMono,
+  "space-mono": styles.spaceMono,
+  "source-code-pro": styles.sourceCodePro,
+  "google-sans-code": styles.googleSansCode,
+};
+
+const MAGIC_MOVE_OPTIONS = {
+  duration: 500,
+  stagger: 0,
+  lineNumbers: false,
+  delayContainer: 0,
+  delayEnter: 0,
+  delayLeave: 0,
+  delayMove: 0,
+} as const;
 
 /** Returns true if the theme has a dark variant */
 function getIsDark(theme: Theme, darkMode: boolean): boolean {
@@ -25,13 +58,12 @@ function getIsDark(theme: Theme, darkMode: boolean): boolean {
   return darkMode;
 }
 
-
-const HighlighterLoader = ({ 
+const HighlighterLoader = ({
   children,
-  language
-}: { 
-  children: React.ReactNode,
-  language: Language | null
+  language,
+}: {
+  children: React.ReactNode;
+  language: Language | null;
 }) => {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
   const [handle] = React.useState(() => delayRender("Loading highlighter"));
@@ -56,9 +88,18 @@ const HighlighterLoader = ({
           currentHighlighter = h as any;
         }
 
-        if (language && currentHighlighter) {
+        if (
+          language &&
+          currentHighlighter &&
+          language !== LANGUAGES.plaintext
+        ) {
           const loadedLangs = currentHighlighter.getLoadedLanguages();
-          if (!loadedLangs.includes(language.name)) {
+          const languageName =
+            language.name.toLowerCase() === "typescript"
+              ? "tsx"
+              : language.name.toLowerCase();
+
+          if (!loadedLangs.includes(languageName)) {
             await currentHighlighter.loadLanguage(language.src());
           }
         }
@@ -82,9 +123,18 @@ const HighlighterLoader = ({
  * Uses tokens if provided (highly recommended for performance and stability)
  */
 export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
-  const { slides, slideIndex, theme, darkMode, padding, language, windowWidth } = props;
+  const { slides, theme, darkMode, padding, language } = props;
+  const [highlighter] = useAtom(highlighterAtom);
   const frame = useCurrentFrame();
+  const slideIndex = Math.min(
+    Math.floor(frame / SLIDE_DURATION),
+    Math.max(slides.length - 1, 0),
+  );
   const slide = slides[slideIndex] as Slide;
+  const localFrame = frame - slideIndex * SLIDE_DURATION;
+  const previousSlide = slides[Math.max(0, slideIndex - 1)] as
+    | Slide
+    | undefined;
 
   if (!slide || !theme) return null;
 
@@ -99,58 +149,173 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
     extrapolateRight: "clamp",
   });
 
+  const transitionProgress = interpolate(
+    localFrame,
+    [0, TRANSITION_FRAMES],
+    [0, 1],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+    },
+  );
+
+  const themeName =
+    theme.id === "tailwind"
+      ? isDark
+        ? "tailwind-dark"
+        : "tailwind-light"
+      : "css-variables";
+
+  let languageName = language?.name?.toLowerCase() ?? "plaintext";
+  if (languageName === "typescript") {
+    languageName = "tsx";
+  }
+
+  const usePlainText =
+    !highlighter ||
+    !language ||
+    language === LANGUAGES.plaintext ||
+    languageName === "plaintext";
+
+  const themeSyntax =
+    (isDark ? theme.syntax?.dark : theme.syntax?.light) ||
+    theme.syntax?.light ||
+    theme.syntax?.dark ||
+    {};
+  const themeFont = theme.font || "jetbrains-mono";
+  const fontClass = FONT_CLASS_MAP[themeFont] || styles.jetBrainsMono;
+  const showLineNumbers = !!theme.lineNumbers;
+
+  const renderCodeBlock = (
+    currentSlide: Slide,
+    options?: { forceStatic?: boolean },
+  ) => {
+    const code = currentSlide.code || "";
+    const staticTokens = currentSlide.tokens as Token[][] | undefined;
+    const shouldUseStatic = !!options?.forceStatic && !!staticTokens;
+
+    return (
+      <div
+        className={classNames(
+          styles.editor,
+          fontClass,
+          showLineNumbers && styles.showLineNumbers,
+          showLineNumbers &&
+            code.split("\n").length > 8 &&
+            styles.showLineNumbersLarge,
+        )}
+        style={
+          {
+            "--editor-padding": "16px",
+            "--editor-font-size": "32px",
+            "--editor-line-height": "27px",
+            ...themeSyntax,
+          } as React.CSSProperties
+        }
+        data-value={code}
+      >
+        {usePlainText ? (
+          <div className={classNames(styles.formatted, styles.plainText)}>
+            <pre>{code}</pre>
+          </div>
+        ) : shouldUseStatic ? (
+          <StaticCode tokens={staticTokens as Token[][]} />
+        ) : (
+          <div className={styles.formatted}>
+            <ShikiMagicMove
+              highlighter={highlighter}
+              lang={languageName}
+              theme={themeName}
+              code={code}
+              options={MAGIC_MOVE_OPTIONS}
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderThemeFrame = (
+    currentSlide: Slide,
+    options?: { forceStatic?: boolean },
+  ) => (
+    <ThemeFrame
+      theme={theme}
+      darkMode={isDark}
+      padding={padding || 64}
+      showBackground={true}
+      themeBackground={themeBackground}
+      fileName={currentSlide.title || ""}
+      code={currentSlide.code}
+      language={language}
+    >
+      {renderCodeBlock(currentSlide, options)}
+    </ThemeFrame>
+  );
+
   const renderContent = () => {
-    if (slide.tokens) {
+    const hasTokenizedTransitionData =
+      !!slide.tokens &&
+      !!previousSlide?.tokens &&
+      previousSlide.id !== slide.id;
+
+    if (hasTokenizedTransitionData) {
       return (
-        <ThemeFrame
-          theme={theme}
-          darkMode={isDark}
-          padding={padding || 64}
-          showBackground={true}
-          themeBackground={themeBackground}
-          fileName={slide.title || ""}
-          code={slide.code}
-          language={language}
-        >
-          <StaticCode tokens={slide.tokens as any} />
-        </ThemeFrame>
+        <div style={{ position: "relative", width: "100%", height: "100%" }}>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 1 - transitionProgress,
+              transform: `translateY(${Math.round(-8 * transitionProgress)}px)`,
+            }}
+          >
+            {renderThemeFrame(previousSlide, { forceStatic: true })}
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: transitionProgress,
+              transform: `translateY(${Math.round(8 * (1 - transitionProgress))}px)`,
+            }}
+          >
+            {renderThemeFrame(slide, { forceStatic: true })}
+          </div>
+        </div>
       );
     }
 
     return (
       <HighlighterLoader language={language}>
-        <ThemeFrame
-          theme={theme}
-          darkMode={isDark}
-          padding={padding || 64}
-          showBackground={true}
-          themeBackground={themeBackground}
-          fileName={slide.title || ""}
-          code={slide.code}
-          language={language}
-        />
+        {renderThemeFrame(slide)}
       </HighlighterLoader>
     );
   };
 
   return (
     <Provider>
-      <AbsoluteFill style={{ 
-        opacity: slideOpacity,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "transparent",
-      }}>
-        <div style={{ 
-          width: windowWidth || 950, 
-          maxWidth: "95%",
-          transform: "scale(1.25)",
-          transformOrigin: "center center",
-          boxShadow: "0 50px 100px -20px rgba(0,0,0,0.5)",
-          borderRadius: "16px",
-          overflow: "hidden"
-        }}>
+      <AbsoluteFill
+        style={{
+          opacity: slideOpacity,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "transparent",
+        }}
+      >
+        <div
+          style={{
+            transform: "scale(1.25)",
+            transformOrigin: "center center",
+            boxShadow: "0 50px 100px -20px rgba(0,0,0,0.5)",
+            padding: 20,
+            height: "100%",
+            width: "100%",
+            borderRadius: "16px",
+            overflow: "hidden",
+          }}
+        >
           {renderContent()}
         </div>
       </AbsoluteFill>
