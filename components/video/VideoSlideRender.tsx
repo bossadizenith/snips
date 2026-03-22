@@ -8,7 +8,7 @@ import {
   continueRender,
 } from "remotion";
 import ThemeFrame from "./ThemeFrame";
-import { CodeCompositionProps, Slide, Token } from "./types";
+import { CodeCompositionProps, Slide } from "./types";
 import { Provider, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { animateSlideTransitionAtom, highlighterAtom } from "@/store";
 import { Language, LANGUAGES } from "@/utils/languages";
@@ -19,12 +19,10 @@ import tailwindDark from "@/public/assets/tailwind/dark.json";
 import classNames from "classnames";
 import styles from "../Editor.module.css";
 import { ShikiMagicMove } from "shiki-magic-move/react";
-import { StaticCode } from "./StaticCode";
 
 interface VideoSlideRenderProps extends CodeCompositionProps {}
 
 const SLIDE_DURATION = 90;
-const TRANSITION_FRAMES = 14;
 
 const FONT_CLASS_MAP: Record<string, string> = {
   "jetbrains-mono": styles.jetBrainsMono,
@@ -133,10 +131,6 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
     Math.max(slides.length - 1, 0),
   );
   const slide = slides[slideIndex] as Slide;
-  const localFrame = frame - slideIndex * SLIDE_DURATION;
-  const previousSlide = slides[Math.max(0, slideIndex - 1)] as
-    | Slide
-    | undefined;
   const [prevCode, setPrevCode] = React.useState(slide?.code || "");
 
   useEffect(() => {
@@ -158,16 +152,6 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
-
-  const transitionProgress = interpolate(
-    localFrame,
-    [0, TRANSITION_FRAMES],
-    [0, 1],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    },
-  );
 
   const themeName =
     theme.id === "tailwind"
@@ -196,18 +180,13 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
   const fontClass = FONT_CLASS_MAP[themeFont] || styles.jetBrainsMono;
   const showLineNumbers = !!theme.lineNumbers;
 
-  const renderCodeBlock = (
-    currentSlide: Slide,
-    options?: { forceStatic?: boolean },
-  ) => {
+  const renderCodeBlock = (currentSlide: Slide) => {
     const code = currentSlide.code || "";
     const sizingCode =
       animateSlideTransition &&
       code.split("\n").length < prevCode.split("\n").length
         ? prevCode
         : code;
-    const staticTokens = currentSlide.tokens as Token[][] | undefined;
-    const shouldUseStatic = !!options?.forceStatic && !!staticTokens;
 
     return (
       <div
@@ -233,8 +212,6 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
           <div className={classNames(styles.formatted, styles.plainText)}>
             <pre>{code}</pre>
           </div>
-        ) : shouldUseStatic ? (
-          <StaticCode tokens={staticTokens as Token[][]} />
         ) : (
           <div className={styles.formatted}>
             <ShikiMagicMove
@@ -254,10 +231,7 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
     );
   };
 
-  const renderThemeFrame = (
-    currentSlide: Slide,
-    options?: { forceStatic?: boolean },
-  ) => (
+  const renderThemeFrame = (currentSlide: Slide) => (
     <ThemeFrame
       theme={theme}
       darkMode={isDark}
@@ -268,43 +242,11 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
       code={currentSlide.code}
       language={language}
     >
-      {renderCodeBlock(currentSlide, options)}
+      {renderCodeBlock(currentSlide)}
     </ThemeFrame>
   );
 
   const renderContent = () => {
-    const hasTokenizedTransitionData =
-      !!slide.tokens &&
-      !!previousSlide?.tokens &&
-      previousSlide.id !== slide.id;
-
-    if (hasTokenizedTransitionData) {
-      return (
-        <div style={{ position: "relative", width: "100%", height: "100%" }}>
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: 1 - transitionProgress,
-              transform: `translateY(${Math.round(-8 * transitionProgress)}px)`,
-            }}
-          >
-            {renderThemeFrame(previousSlide, { forceStatic: true })}
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: transitionProgress,
-              transform: `translateY(${Math.round(8 * (1 - transitionProgress))}px)`,
-            }}
-          >
-            {renderThemeFrame(slide, { forceStatic: true })}
-          </div>
-        </div>
-      );
-    }
-
     return (
       <HighlighterLoader language={language}>
         {renderThemeFrame(slide)}
