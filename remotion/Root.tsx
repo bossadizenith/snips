@@ -24,6 +24,7 @@ const defaultProps: CodeCompositionProps = {
   darkMode: true,
   language: null,
   padding: 64,
+  windowWidth: null,
 };
 
 export const RemotionRoot: React.FC = () => {

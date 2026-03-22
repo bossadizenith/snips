@@ -24,6 +24,7 @@ interface RenderRequestBody {
   darkMode: boolean;
   language: { name: string; src?: unknown } | null;
   padding: number;
+  windowWidth: number | null;
 }
 
 export async function POST(req: NextRequest) {
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { slides, theme, darkMode, language, padding } = body;
+  const { slides, theme, darkMode, language, padding, windowWidth } = body;
 
   if (!slides || !Array.isArray(slides) || slides.length === 0) {
     return NextResponse.json({ error: "slides array is required" }, { status: 400 });
@@ -127,6 +128,7 @@ export async function POST(req: NextRequest) {
       darkMode,
       language,
       padding,
+      windowWidth,
     };
 
     // 3. Select the composition with dynamic duration based on slide count
