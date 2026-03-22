@@ -63,8 +63,9 @@ const resolveLanguageLoader = (language: Language | null): Language | null => {
 
   const targetName = language.name.toLowerCase();
   return (
-    Object.values(LANGUAGES).find((entry) => entry.name.toLowerCase() === targetName) ??
-    null
+    Object.values(LANGUAGES).find(
+      (entry) => entry.name.toLowerCase() === targetName,
+    ) ?? null
   );
 };
 
