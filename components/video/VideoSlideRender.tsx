@@ -203,17 +203,22 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
             "--editor-padding": "30px",
             "--editor-font-size": "32px",
             "--editor-line-height": "50px",
-            ...themeSyntax,
           } as React.CSSProperties
         }
         data-value={sizingCode}
       >
         {usePlainText ? (
-          <div className={classNames(styles.formatted, styles.plainText)}>
+          <div
+            className={classNames(styles.formatted, styles.plainText)}
+            style={themeSyntax as React.CSSProperties}
+          >
             <pre>{code}</pre>
           </div>
         ) : (
-          <div className={styles.formatted}>
+          <div
+            className={styles.formatted}
+            style={themeSyntax as React.CSSProperties}
+          >
             <ShikiMagicMove
               highlighter={highlighter}
               lang={languageName}
