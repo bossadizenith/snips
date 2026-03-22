@@ -9,7 +9,7 @@ import {
 } from "remotion";
 import ThemeFrame from "./ThemeFrame";
 import { CodeCompositionProps, Slide } from "./types";
-import { Provider, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { animateSlideTransitionAtom, highlighterAtom } from "@/store";
 import { Language, LANGUAGES } from "@/utils/languages";
 import { getHighlighterCore } from "shiki";
@@ -19,6 +19,7 @@ import tailwindDark from "@/public/assets/tailwind/dark.json";
 import classNames from "classnames";
 import styles from "../Editor.module.css";
 import { ShikiMagicMove } from "shiki-magic-move/react";
+import { StaticCode } from "./StaticCode";
 
 interface VideoSlideRenderProps extends CodeCompositionProps {}
 
@@ -46,6 +47,26 @@ const MAGIC_MOVE_OPTIONS = {
   delayLeave: 0,
   delayMove: 0,
 } as const;
+
+const isPlainTextLanguage = (language: Language | null): boolean => {
+  if (!language?.name) {
+    return true;
+  }
+
+  return language.name.toLowerCase() === LANGUAGES.plaintext.name.toLowerCase();
+};
+
+const resolveLanguageLoader = (language: Language | null): Language | null => {
+  if (!language?.name) {
+    return null;
+  }
+
+  const targetName = language.name.toLowerCase();
+  return (
+    Object.values(LANGUAGES).find((entry) => entry.name.toLowerCase() === targetName) ??
+    null
+  );
+};
 
 /** Returns true if the theme has a dark variant */
 function getIsDark(theme: Theme, darkMode: boolean): boolean {
@@ -86,11 +107,7 @@ const HighlighterLoader = ({
           currentHighlighter = h as any;
         }
 
-        if (
-          language &&
-          currentHighlighter &&
-          language !== LANGUAGES.plaintext
-        ) {
+        if (language && currentHighlighter && !isPlainTextLanguage(language)) {
           const loadedLangs = currentHighlighter.getLoadedLanguages();
           const languageName =
             language.name.toLowerCase() === "typescript"
@@ -98,12 +115,17 @@ const HighlighterLoader = ({
               : language.name.toLowerCase();
 
           if (!loadedLangs.includes(languageName)) {
-            await currentHighlighter.loadLanguage(language.src());
+            const languageLoader = resolveLanguageLoader(language);
+            if (languageLoader?.src) {
+              await currentHighlighter.loadLanguage(await languageLoader.src());
+            }
           }
         }
         setInitialized(true);
       } catch (err) {
         console.error("Failed to load highlighter or language:", err);
+        // Render plain text fallback instead of showing a blank editor.
+        setInitialized(true);
       } finally {
         continueRender(handle);
       }
@@ -168,7 +190,7 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
   const usePlainText =
     !highlighter ||
     !language ||
-    language === LANGUAGES.plaintext ||
+    isPlainTextLanguage(language) ||
     languageName === "plaintext";
 
   const themeSyntax =
@@ -212,7 +234,11 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
             className={classNames(styles.formatted, styles.plainText)}
             style={themeSyntax as React.CSSProperties}
           >
-            <pre>{code}</pre>
+            {Array.isArray(currentSlide.tokens) ? (
+              <StaticCode tokens={currentSlide.tokens} />
+            ) : (
+              <pre>{code}</pre>
+            )}
           </div>
         ) : (
           <div
@@ -260,28 +286,26 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
   };
 
   return (
-    <Provider>
-      <AbsoluteFill
+    <AbsoluteFill
+      style={{
+        opacity: slideOpacity,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "transparent",
+      }}
+    >
+      <div
         style={{
-          opacity: slideOpacity,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "transparent",
+          padding: 20,
+          height: "100%",
+          width: "100%",
+          borderRadius: "16px",
+          overflow: "hidden",
         }}
       >
-        <div
-          style={{
-            padding: 20,
-            height: "100%",
-            width: "100%",
-            borderRadius: "16px",
-            overflow: "hidden",
-          }}
-        >
-          {renderContent()}
-        </div>
-      </AbsoluteFill>
-    </Provider>
+        {renderContent()}
+      </div>
+    </AbsoluteFill>
   );
 };
