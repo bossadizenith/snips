@@ -9,8 +9,8 @@ import {
 } from "remotion";
 import ThemeFrame from "./ThemeFrame";
 import { CodeCompositionProps, Slide, Token } from "./types";
-import { Provider, useAtom } from "jotai";
-import { highlighterAtom } from "@/store";
+import { Provider, useAtom, useAtomValue, useSetAtom } from "jotai";
+import { animateSlideTransitionAtom, highlighterAtom } from "@/store";
 import { Language, LANGUAGES } from "@/utils/languages";
 import { getHighlighterCore } from "shiki";
 import getWasm from "shiki/wasm";
@@ -40,7 +40,7 @@ const FONT_CLASS_MAP: Record<string, string> = {
 };
 
 const MAGIC_MOVE_OPTIONS = {
-  duration: 500,
+  duration: 1000,
   stagger: 0,
   lineNumbers: false,
   delayContainer: 0,
@@ -125,6 +125,8 @@ const HighlighterLoader = ({
 export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
   const { slides, theme, darkMode, padding, language } = props;
   const [highlighter] = useAtom(highlighterAtom);
+  const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
+  const setAnimateSlideTransition = useSetAtom(animateSlideTransitionAtom);
   const frame = useCurrentFrame();
   const slideIndex = Math.min(
     Math.floor(frame / SLIDE_DURATION),
@@ -135,6 +137,14 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
   const previousSlide = slides[Math.max(0, slideIndex - 1)] as
     | Slide
     | undefined;
+  const [prevCode, setPrevCode] = React.useState(slide?.code || "");
+
+  useEffect(() => {
+    if (animateSlideTransition) {
+      return;
+    }
+    setPrevCode(slide?.code || "");
+  }, [slide?.code, animateSlideTransition]);
 
   if (!slide || !theme) return null;
 
@@ -191,6 +201,11 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
     options?: { forceStatic?: boolean },
   ) => {
     const code = currentSlide.code || "";
+    const sizingCode =
+      animateSlideTransition &&
+      code.split("\n").length < prevCode.split("\n").length
+        ? prevCode
+        : code;
     const staticTokens = currentSlide.tokens as Token[][] | undefined;
     const shouldUseStatic = !!options?.forceStatic && !!staticTokens;
 
@@ -212,7 +227,7 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
             ...themeSyntax,
           } as React.CSSProperties
         }
-        data-value={code}
+        data-value={sizingCode}
       >
         {usePlainText ? (
           <div className={classNames(styles.formatted, styles.plainText)}>
@@ -228,6 +243,10 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
               theme={themeName}
               code={code}
               options={MAGIC_MOVE_OPTIONS}
+              onEnd={() => {
+                setAnimateSlideTransition(false);
+                setPrevCode(code);
+              }}
             />
           </div>
         )}

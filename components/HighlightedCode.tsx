@@ -30,11 +30,11 @@ const MAGIC_MOVE_OPTIONS = {
   delayMove: 0.1,
 } as const;
 
-const HighlightedCode: React.FC<PropTypes> = ({ 
-  selectedLanguage, 
+const HighlightedCode: React.FC<PropTypes> = ({
+  selectedLanguage,
   code,
   theme: propTheme,
-  darkMode: propDarkMode 
+  darkMode: propDarkMode,
 }) => {
   const [isLanguageReady, setIsLanguageReady] = useState(false);
   const [prevCode, setPrevCode] = useState(code);
