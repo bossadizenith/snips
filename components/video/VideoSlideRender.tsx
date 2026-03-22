@@ -206,9 +206,9 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
         )}
         style={
           {
-            "--editor-padding": "16px",
+            "--editor-padding": "30px",
             "--editor-font-size": "32px",
-            "--editor-line-height": "27px",
+            "--editor-line-height": "50px",
             ...themeSyntax,
           } as React.CSSProperties
         }
@@ -306,9 +306,6 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
       >
         <div
           style={{
-            transform: "scale(1.25)",
-            transformOrigin: "center center",
-            boxShadow: "0 50px 100px -20px rgba(0,0,0,0.5)",
             padding: 20,
             height: "100%",
             width: "100%",
