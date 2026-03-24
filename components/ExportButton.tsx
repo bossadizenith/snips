@@ -12,7 +12,12 @@ import {
 
 import { FrameContext } from "@/store/FrameContextStore";
 import { derivedFlashMessageAtom, flashShownAtom } from "@/store/flash";
-import { fileNameAtom, slidesAtom, showVideoPreviewAtom, windowWidthAtom } from "@/store";
+import {
+  fileNameAtom,
+  slidesAtom,
+  showVideoPreviewAtom,
+  windowWidthAtom,
+} from "@/store";
 import download from "@/utils/download";
 import { toPng, toSvg, toBlob } from "@/lib/image";
 
@@ -121,7 +126,6 @@ const ExportButton: React.FC = () => {
   };
 
   const saveVideo = async () => {
-    console.log("username");
     if (isRenderingVideo) return;
     setIsRenderingVideo(true);
     setFlashMessage({
@@ -130,18 +134,41 @@ const ExportButton: React.FC = () => {
     });
 
     try {
-      const response = await fetch("/api/render-video", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slides, theme, darkMode, language, padding, windowWidth }),
-      });
+      const { VideoExporter } = await import("@/lib/video/exporter");
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Server error ${response.status}`);
-      }
+      // Calculate total frames
+      const SLIDE_DURATION = 90;
+      const totalFrames = SLIDE_DURATION * Math.max(slides.length, 1);
 
-      const blob = await response.blob();
+      const exporter = new VideoExporter(
+        {
+          fps: 60,
+          duration: totalFrames / 60,
+          width: 1920,
+          height: 1080,
+          totalFrames,
+          quality: "high",
+          onProgress: (progress) => {
+            const percent = progress.percentComplete;
+            const stage =
+              progress.stage === "rendering" ? "Rendering" : "Encoding";
+            setFlashMessage({
+              icon: <VideoIcon />,
+              message: `${stage} frames… ${percent}%`,
+            });
+          },
+        },
+        {
+          slides: slides as any,
+          theme,
+          darkMode,
+          language,
+          padding,
+          windowWidth: windowWidth || undefined,
+        },
+      );
+
+      const blob = await exporter.exportAuto();
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -155,7 +182,7 @@ const ExportButton: React.FC = () => {
         timeout: 2000,
       });
     } catch (err) {
-      console.error("[ExportButton] Video render failed:", err);
+      console.error("[ExportButton] Video export failed:", err);
       setFlashMessage({
         icon: <VideoIcon />,
         message: `Export failed: ${String(err)}`,
@@ -266,7 +293,7 @@ const ExportButton: React.FC = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="end">
           <DropdownMenuItem onClick={dropdownHandler(savePng)}>
-            <ImageIcon /> Save PNG{"\ "}
+            <ImageIcon /> Save PNG{" "}
             <Kbds>
               <Kbd>⌘</Kbd>
               <Kbd>S</Kbd>
