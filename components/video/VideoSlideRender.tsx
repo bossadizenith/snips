@@ -25,17 +25,51 @@ interface VideoSlideRenderProps extends CodeCompositionProps {}
 
 const SLIDE_DURATION = 90;
 
-const FONT_CLASS_MAP: Record<string, string> = {
-  "jetbrains-mono": styles.jetBrainsMono,
-  "geist-mono": styles.geistMono,
-  "ibm-plex-mono": styles.ibmPlexMono,
-  "fira-code": styles.firaCode,
-  "soehne-mono": styles.soehneMono,
-  "roboto-mono": styles.robotoMono,
-  "commit-mono": styles.commitMono,
-  "space-mono": styles.spaceMono,
-  "source-code-pro": styles.sourceCodePro,
-  "google-sans-code": styles.googleSansCode,
+const FALLBACK_MONO_STACK =
+  '"SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+
+const VIDEO_FONT_STYLE_MAP: Record<string, React.CSSProperties> = {
+  "jetbrains-mono": {
+    fontFamily: `"JetBrains Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 500,
+  },
+  "geist-mono": {
+    fontFamily: `"Geist Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
+  "ibm-plex-mono": {
+    fontFamily: `"IBM Plex Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 500,
+  },
+  "fira-code": {
+    fontFamily: `"Fira Code", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
+  // These custom fonts are often unavailable in headless render environments.
+  "soehne-mono": {
+    fontFamily: `"Geist Mono", "SF Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
+  "roboto-mono": {
+    fontFamily: `"Roboto Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
+  "commit-mono": {
+    fontFamily: `"JetBrains Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
+  "space-mono": {
+    fontFamily: `"Space Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
+  "source-code-pro": {
+    fontFamily: `"Source Code Pro", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
+  "google-sans-code": {
+    fontFamily: `"Roboto Mono", ${FALLBACK_MONO_STACK}`,
+    fontWeight: 400,
+  },
 };
 
 const MAGIC_MOVE_OPTIONS = {
@@ -200,7 +234,8 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
     theme.syntax?.dark ||
     {};
   const themeFont = theme.font || "jetbrains-mono";
-  const fontClass = FONT_CLASS_MAP[themeFont] || styles.jetBrainsMono;
+  const videoFontStyle =
+    VIDEO_FONT_STYLE_MAP[themeFont] || VIDEO_FONT_STYLE_MAP["jetbrains-mono"];
   const showLineNumbers = !!theme.lineNumbers;
 
   const renderCodeBlock = (currentSlide: Slide) => {
@@ -215,7 +250,6 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
       <div
         className={classNames(
           styles.editor,
-          fontClass,
           showLineNumbers && styles.showLineNumbers,
           showLineNumbers &&
             code.split("\n").length > 8 &&
@@ -226,6 +260,7 @@ export const VideoSlideRender: React.FC<VideoSlideRenderProps> = (props) => {
             "--editor-padding": "30px",
             "--editor-font-size": "32px",
             "--editor-line-height": "50px",
+            ...videoFontStyle,
           } as React.CSSProperties
         }
         data-value={sizingCode}
