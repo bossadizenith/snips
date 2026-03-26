@@ -133,65 +133,65 @@ const ExportButton: React.FC = () => {
       message: "Rendering video… this may take a minute",
     });
 
-    try {
-      const { VideoExporter } = await import("@/lib/video/exporter");
+    // try {
+    //   const { VideoExporter } = await import("@/lib/video/exporter");
 
-      // Calculate total frames
-      const SLIDE_DURATION = 90;
-      const totalFrames = SLIDE_DURATION * Math.max(slides.length, 1);
+    //   // Calculate total frames
+    //   const SLIDE_DURATION = 90;
+    //   const totalFrames = SLIDE_DURATION * Math.max(slides.length, 1);
 
-      const exporter = new VideoExporter(
-        {
-          fps: 60,
-          duration: totalFrames / 60,
-          width: 1920,
-          height: 1080,
-          totalFrames,
-          quality: "high",
-          onProgress: (progress) => {
-            const percent = progress.percentComplete;
-            const stage =
-              progress.stage === "rendering" ? "Rendering" : "Encoding";
-            setFlashMessage({
-              icon: <VideoIcon />,
-              message: `${stage} frames… ${percent}%`,
-            });
-          },
-        },
-        {
-          slides: slides as any,
-          theme,
-          darkMode,
-          language,
-          padding,
-          windowWidth: windowWidth || undefined,
-        },
-      );
+    //   const exporter = new VideoExporter(
+    //     {
+    //       fps: 60,
+    //       duration: totalFrames / 60,
+    //       width: 1920,
+    //       height: 1080,
+    //       totalFrames,
+    //       quality: "high",
+    //       onProgress: (progress) => {
+    //         const percent = progress.percentComplete;
+    //         const stage =
+    //           progress.stage === "rendering" ? "Rendering" : "Encoding";
+    //         setFlashMessage({
+    //           icon: <VideoIcon />,
+    //           message: `${stage} frames… ${percent}%`,
+    //         });
+    //       },
+    //     },
+    //     {
+    //       slides: slides as any,
+    //       theme,
+    //       darkMode,
+    //       language,
+    //       padding,
+    //       windowWidth: windowWidth || undefined,
+    //     },
+    //   );
 
-      const blob = await exporter.exportAuto();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${fileName}.mp4`;
-      a.click();
-      URL.revokeObjectURL(url);
+    //   const blob = await exporter.exportAuto();
+    //   const url = URL.createObjectURL(blob);
+    //   const a = document.createElement("a");
+    //   a.href = url;
+    //   a.download = `${fileName}.mp4`;
+    //   a.click();
+    //   URL.revokeObjectURL(url);
 
-      setFlashMessage({
-        icon: <VideoIcon />,
-        message: "Video exported!",
-        timeout: 2000,
-      });
-    } catch (err) {
-      console.error("[ExportButton] Video export failed:", err);
-      setFlashMessage({
-        icon: <VideoIcon />,
-        message: `Export failed: ${String(err)}`,
-        timeout: 4000,
-      });
-    } finally {
-      setIsRenderingVideo(false);
-      setFlashShown(false);
-    }
+    //   setFlashMessage({
+    //     icon: <VideoIcon />,
+    //     message: "Video exported!",
+    //     timeout: 2000,
+    //   });
+    // } catch (err) {
+    //   console.error("[ExportButton] Video export failed:", err);
+    //   setFlashMessage({
+    //     icon: <VideoIcon />,
+    //     message: `Export failed: ${String(err)}`,
+    //     timeout: 4000,
+    //   });
+    // } finally {
+    //   setIsRenderingVideo(false);
+    //   setFlashShown(false);
+    // }
   };
 
   const dropdownHandler = (handler: () => void) => {
