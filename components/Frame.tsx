@@ -85,12 +85,10 @@ const Frame = ({ resize = true }: { resize?: boolean }) => {
       className={styles.frameContainer}
       data-theme={darkMode ? "dark" : "light"}
     >
-      {/* <ResizableFrame> */}
       <FlashMessage />
       <div className={styles.outerFrame} ref={frameContext} id="frame">
         {renderFrame()}
       </div>
-      {/* </ResizableFrame> */}
     </div>
   );
 };
