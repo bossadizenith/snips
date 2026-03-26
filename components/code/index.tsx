@@ -1,35 +1,31 @@
 "use client";
 
+import { highlighterAtom } from "@/store";
+import { useAtom } from "jotai";
 import { useEffect } from "react";
 import getWasm from "shiki/wasm";
-import { highlighterAtom } from "@/store";
-import { useAtom, useAtomValue } from "jotai";
 
 import { shikiTheme } from "@/store/themes";
 
-import Frame from "@/components/Frame";
 import Controls from "@/components/Controls";
+import Frame from "@/components/Frame";
 import FrameContextStore from "@/store/FrameContextStore";
 
-import styles from "./code.module.css";
 import NoSSR from "@/components/NoSSR";
+import styles from "./code.module.css";
 
-import { Highlighter, getHighlighterCore } from "shiki";
 import { LANGUAGES } from "@/utils/languages";
+import { Highlighter, getHighlighterCore } from "shiki";
 
-import tailwindLight from "@/public/assets/tailwind/light.json";
-import tailwindDark from "@/public/assets/tailwind/dark.json";
 import ExportButton from "@/components/ExportButton";
-import { NavigationActions } from "@/components/navigation";
-import { InfoDialog } from "@/components/InfoDialog";
 import FormatButton from "@/components/FormatCodeButton";
+import { NavigationActions } from "@/components/navigation";
 import { Slides } from "@/components/slides";
-import { VideoPreview } from "@/components/VideoPreview";
-import { showVideoPreviewAtom } from "@/store";
+import tailwindDark from "@/public/assets/tailwind/dark.json";
+import tailwindLight from "@/public/assets/tailwind/light.json";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
-  const showVideo = useAtomValue(showVideoPreviewAtom);
 
   useEffect(() => {
     getHighlighterCore({
@@ -51,24 +47,16 @@ export function Code() {
       <FrameContextStore>
         <main className="flex-1 flex flex-col min-w-0 relative">
           <NavigationActions>
-            <InfoDialog />
             <FormatButton />
             <ExportButton />
           </NavigationActions>
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
-            {highlighter && showVideo ? (
+            <div className={styles.app}>
               <NoSSR>
-                <VideoPreview />
+                {highlighter && <Frame />}
                 <Controls />
               </NoSSR>
-            ) : (
-              <div className={styles.app}>
-                <NoSSR>
-                  {highlighter && <Frame />}
-                  <Controls />
-                </NoSSR>
-              </div>
-            )}
+            </div>
           </div>
         </main>
         <Slides />

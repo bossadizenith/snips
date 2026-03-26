@@ -5,7 +5,6 @@ import { THEMES, themeAtom, themeDarkModeAtom } from "@/store/themes";
 import { FrameContext } from "@/store/FrameContextStore";
 
 import FlashMessage from "./FlashMessage";
-import ResizableFrame from "./ResizableFrame";
 import BrowserbaseFrame from "./frames/BrowserbaseFrame";
 import ClerkFrame from "./frames/ClerkFrame";
 import CloudflareFrame from "./frames/CloudflareFrame";
@@ -86,12 +85,12 @@ const Frame = ({ resize = true }: { resize?: boolean }) => {
       className={styles.frameContainer}
       data-theme={darkMode ? "dark" : "light"}
     >
-      <ResizableFrame>
-        <FlashMessage />
-        <div className={styles.outerFrame} ref={frameContext} id="frame">
-          {renderFrame()}
-        </div>
-      </ResizableFrame>
+      {/* <ResizableFrame> */}
+      <FlashMessage />
+      <div className={styles.outerFrame} ref={frameContext} id="frame">
+        {renderFrame()}
+      </div>
+      {/* </ResizableFrame> */}
     </div>
   );
 };

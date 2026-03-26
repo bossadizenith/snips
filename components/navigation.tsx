@@ -15,7 +15,7 @@ export function Navigation() {
     : segments.length > 2;
 
   return (
-    <nav className="flex items-center gap-3 h-12.5 pl-4 pr-5 bg-gray-2 text-white w-full fixed z-10">
+    <nav className="flex items-center gap-3 h-12.5 pl-4 pr-5  text-white w-full fixed z-10">
       <div
         className={cn(
           "flex items-center gap-3 transition-transform ease-in-out",
