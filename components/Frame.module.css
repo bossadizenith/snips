@@ -14,4 +14,5 @@
   height: fit-content;
   width: 50%;
   min-width: 962px;
+  transform: scale(1.5);
 }

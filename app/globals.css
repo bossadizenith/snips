@@ -81,6 +81,11 @@
   --sidebar-ring: oklch(0.556 0 0);
   --sidebar-width: 240px;
   --radius: 0.25rem;
+  --line-number: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] {
+  --line-number: rgba(255, 255, 255, 0.2);
 }
 
 @layer base {

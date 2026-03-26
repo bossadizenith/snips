@@ -11,7 +11,12 @@ import {
   loadingLanguageAtom,
 } from "@/store";
 import { useAtomValue, useSetAtom } from "jotai";
-import { themeDarkModeAtom, themeAtom, Theme } from "@/store/themes";
+import {
+  themeDarkModeAtom,
+  themeAtom,
+  Theme,
+  themeLineNumbersAtom,
+} from "@/store/themes";
 
 type PropTypes = {
   selectedLanguage: Language | null;
@@ -20,10 +25,9 @@ type PropTypes = {
   darkMode?: boolean;
 };
 
-const MAGIC_MOVE_OPTIONS = {
+const BASE_MAGIC_MOVE_OPTIONS = {
   duration: 1000,
   stagger: 0,
-  lineNumbers: false,
   delayContainer: 0,
   delayEnter: 0.1,
   delayLeave: 0.1,
@@ -45,6 +49,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
   const storeTheme = useAtomValue(themeAtom);
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
   const setAnimateSlideTransition = useSetAtom(animateSlideTransitionAtom);
+  const showLineNumbers = useAtomValue(themeLineNumbersAtom);
 
   const theme = propTheme ?? storeTheme;
   const darkMode = propDarkMode ?? storeDarkMode;
@@ -127,6 +132,11 @@ const HighlightedCode: React.FC<PropTypes> = ({
     lang = "tsx";
   }
 
+  const magicMoveOptions = {
+    ...BASE_MAGIC_MOVE_OPTIONS,
+    lineNumbers: showLineNumbers && selectedLanguage !== LANGUAGES.plaintext,
+  };
+
   return (
     <div
       className={classNames(
@@ -139,7 +149,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
         lang={lang}
         theme={themeName}
         code={code}
-        options={MAGIC_MOVE_OPTIONS}
+        options={magicMoveOptions}
         onEnd={() => {
           setAnimateSlideTransition(false);
           setPrevCode(code);
