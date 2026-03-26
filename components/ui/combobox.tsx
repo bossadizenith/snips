@@ -329,8 +329,8 @@ const ComboboxItem = React.forwardRef<
     ref={ref}
     className={cn(
       `h-[29px] gap-2 relative flex w-full cursor-default select-none items-center rounded py-1.5 pl-2 pr-8 text-sm outline-none transition-colors
-      data-[highlighted]:bg-gray-a2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
-      text-gray-10 data-[selected]:bg-gray-a3 data-[highlighted]:data-[selected]:bg-gray-a3 data-[selected]:text-gray-12`,
+      data-[highlighted]:bg-muted/50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+      text-gray-10 data-[selected]:bg-muted data-[highlighted]:data-[selected]:bg-muted data-[selected]:text-muted-foreground`,
       className,
     )}
     {...props}
