@@ -70,7 +70,7 @@
   font-weight: inherit;
   grid-area: 1 / 1 / 2 / 2;
   letter-spacing: 0.1px;
-  line-height: var(--editor-line-height, 27px);
+  line-height: var(--editor-line-height, 30px);
   tab-size: 2;
   transition: padding 0.2s;
   white-space: pre-wrap;
