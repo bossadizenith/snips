@@ -1,9 +1,12 @@
 "use client";
 
-import { highlighterAtom } from "@/store";
+import classNames from "classnames";
+
+import { highlighterAtom, presentationModeAtom } from "@/store";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import getWasm from "shiki/wasm";
+import useHotkeys from "@/hooks/useHotkeys";
 
 import { shikiTheme } from "@/store/themes";
 
@@ -26,6 +29,12 @@ import tailwindLight from "@/public/assets/tailwind/light.json";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
+  const [presentationMode, setPresentationMode] = useAtom(presentationModeAtom);
+
+  useHotkeys("f5", (event) => {
+    event.preventDefault();
+    setPresentationMode((prev) => !prev);
+  });
 
   useEffect(() => {
     getHighlighterCore({
@@ -45,21 +54,28 @@ export function Code() {
   return (
     <div className="flex h-screen w-screen overflow-hidden translate-z-0">
       <FrameContextStore>
-        <main className="flex-1 flex flex-col min-w-0 relative">
-          <NavigationActions>
-            <FormatButton />
-            <ExportButton />
-          </NavigationActions>
+        <main
+          className={classNames(
+            "flex-1 flex flex-col min-w-0 relative",
+            presentationMode && styles.presentationMode,
+          )}
+        >
+          {!presentationMode && (
+            <NavigationActions>
+              <FormatButton />
+              <ExportButton />
+            </NavigationActions>
+          )}
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
             <div className={styles.app}>
               <NoSSR>
                 {highlighter && <Frame />}
-                <Controls />
+                {!presentationMode && <Controls />}
               </NoSSR>
             </div>
           </div>
         </main>
-        <Slides />
+        {!presentationMode && <Slides />}
       </FrameContextStore>
     </div>
   );

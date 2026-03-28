@@ -11,6 +11,12 @@
   isolation: isolate;
 }
 
+.presentationMode {
+  .app {
+    grid-template-rows: 0 1fr 0;
+  }
+}
+
 .footer {
   display: flex;
   height: 200px;

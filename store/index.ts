@@ -41,3 +41,5 @@ export type Slide = {
 export const slidesAtom = atom<Slide[]>([]);
 export const activeSlideIdAtom = atom<string | null>(null);
 export const animateSlideTransitionAtom = atom(false);
+
+export const presentationModeAtom = atom<boolean>(false);
