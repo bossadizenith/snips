@@ -74,3 +74,21 @@ export const updateActiveSlideAtom = atom(null, (get, set, patch: SlidePatch) =>
     }),
   );
 });
+
+export const goToNextSlideAtom = atom(null, (get, set) => {
+  const slides = get(slidesAtom);
+  const activeSlideId = get(activeSlideIdAtom);
+  const currentIndex = slides.findIndex((slide) => slide.id === activeSlideId);
+  if (currentIndex !== -1 && currentIndex < slides.length - 1) {
+    set(selectSlideAtom, slides[currentIndex + 1].id);
+  }
+});
+
+export const goToPrevSlideAtom = atom(null, (get, set) => {
+  const slides = get(slidesAtom);
+  const activeSlideId = get(activeSlideIdAtom);
+  const currentIndex = slides.findIndex((slide) => slide.id === activeSlideId);
+  if (currentIndex > 0) {
+    set(selectSlideAtom, slides[currentIndex - 1].id);
+  }
+});

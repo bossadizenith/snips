@@ -3,7 +3,8 @@
 import classNames from "classnames";
 
 import { highlighterAtom, presentationModeAtom } from "@/store";
-import { useAtom } from "jotai";
+import { goToNextSlideAtom, goToPrevSlideAtom } from "@/store/slide";
+import { useAtom, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import getWasm from "shiki/wasm";
 import useHotkeys from "@/hooks/useHotkeys";
@@ -30,10 +31,24 @@ import tailwindLight from "@/public/assets/tailwind/light.json";
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
   const [presentationMode, setPresentationMode] = useAtom(presentationModeAtom);
+  const goToNextSlide = useSetAtom(goToNextSlideAtom);
+  const goToPrevSlide = useSetAtom(goToPrevSlideAtom);
 
   useHotkeys("f5", (event) => {
     event.preventDefault();
     setPresentationMode((prev) => !prev);
+  });
+
+  useHotkeys("esc", () => {
+    setPresentationMode(false);
+  });
+
+  useHotkeys("right", () => {
+    goToNextSlide();
+  });
+
+  useHotkeys("left", () => {
+    goToPrevSlide();
   });
 
   useEffect(() => {
