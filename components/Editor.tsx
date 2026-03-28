@@ -1,40 +1,36 @@
-import React, {
-  useCallback,
-  KeyboardEventHandler,
-  useRef,
-  ChangeEventHandler,
-  FocusEventHandler,
-  useState,
-  useEffect,
-} from "react";
-import styles from "./Editor.module.css";
-import { useAtom, useSetAtom, useAtomValue } from "jotai";
+import useHotkeys from "@/hooks/useHotkeys";
+import { animateSlideTransitionAtom, highlightedLinesAtom } from "@/store";
 import {
   codeAtom,
   isCodeExampleAtom,
   selectedLanguageAtom,
 } from "@/store/code";
+import { derivedFlashMessageAtom } from "@/store/flash";
 import {
-  activeSlideIdAtom,
-  animateSlideTransitionAtom,
-  slidesAtom,
-} from "@/store";
-import {
-  THEMES,
   Theme,
   themeAtom,
   themeCSSAtom,
   themeDarkModeAtom,
   themeFontAtom,
   themeLineNumbersAtom,
+  THEMES,
   unlockedThemesAtom,
 } from "@/store/themes";
-import useHotkeys from "@/hooks/useHotkeys";
-import HighlightedCode from "./HighlightedCode";
-import classNames from "classnames";
-import { derivedFlashMessageAtom } from "@/store/flash";
-import { highlightedLinesAtom, showLineNumbersAtom } from "@/store";
 import { Language, LANGUAGES } from "@/utils/languages";
+import classNames from "classnames";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import React, {
+  ChangeEventHandler,
+  FocusEventHandler,
+  KeyboardEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import styles from "./Editor.module.css";
+import HighlightedCode from "./HighlightedCode";
+import { RawHighlightedCode } from "./raw-highlight";
 
 function indentText(text: string) {
   return text
@@ -350,11 +346,11 @@ function Editor({
         onFocus={handleFocus}
         data-enable-grammarly="false"
       />
-      <HighlightedCode
+      <RawHighlightedCode
         code={code}
         selectedLanguage={selectedLanguage}
-        theme={theme}
-        darkMode={darkMode}
+        // theme={theme}
+        // darkMode={darkMode}
       />
     </div>
   );

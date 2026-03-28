@@ -65,7 +65,7 @@
   counter-increment: step 0;
   counter-reset: step;
   font-family: inherit;
-  font-size: var(--editor-font-size, 18px);
+  font-size: var(--editor-font-size, 20px);
   font-variant-ligatures: none;
   font-weight: inherit;
   grid-area: 1 / 1 / 2 / 2;
