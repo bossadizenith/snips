@@ -28,7 +28,7 @@ const ClerkFrame = ({
   return (
     <div
       className={classNames(
-        sharedStyles.falseframe,
+        sharedStyles.frame,
         showBackground && styles.frame,
         !darkMode && styles.frameLightMode,
         !showBackground && sharedStyles.noBackground,

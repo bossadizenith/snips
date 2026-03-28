@@ -65,12 +65,12 @@
   counter-increment: step 0;
   counter-reset: step;
   font-family: inherit;
-  font-size: var(--editor-font-size, 15px);
+  font-size: var(--editor-font-size, 18px);
   font-variant-ligatures: none;
   font-weight: inherit;
   grid-area: 1 / 1 / 2 / 2;
   letter-spacing: 0.1px;
-  line-height: var(--editor-line-height, 22.5px);
+  line-height: var(--editor-line-height, 27px);
   tab-size: 2;
   transition: padding 0.2s;
   white-space: pre-wrap;
