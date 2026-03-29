@@ -76,8 +76,8 @@
   white-space: pre-wrap;
 }
 
-.showLineNumbers {
-  --line-number-padding: 3.5rem;
+/* .showLineNumbers {
+  --line-number-padding: 3.5rem;/
   .textarea,
   .formatted,
   .editor:after {
@@ -108,7 +108,7 @@
   &.showLineNumbersLarge {
     --line-number-padding: 3.5rem;
   }
-}
+} */
 
 .textarea {
   z-index: 2;
@@ -138,6 +138,7 @@
   overflow: hidden;
   margin: 0;
   font-family: inherit;
+  line-height: var(--editor-line-height, 30px);
   white-space: pre-wrap;
 }
 
@@ -148,10 +149,13 @@
 :global(.shiki-magic-move-container) {
   position: relative;
   display: block;
+  line-height: var(--editor-line-height, 30px);
 }
 
 :global(.shiki-magic-move-item) {
   display: inline-block;
+  line-height: var(--editor-line-height, 30px);
+  vertical-align: middle;
   transition-delay: calc(
     var(--smm-delay-move, 0) * var(--smm-duration, 500ms) +
       var(--smm-stagger, 0ms)
@@ -212,7 +216,6 @@
 
 :global(.shiki-magic-move-container-resize),
 :global(.shiki-magic-move-container-restyle) {
-  overflow: hidden;
   transition-delay: calc(
     var(--smm-delay-container, 0) * var(--smm-duration, 500ms)
   );

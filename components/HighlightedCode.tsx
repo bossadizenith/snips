@@ -26,12 +26,8 @@ type PropTypes = {
 };
 
 const BASE_MAGIC_MOVE_OPTIONS = {
-  duration: 1000,
-  stagger: 0,
-  delayContainer: 0,
-  delayEnter: 0.1,
-  delayLeave: 0.1,
-  delayMove: 0.1,
+  duration: 2000,
+  // stagger: 0,
 } as const;
 
 const HighlightedCode: React.FC<PropTypes> = ({
@@ -61,10 +57,8 @@ const HighlightedCode: React.FC<PropTypes> = ({
         : "tailwind-light"
       : "css-variables";
 
-  // Track previous code for animation
   React.useEffect(() => {
     if (animateSlideTransition) {
-      // During animation, preserve previous code
       return;
     }
     setPrevCode(code);
@@ -149,6 +143,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
         theme={themeName}
         code={code}
         options={magicMoveOptions}
+        className={styles.magicMove}
         onEnd={() => {
           setAnimateSlideTransition(false);
           setPrevCode(code);
