@@ -83,8 +83,6 @@ const HighlightedCode: React.FC<PropTypes> = ({
         return;
       }
 
-      // Reset readiness immediately when language/highlighter changes so render won't
-      // call Shiki tokenization before the new language is available.
       setIsLanguageReady(false);
 
       const loadedLanguages = highlighter.getLoadedLanguages() || [];
@@ -141,6 +139,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
     <div
       className={classNames(
         styles.formatted,
+        "select-none overflow-hidden",
         highlightedLines.length > 0 && styles.hasHighlightedLines,
       )}
     >

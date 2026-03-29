@@ -1,5 +1,9 @@
 import useHotkeys from "@/hooks/useHotkeys";
-import { animateSlideTransitionAtom, highlightedLinesAtom } from "@/store";
+import {
+  animateSlideTransitionAtom,
+  highlightedLinesAtom,
+  presentationModeAtom,
+} from "@/store";
 import {
   codeAtom,
   isCodeExampleAtom,
@@ -174,6 +178,7 @@ function Editor({
   const [showLineNumbers] = useAtom(themeLineNumbersAtom);
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
   const storeDarkMode = useAtomValue(themeDarkModeAtom);
+  const isPresentationMode = useAtomValue(presentationModeAtom);
 
   const code = propCode ?? storeCode;
   const selectedLanguage = propLanguage ?? storeLanguage;
@@ -198,6 +203,7 @@ function Editor({
 
   useHotkeys("f", (event) => {
     event.preventDefault();
+    if (isPresentationMode) return;
     textareaRef.current?.focus();
   });
 
@@ -331,27 +337,38 @@ function Editor({
       style={{ "--editor-padding": "16px", ...themeCSS } as React.CSSProperties}
       data-value={sizingCode}
     >
-      <textarea
-        rows={1}
-        tabIndex={-1}
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck="false"
-        autoCapitalize="off"
-        ref={textareaRef}
-        className={styles.textarea}
-        value={code}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        onFocus={handleFocus}
-        data-enable-grammarly="false"
-      />
-      <RawHighlightedCode
-        code={code}
-        selectedLanguage={selectedLanguage}
-        // theme={theme}
-        // darkMode={darkMode}
-      />
+      {!isPresentationMode && (
+        <textarea
+          rows={1}
+          tabIndex={-1}
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          autoCapitalize="off"
+          ref={textareaRef}
+          className={styles.textarea}
+          value={code}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
+          data-enable-grammarly="false"
+        />
+      )}
+      {isPresentationMode ? (
+        <HighlightedCode
+          code={code}
+          selectedLanguage={selectedLanguage}
+          theme={theme}
+          darkMode={darkMode}
+        />
+      ) : (
+        <RawHighlightedCode
+          code={code}
+          selectedLanguage={selectedLanguage}
+          // theme={theme}
+          // darkMode={darkMode}
+        />
+      )}
     </div>
   );
 }
