@@ -4,8 +4,8 @@ import BackgroundControl from "./BackgroundControl";
 import styles from "./Controls.module.css";
 import DarkModeControl from "./DarkModeControl";
 import LanguageControl from "./LanguageControl";
-import LineNumberControl from "./LineNumberControl";
-import PaddingControl from "./PaddingControl";
+// import LineNumberControl from "./LineNumberControl";
+// import PaddingControl from "./PaddingControl";
 import ThemeControl from "./ThemeControl";
 
 const Controls: React.FC = () => {
@@ -14,8 +14,8 @@ const Controls: React.FC = () => {
       <ThemeControl />
       <BackgroundControl />
       <DarkModeControl />
-      <LineNumberControl />
-      <PaddingControl />
+      {/* <LineNumberControl /> */}
+      {/* <PaddingControl /> */}
       <LanguageControl />
     </div>
   );

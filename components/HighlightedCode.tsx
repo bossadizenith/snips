@@ -26,8 +26,8 @@ type PropTypes = {
 };
 
 const BASE_MAGIC_MOVE_OPTIONS = {
-  duration: 2000,
-  // stagger: 0,
+  duration: 1000,
+  stagger: 0,
 } as const;
 
 const HighlightedCode: React.FC<PropTypes> = ({
@@ -45,7 +45,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
   const storeTheme = useAtomValue(themeAtom);
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
   const setAnimateSlideTransition = useSetAtom(animateSlideTransitionAtom);
-  const showLineNumbers = useAtomValue(themeLineNumbersAtom);
+  // const showLineNumbers = useAtomValue(themeLineNumbersAtom);
 
   const theme = propTheme ?? storeTheme;
   const darkMode = propDarkMode ?? storeDarkMode;
@@ -126,7 +126,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
 
   const magicMoveOptions = {
     ...BASE_MAGIC_MOVE_OPTIONS,
-    lineNumbers: showLineNumbers && selectedLanguage !== LANGUAGES.plaintext,
+    // lineNumbers: showLineNumbers && selectedLanguage !== LANGUAGES.plaintext,
   };
 
   return (
