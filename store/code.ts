@@ -1,7 +1,5 @@
 import { atom } from "jotai";
-import { Base64 } from "js-base64";
 import hljs from "highlight.js";
-import { atomWithHash } from "jotai-location";
 import { LANGUAGES, Language } from "../utils/languages";
 import { slidesAtom, activeSlideIdAtom, Slide } from ".";
 
@@ -67,30 +65,8 @@ export const autoDetectLanguageAtom = atom<boolean>((get) => {
 });
 
 const detectedLanguageAtom = atom<Language | null>(null);
-export const userInputtedLanguageAtom = atomWithHash<Language | null>(
-  "language",
-  null,
-  {
-    serialize(language) {
-      const key = Object.keys(LANGUAGES).find(
-        (key) => LANGUAGES[key] === language,
-      );
 
-      if (key) {
-        return key;
-      } else {
-        return "";
-      }
-    },
-    deserialize(key) {
-      if (key && LANGUAGES[key]) {
-        return LANGUAGES[key];
-      } else {
-        return null;
-      }
-    },
-  },
-);
+export const userInputtedLanguageAtom = atom<Language | null>(null);
 
 export const selectedLanguageAtom = atom(
   (get) => {
@@ -119,45 +95,12 @@ export const isCodeExampleAtom = atom<boolean>(
     !!CODE_SAMPLES.find((codeSample) => codeSample.code === get(codeAtom)),
 );
 
-const isSSR = () => typeof window === "undefined";
-
-function getUserInputtedCodeFromHash() {
-  const searchParams = new URLSearchParams(location.hash.slice(1));
-  const searchParamsCode = searchParams.get("code");
-
-  if (typeof searchParamsCode === "string") {
-    try {
-      const code = Base64.decode(searchParamsCode);
-      return code;
-    } catch (e) {
-      console.error("decoding code query parameter failed");
-      console.error(e);
-    }
-  }
-
-  return null;
-}
-
-function getInitialUserInputtedCode() {
-  if (isSSR()) {
-    return null;
-  } else {
-    return getUserInputtedCodeFromHash();
-  }
-}
-
-export const userInputtedCodeAtom = atom<string | null>(
-  getInitialUserInputtedCode(),
-);
+export const userInputtedCodeAtom = atom<string | null>(null);
 
 export const codeAtom = atom(
   (get) => get(userInputtedCodeAtom) ?? get(codeExampleAtom)?.code ?? "",
   (get, set, newCode: string) => {
-    const searchParams = new URLSearchParams(location.hash.slice(1));
     set(userInputtedCodeAtom, newCode);
-
-    searchParams.set("code", Base64.encodeURI(newCode));
-    window.location.hash = `#${searchParams.toString()}`;
 
     // Sync with slides synchronously
     const activeSlideId = get(activeSlideIdAtom);
@@ -177,9 +120,3 @@ export const codeAtom = atom(
     });
   },
 );
-
-codeAtom.onMount = (setValue) => {
-  const code = getUserInputtedCodeFromHash();
-
-  if (code) setValue(code);
-};
