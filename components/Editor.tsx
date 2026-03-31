@@ -164,6 +164,7 @@ function Editor({
   theme?: Theme;
   darkMode?: boolean;
 } = {}) {
+  const MAX_LINES = 20;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [storeCode, setCode] = useAtom(codeAtom);
   const [storeLanguage, setSelectedLanguage] = useAtom(selectedLanguageAtom);
@@ -225,6 +226,14 @@ function Editor({
           break;
         case "Enter":
           event.preventDefault();
+          if (code.split("\n").length >= MAX_LINES) {
+            setFlashMessage({
+              message: `Maximum ${MAX_LINES} lines allowed`,
+              variant: "info",
+              timeout: 2000,
+            });
+            return;
+          }
           handleEnter(textarea);
           break;
       }
@@ -234,6 +243,16 @@ function Editor({
 
   const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
     (event) => {
+      const newValue = event.target.value;
+      if (newValue.split("\n").length > MAX_LINES) {
+        setFlashMessage({
+          message: `Maximum ${MAX_LINES} lines allowed`,
+          variant: "info",
+          timeout: 2000,
+        });
+        return;
+      }
+
       if (event.target.value.includes("🐰") && theme.id !== THEMES.rabbit.id) {
         if (!unlockedThemes.includes(THEMES.rabbit.id)) {
           setUnlockedThemes([...unlockedThemes, THEMES.rabbit.id]);
