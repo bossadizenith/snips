@@ -97,6 +97,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
         "font-sans",
         figtree.variable,

@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Language, LANGUAGES } from "@/utils/languages";
-import { ShikiMagicMove } from "shiki-magic-move/react";
+import "shiki-magic-move/dist/style.css";
+import { MagicMove } from "./move";
 
 import styles from "./Editor.module.css";
 import {
@@ -28,7 +29,7 @@ type PropTypes = {
 
 const BASE_MAGIC_MOVE_OPTIONS = {
   duration: 1000,
-  stagger: 0,
+  stagger: 3,
 } as const;
 
 const HighlightedCode: React.FC<PropTypes> = ({
@@ -38,15 +39,18 @@ const HighlightedCode: React.FC<PropTypes> = ({
   darkMode: propDarkMode,
 }) => {
   const [isLanguageReady, setIsLanguageReady] = useState(false);
-  const [prevCode, setPrevCode] = useState(code);
+  // const [prevCode, setPrevCode] = useState(code);
   const highlighter = useAtomValue(highlighterAtom);
   const setIsLoadingLanguage = useSetAtom(loadingLanguageAtom);
-  const highlightedLines = useAtomValue(highlightedLinesAtom);
+  // const highlightedLines = useAtomValue(highlightedLinesAtom);
   const storeDarkMode = useAtomValue(themeDarkModeAtom);
   const storeTheme = useAtomValue(themeAtom);
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
   const setAnimateSlideTransition = useSetAtom(animateSlideTransitionAtom);
   // const showLineNumbers = useAtomValue(themeLineNumbersAtom);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const magicMoveRef = useRef<MagicMove | null>(null);
 
   const theme = propTheme ?? storeTheme;
   const darkMode = propDarkMode ?? storeDarkMode;
@@ -58,12 +62,22 @@ const HighlightedCode: React.FC<PropTypes> = ({
         : "tailwind-light"
       : "css-variables";
 
-  React.useEffect(() => {
-    if (animateSlideTransition) {
-      return;
-    }
-    setPrevCode(code);
-  }, [code, animateSlideTransition]);
+  let lang = selectedLanguage?.name.toLowerCase() || "";
+  if (lang === "typescript") {
+    lang = "tsx";
+  }
+
+  const magicMoveOptions = React.useMemo(
+    () => ({
+      delayContainer: 0.1,
+      delayEnter: 0.1,
+      delayLeave: 0.1,
+      delayMove: 0.1,
+      ...BASE_MAGIC_MOVE_OPTIONS,
+      // lineNumbers: showLineNumbers && selectedLanguage !== LANGUAGES.plaintext,
+    }),
+    [],
+  );
 
   useEffect(() => {
     let isCancelled = false;
@@ -107,6 +121,49 @@ const HighlightedCode: React.FC<PropTypes> = ({
     };
   }, [selectedLanguage, highlighter, setIsLoadingLanguage]);
 
+  useEffect(() => {
+    if (!containerRef.current || !highlighter || !isLanguageReady) {
+      return;
+    }
+
+    const onEnd = () => {
+      setAnimateSlideTransition(false);
+    };
+
+    if (!magicMoveRef.current) {
+      magicMoveRef.current = new MagicMove(
+        containerRef.current,
+        highlighter,
+        code,
+        {
+          lang: lang as any,
+          theme: themeName as any,
+          ...magicMoveOptions,
+          onEnd,
+        },
+      );
+    } else {
+      magicMoveRef.current.update(code).then(onEnd);
+    }
+  }, [
+    code,
+    highlighter,
+    isLanguageReady,
+    lang,
+    themeName,
+    magicMoveOptions,
+    setAnimateSlideTransition,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      if (magicMoveRef.current) {
+        magicMoveRef.current.destroy();
+        magicMoveRef.current = null;
+      }
+    };
+  }, []);
+
   if (
     !highlighter ||
     !selectedLanguage ||
@@ -120,47 +177,11 @@ const HighlightedCode: React.FC<PropTypes> = ({
     );
   }
 
-  let lang = selectedLanguage.name.toLowerCase();
-  if (lang === "typescript") {
-    lang = "tsx";
-  }
-
-  const sizingCode = animateSlideTransition
-    ? code.split("\n").length < prevCode.split("\n").length
-      ? code
-      : prevCode
-    : code;
-
-  const magicMoveOptions = {
-    delayContainer: 0.1,
-    delayEnter: 0.1,
-    delayLeave: 0.1,
-    delayMove: 0.1,
-    ...BASE_MAGIC_MOVE_OPTIONS,
-    // lineNumbers: showLineNumbers && selectedLanguage !== LANGUAGES.plaintext,
-  };
-
   return (
     <div
-      className={classNames(
-        styles.formatted,
-        "select-none overflow-hidden",
-        highlightedLines.length > 0 && styles.hasHighlightedLines,
-      )}
-      data-value={sizingCode}
+      className={classNames(styles.formatted, "select-none overflow-hidden")}
     >
-      <ShikiMagicMove
-        highlighter={highlighter}
-        lang={lang}
-        theme={themeName}
-        code={code}
-        options={magicMoveOptions}
-        className={cn(styles.magicMove, "min-w-150!")}
-        onEnd={() => {
-          setAnimateSlideTransition(false);
-          setPrevCode(code);
-        }}
-      />
+      <div ref={containerRef} className={cn("min-w-150!")} />
     </div>
   );
 };
