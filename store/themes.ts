@@ -4,39 +4,39 @@ import { atomWithStorage } from "jotai/utils";
 import { CSSProperties } from "react";
 import { Font } from "./font";
 import FirecrawlLogo from "@/public/assets/firecrawl/logo.svg";
-import FirecrawlLogoUrl from "@/public/assets/firecrawl/logo.svg";
+import FirecrawlLogoUrl from "@/public/assets/firecrawl/logo.svg?url";
 import CloudflareLogo from "@/public/assets/cloudflare.svg";
-import CloudflareLogoUrl from "@/public/assets/cloudflare.svg";
+import CloudflareLogoUrl from "@/public/assets/cloudflare.svg?url";
 import VercelLogo from "@/public/assets/vercel.svg";
-import VercelLogoUrl from "@/public/assets/vercel.svg";
+import VercelLogoUrl from "@/public/assets/vercel.svg?url";
 import RabbitLogo from "@/public/assets/rabbit.svg";
-import RabbitLogoUrl from "@/public/assets/rabbit.svg";
+import RabbitLogoUrl from "@/public/assets/rabbit.svg?url";
 import SupabaseLogo from "@/public/assets/supabase.svg";
-import SupabaseLogoUrl from "@/public/assets/supabase.svg";
+import SupabaseLogoUrl from "@/public/assets/supabase.svg?url";
 import TailwindLogo from "@/public/assets/tailwind.svg";
-import TailwindLogoUrl from "@/public/assets/tailwind.svg";
+import TailwindLogoUrl from "@/public/assets/tailwind.svg?url";
 import TriggerLogo from "@/public/assets/triggerdev.svg";
-import TriggerLogoUrl from "@/public/assets/triggerdev.svg";
+import TriggerLogoUrl from "@/public/assets/triggerdev.svg?url";
 import GeminiLogo from "@/public/assets/gemini.svg";
-import GeminiLogoUrl from "@/public/assets/gemini.svg";
+import GeminiLogoUrl from "@/public/assets/gemini.svg?url";
 import OpenAiLogo from "@/public/assets/openai.svg";
-import OpenAiLogoUrl from "@/public/assets/openai.svg";
+import OpenAiLogoUrl from "@/public/assets/openai.svg?url";
 import ClerkLogo from "@/public/assets/clerk.svg";
-import ClerkLogoUrl from "@/public/assets/clerk.svg";
+import ClerkLogoUrl from "@/public/assets/clerk.svg?url";
 import PrismaLogo from "@/public/assets/prisma.svg";
-import PrismaLogoUrl from "@/public/assets/prisma.svg";
+import PrismaLogoUrl from "@/public/assets/prisma.svg?url";
 import MintlifyLogo from "@/public/assets/mintlify.svg";
-import MintlifyLogoUrl from "@/public/assets/mintlify.svg";
+import MintlifyLogoUrl from "@/public/assets/mintlify.svg?url";
 import ElevenLabsLogo from "@/public/assets/elevenlabs.svg";
-import ElevenLabsLogoUrl from "@/public/assets/elevenlabs.svg";
+import ElevenLabsLogoUrl from "@/public/assets/elevenlabs.svg?url";
 import ResendLogo from "@/public/assets/resend.svg";
-import ResendLogoUrl from "@/public/assets/resend.svg";
+import ResendLogoUrl from "@/public/assets/resend.svg?url";
 import BrowserbaseLogo from "@/public/assets/browserbase.svg";
-import BrowserbaseLogoUrl from "@/public/assets/browserbase.svg";
+import BrowserbaseLogoUrl from "@/public/assets/browserbase.svg?url";
 import NuxtLogo from "@/public/assets/nuxt.svg";
-import NuxtLogoUrl from "@/public/assets/nuxt.svg";
+import NuxtLogoUrl from "@/public/assets/nuxt.svg?url";
 import StripeLogo from "@/public/assets/stripe/logo.svg";
-import StripeLogoUrl from "@/public/assets/stripe/logo.svg";
+import StripeLogoUrl from "@/public/assets/stripe/logo.svg?url";
 import { showLineNumbersAtom } from ".";
 import { createCssVariablesTheme } from "@/utils/theme-css-variables";
 import { BASE_URL } from "@/utils/common";
@@ -1509,7 +1509,7 @@ export const THEMES: { [index: string]: Theme } = {
       to: "#000",
     },
     icon: FirecrawlLogo,
-    iconUrl: `${BASE_URL}${FirecrawlLogoUrl.src}`,
+    iconUrl: `${BASE_URL}${FirecrawlLogoUrl}`,
     font: "geist-mono",
     partner: true,
     syntax: {

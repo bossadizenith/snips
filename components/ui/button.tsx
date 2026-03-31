@@ -45,7 +45,7 @@ const buttonVariants = cva(
       },
     ],
     defaultVariants: {
-      variant: "secondary",
+      variant: "primary",
       size: "medium",
       iconOnly: false,
     },

@@ -27,6 +27,8 @@ import { NavigationActions } from "@/components/navigation";
 import { Slides } from "@/components/slides";
 import tailwindDark from "@/public/assets/tailwind/dark.json";
 import tailwindLight from "@/public/assets/tailwind/light.json";
+import { Button } from "../ui/button";
+import { Laptop } from "lucide-react";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
@@ -78,7 +80,10 @@ export function Code() {
           {!presentationMode && (
             <NavigationActions>
               <FormatButton />
-              <ExportButton />
+              <Button onClick={() => setPresentationMode(true)}>
+                <Laptop className="size-4" />
+                Present
+              </Button>
             </NavigationActions>
           )}
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
