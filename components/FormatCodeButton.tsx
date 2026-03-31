@@ -1,24 +1,18 @@
 "use client";
 
-import { WandIcon } from "@raycast/icons";
-import formatCode, { formatterSupportedLanguages } from "@/utils/formatCode";
-import { useAtom } from "jotai";
-import { codeAtom, selectedLanguageAtom } from "@/store/code";
-import useHotkeys from "@/hooks/useHotkeys";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
+import useHotkeys from "@/hooks/useHotkeys";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { codeAtom, selectedLanguageAtom } from "@/store/code";
+import formatCode, { formatterSupportedLanguages } from "@/utils/formatCode";
+import { WandIcon } from "@raycast/icons";
+import { useAtom } from "jotai";
 
 const FormatButton: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useAtom(selectedLanguageAtom);
   const [code, setCode] = useAtom(codeAtom);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsClient(true);
-  }, []);
+  // const [isClient, setIsClient] = useState(false);
 
   const handleFormatCode = () => {
     const isSupportedLanguage = formatterSupportedLanguages.includes(
@@ -46,7 +40,7 @@ const FormatButton: React.FC = () => {
           return {
             message: "Code formatting failed",
             description: () => (
-              <pre className="w-full overflow-auto text-xs scrollbar-hide bg-gray-a3 p-2.5 rounded max-w-[300px]">
+              <pre className="w-full overflow-auto text-xs scrollbar-hide bg-gray-a3 p-2.5 rounded max-w-75">
                 <code className="w-full">{errorMessage}</code>
               </pre>
             ),
@@ -60,10 +54,6 @@ const FormatButton: React.FC = () => {
     event.preventDefault();
     handleFormatCode();
   });
-
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <Button

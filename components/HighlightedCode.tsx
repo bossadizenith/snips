@@ -15,8 +15,9 @@ import {
   themeDarkModeAtom,
   themeAtom,
   Theme,
-  themeLineNumbersAtom,
+  // themeLineNumbersAtom,
 } from "@/store/themes";
+import { cn } from "@/lib/utils";
 
 type PropTypes = {
   selectedLanguage: Language | null;
@@ -124,8 +125,14 @@ const HighlightedCode: React.FC<PropTypes> = ({
     lang = "tsx";
   }
 
+  const sizingCode = animateSlideTransition
+    ? code.split("\n").length < prevCode.split("\n").length
+      ? code
+      : prevCode
+    : code;
+
   const magicMoveOptions = {
-    delayContainer: 0,
+    delayContainer: 0.1,
     delayEnter: 0.1,
     delayLeave: 0.1,
     delayMove: 0.1,
@@ -140,6 +147,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
         "select-none overflow-hidden",
         highlightedLines.length > 0 && styles.hasHighlightedLines,
       )}
+      data-value={sizingCode}
     >
       <ShikiMagicMove
         highlighter={highlighter}
@@ -147,7 +155,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
         theme={themeName}
         code={code}
         options={magicMoveOptions}
-        className={styles.magicMove}
+        className={cn(styles.magicMove, "min-w-150!")}
         onEnd={() => {
           setAnimateSlideTransition(false);
           setPrevCode(code);

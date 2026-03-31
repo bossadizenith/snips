@@ -3,11 +3,10 @@
 import { cn } from "@/lib/utils";
 import { ChevronLeftIcon, RaycastLogoNegIcon } from "@raycast/icons";
 import Link from "next/link";
-import { useRouter, useSelectedLayoutSegments } from "next/navigation";
+import { useSelectedLayoutSegments } from "next/navigation";
 import { Button } from "./ui/button";
 
 export function Navigation() {
-  const router = useRouter();
   const segments = useSelectedLayoutSegments();
   const segment = segments[0] || "(code)";
   const showBackButton = segments.find((s) => s === "shared")
