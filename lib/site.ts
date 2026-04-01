@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Snips.",
+  name: "snips.",
   description: "Create beautiful animated code presentations",
   ogImage: "https://snips.bossadizenith.me/og.png",
   url: "https://snips.bossadizenith.me",

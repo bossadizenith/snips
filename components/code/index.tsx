@@ -29,6 +29,7 @@ import tailwindDark from "@/public/assets/tailwind/dark.json";
 import tailwindLight from "@/public/assets/tailwind/light.json";
 import { Button } from "../ui/button";
 import { Laptop } from "lucide-react";
+import { siteConfig } from "@/lib/site";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
@@ -79,11 +80,14 @@ export function Code() {
         >
           {!presentationMode && (
             <NavigationActions>
-              <FormatButton />
-              <Button onClick={() => setPresentationMode(true)}>
-                <Laptop className="size-4" />
-                Present
-              </Button>
+              <p className="text-sm font-semibold">{siteConfig.name}</p>
+              <div>
+                <FormatButton />
+                <Button onClick={() => setPresentationMode(true)}>
+                  <Laptop className="size-4" />
+                  Present
+                </Button>
+              </div>
             </NavigationActions>
           )}
           <div className="flex-1 overflow-auto relative flex justify-center items-center">

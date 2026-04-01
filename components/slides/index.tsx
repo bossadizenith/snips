@@ -10,6 +10,7 @@ import Link from "next/link";
 import React from "react";
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
+import { Info } from "lucide-react";
 
 export const Slides = () => {
   const slides = useAtomValue(slidesAtom);
@@ -59,7 +60,10 @@ export const Slides = () => {
           })}
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between">
+        <Button size="icon-sm" variant="outline">
+          <Info className=" text-muted-foreground" />
+        </Button>
         <Link href={siteConfig.links.github} target="_blank">
           <Icons.github className="size-6 text-muted-foreground" />
         </Link>
