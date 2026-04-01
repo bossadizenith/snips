@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Safely renders prompt content by parsing placeholders without using dangerouslySetInnerHTML
@@ -8,7 +8,10 @@ import React from 'react';
  * @param placeholderClassName - CSS class name for placeholder styling
  * @returns Array of React nodes with safely rendered content
  */
-export function renderSafePromptContent(content: string, placeholderClassName: string = 'placeholder'): React.ReactNode[] {
+export function renderSafePromptContent(
+  content: string,
+  placeholderClassName: string = "placeholder",
+): React.ReactNode[] {
   // Split content by placeholder pattern but preserve the placeholders
   const parts = content.split(/(\{[^}]+\})/);
 
@@ -38,31 +41,32 @@ export function renderSafePromptContent(content: string, placeholderClassName: s
  * @returns Sanitized prompt object or null if invalid
  */
 export function validatePromptData(promptData: any): any | null {
-  if (!promptData || typeof promptData !== 'object') {
+  if (!promptData || typeof promptData !== "object") {
     return null;
   }
 
   // Whitelist of allowed properties and their expected types
   const allowedProperties = {
-    title: 'string',
-    prompt: 'string',
-    creativity: 'string',
-    icon: 'string',
-    model: 'string',
-    highlightEdits: 'boolean'
+    title: "string",
+    prompt: "string",
+    creativity: "string",
+    icon: "string",
+    model: "string",
+    highlightEdits: "boolean",
   };
 
   const sanitized: any = {};
 
   // Only include whitelisted properties with correct types
-  Object.keys(allowedProperties).forEach(key => {
+  Object.keys(allowedProperties).forEach((key) => {
     if (key in promptData) {
-      const expectedType = allowedProperties[key as keyof typeof allowedProperties];
+      const expectedType =
+        allowedProperties[key as keyof typeof allowedProperties];
       const value = promptData[key];
 
       if (typeof value === expectedType) {
         // Additional validation for string properties to prevent overly long content
-        if (expectedType === 'string' && typeof value === 'string') {
+        if (expectedType === "string" && typeof value === "string") {
           // Limit string length to prevent DoS attacks
           sanitized[key] = value.slice(0, 10000);
         } else {

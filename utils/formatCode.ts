@@ -2,9 +2,18 @@ import { Language } from "./languages";
 
 const parsers = {
   JavaScript: { import: () => import("prettier/plugins/babel"), name: "babel" },
-  TypeScript: { import: () => import("prettier/plugins/typescript"), name: "typescript" },
-  TSX: { import: () => import("prettier/plugins/typescript"), name: "typescript" },
-  Markdown: { import: () => import("prettier/plugins/markdown"), name: "markdown" },
+  TypeScript: {
+    import: () => import("prettier/plugins/typescript"),
+    name: "typescript",
+  },
+  TSX: {
+    import: () => import("prettier/plugins/typescript"),
+    name: "typescript",
+  },
+  Markdown: {
+    import: () => import("prettier/plugins/markdown"),
+    name: "markdown",
+  },
   HTML: { import: () => import("prettier/plugins/html"), name: "html" },
   CSS: { import: () => import("prettier/plugins/postcss"), name: "css" },
   SCSS: { import: () => import("prettier/plugins/postcss"), name: "css" },
@@ -27,10 +36,17 @@ const formatCode = async (code: string, language: Language | null) => {
   }
 
   if (language.name === "Python") {
-    const { default: initRuff, Workspace, PositionEncoding } = await import("@astral-sh/ruff-wasm-web");
+    const {
+      default: initRuff,
+      Workspace,
+      PositionEncoding,
+    } = await import("@astral-sh/ruff-wasm-web");
     await initRuff();
 
-    const workspace = new Workspace(Workspace.defaultSettings(), PositionEncoding.Utf16);
+    const workspace = new Workspace(
+      Workspace.defaultSettings(),
+      PositionEncoding.Utf16,
+    );
     const formatted = workspace.format(code);
     return formatted.replace(/\n$/, "");
   }

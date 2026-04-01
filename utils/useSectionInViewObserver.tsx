@@ -9,7 +9,10 @@ interface Config {
   enabled: boolean;
 }
 
-export function useSectionInViewObserver({ headerHeight, enabled = false }: Config) {
+export function useSectionInViewObserver({
+  headerHeight,
+  enabled = false,
+}: Config) {
   const defaultRootMargin = `-${headerHeight}px 0% -50% 0%`;
   const pathname = usePathname();
   const historyKey = React.useRef("");
@@ -30,9 +33,14 @@ export function useSectionInViewObserver({ headerHeight, enabled = false }: Conf
 
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          sectionsInView = [...sectionsInView.filter((view) => view.target !== entry.target), entry];
+          sectionsInView = [
+            ...sectionsInView.filter((view) => view.target !== entry.target),
+            entry,
+          ];
         } else {
-          sectionsInView = sectionsInView.filter((view) => view.target !== entry.target);
+          sectionsInView = sectionsInView.filter(
+            (view) => view.target !== entry.target,
+          );
         }
       });
 
@@ -40,33 +48,43 @@ export function useSectionInViewObserver({ headerHeight, enabled = false }: Conf
         return;
       }
 
-      const fullyInView = sectionsInView.filter((view) => view.intersectionRatio === 1);
+      const fullyInView = sectionsInView.filter(
+        (view) => view.intersectionRatio === 1,
+      );
 
       // Sections fully in view get priority if there are any
       if (fullyInView.length > 0) {
         // get the top-most section fully in view (top is closest to zero)
-        newEntryInView = fullyInView.reduce((previousCandidate, currentCandidate) =>
-          previousCandidate.target.getBoundingClientRect().top > currentCandidate.target.getBoundingClientRect().top
-            ? currentCandidate
-            : previousCandidate,
+        newEntryInView = fullyInView.reduce(
+          (previousCandidate, currentCandidate) =>
+            previousCandidate.target.getBoundingClientRect().top >
+            currentCandidate.target.getBoundingClientRect().top
+              ? currentCandidate
+              : previousCandidate,
         );
       } else {
         // get the section closest to the crossing border (top is closest to half-viewport mark)
-        newEntryInView = sectionsInView.reduce((previousCandidate, currentCandidate) =>
-          previousCandidate.target.getBoundingClientRect().top < currentCandidate.target.getBoundingClientRect().top
-            ? currentCandidate
-            : previousCandidate,
+        newEntryInView = sectionsInView.reduce(
+          (previousCandidate, currentCandidate) =>
+            previousCandidate.target.getBoundingClientRect().top <
+            currentCandidate.target.getBoundingClientRect().top
+              ? currentCandidate
+              : previousCandidate,
         );
       }
 
-      const newSlug = newEntryInView ? (newEntryInView.target as HTMLElement).dataset.sectionSlug : undefined;
+      const newSlug = newEntryInView
+        ? (newEntryInView.target as HTMLElement).dataset.sectionSlug
+        : undefined;
 
       // Avoid setting route if it hasn't changed
       if (newSlug && pathname !== newSlug) {
         const newUrl = newSlug;
 
         updateHistory(newUrl);
-        dispatchEvent(new CustomEvent("sectionInViewChange", { detail: newUrl }));
+        dispatchEvent(
+          new CustomEvent("sectionInViewChange", { detail: newUrl }),
+        );
       }
     };
 
@@ -92,7 +110,9 @@ export function useSectionInViewObserver({ headerHeight, enabled = false }: Conf
     };
 
     const adjustScroll = ({ shouldRestore } = { shouldRestore: true }) => {
-      const section = document.querySelector<HTMLElement>(`[data-section-slug="${pathname}"]`);
+      const section = document.querySelector<HTMLElement>(
+        `[data-section-slug="${pathname}"]`,
+      );
 
       // Focus the section so AT announces the new content after navigation.
       section?.focus({ preventScroll: true });
@@ -124,7 +144,9 @@ export function useSectionInViewObserver({ headerHeight, enabled = false }: Conf
           const fh = getFooterHeight();
 
           let remainingScroll =
-            (sh * (0.5 * ch - fh) + fh * (fh + scrollY + sectionTop - 0.5 * ch) - 0.5 * ch * (scrollY + sectionTop)) /
+            (sh * (0.5 * ch - fh) +
+              fh * (fh + scrollY + sectionTop - 0.5 * ch) -
+              0.5 * ch * (scrollY + sectionTop)) /
             (1.5 * ch - 2 * fh);
 
           remainingScroll = Math.max(remainingScroll, 0);
@@ -215,9 +237,9 @@ export function useSectionInViewObserver({ headerHeight, enabled = false }: Conf
       adjustScrollRecursively();
     }
 
-    const navigationEntry = window.performance.getEntriesByType("navigation")[0] as
-      | PerformanceNavigationTiming
-      | undefined;
+    const navigationEntry = window.performance.getEntriesByType(
+      "navigation",
+    )[0] as PerformanceNavigationTiming | undefined;
 
     isPageReload.current = navigationEntry?.type === "reload";
 
@@ -266,10 +288,16 @@ export function useSectionInView() {
       setSectionInView(event.detail);
     };
 
-    addEventListener("sectionInViewChange", handleSectionInViewChange as (event: Event) => void);
+    addEventListener(
+      "sectionInViewChange",
+      handleSectionInViewChange as (event: Event) => void,
+    );
 
     return () => {
-      removeEventListener("sectionInViewChange", handleSectionInViewChange as (event: Event) => void);
+      removeEventListener(
+        "sectionInViewChange",
+        handleSectionInViewChange as (event: Event) => void,
+      );
     };
   }, [router, pathname]);
 
@@ -295,7 +323,10 @@ function setScrollHistory(key: string, value: number) {
   // Push the new item last into the history stack
   arr.push({ key, value });
 
-  window.sessionStorage.setItem("@workos/scroll-restoration", JSON.stringify(arr));
+  window.sessionStorage.setItem(
+    "@workos/scroll-restoration",
+    JSON.stringify(arr),
+  );
 }
 
 function getScrollHistory(key?: string): number | undefined {

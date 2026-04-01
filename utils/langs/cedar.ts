@@ -63,7 +63,8 @@ const lang = {
     methods: {
       patterns: [
         {
-          match: "\\.(contains|containsAll|containsAny|isEmpty|getTag|hasTag)\\(",
+          match:
+            "\\.(contains|containsAll|containsAny|isEmpty|getTag|hasTag)\\(",
           captures: {
             "1": { name: "entity.name.function.member.cedar" },
           },
@@ -93,7 +94,8 @@ const lang = {
     decimalmethods: {
       patterns: [
         {
-          match: "\\.(lessThan|lessThanOrEqual|greaterThan|greaterThanOrEqual)\\(",
+          match:
+            "\\.(lessThan|lessThanOrEqual|greaterThan|greaterThanOrEqual)\\(",
           captures: {
             "1": { name: "entity.name.function.member.cedar" },
           },
@@ -147,7 +149,8 @@ const lang = {
     entities: {
       patterns: [
         {
-          match: '\\b(([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*)(?:::)(?=")',
+          match:
+            '\\b(([_a-zA-Z][_a-zA-Z0-9]*::)*[_a-zA-Z][_a-zA-Z0-9]*)(?:::)(?=")',
           captures: {
             "1": { name: "entity.name.type.cedar" },
           },

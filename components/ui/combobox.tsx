@@ -46,8 +46,7 @@ const triggerVariants = cva(
 );
 
 export interface ComboboxTriggerProps
-  extends
-    Omit<
+  extends Omit<
       React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Trigger>,
       "className"
     >,
@@ -97,8 +96,7 @@ const inputVariants = cva(
 );
 
 export interface ComboboxInputProps
-  extends
-    Omit<
+  extends Omit<
       React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Input>,
       "className" | "size"
     >,
@@ -149,8 +147,7 @@ const inputContainerVariants = cva(
 );
 
 export interface ComboboxInputContainerProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
+  extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof inputContainerVariants> {
   icon?: React.ElementType;
 }
@@ -193,10 +190,11 @@ function ComboboxValue<Value>({
 // Content (Portal + Positioner + Popup with Search Input)
 // ============================================================================
 
-export interface ComboboxContentProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Popup>,
-  "className"
-> {
+export interface ComboboxContentProps
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.Popup>,
+    "className"
+  > {
   className?: string;
   sideOffset?: number;
   align?: "start" | "center" | "end";
@@ -261,10 +259,11 @@ ComboboxContent.displayName = "ComboboxContent";
 // List
 // ============================================================================
 
-export interface ComboboxListProps<Value> extends Omit<
-  React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.List>,
-  "className" | "children"
-> {
+export interface ComboboxListProps<Value>
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof ComboboxPrimitive.List>,
+    "className" | "children"
+  > {
   className?: string;
   children?:
     | React.ReactNode

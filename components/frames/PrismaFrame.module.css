@@ -10,7 +10,11 @@
   border-radius: var(--radius);
   background-color: var(--background);
   --radius: 10px;
-  --frame-border-gradient: linear-gradient(var(--gradient-angle), #3e4083, #16544f);
+  --frame-border-gradient: linear-gradient(
+    var(--gradient-angle),
+    #3e4083,
+    #16544f
+  );
   --background: hsla(223, 41%, 7%, 75%);
 
   [data-frameborder] {
@@ -133,7 +137,11 @@
 
   .window {
     --background: hsl(193, 72%, 96%, 0.5);
-    --frame-border-gradient: linear-gradient(var(--gradient-angle), #6164cc, #31baaf);
+    --frame-border-gradient: linear-gradient(
+      var(--gradient-angle),
+      #6164cc,
+      #31baaf
+    );
   }
 
   .header {

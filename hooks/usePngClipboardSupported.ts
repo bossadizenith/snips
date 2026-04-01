@@ -5,7 +5,11 @@ export default function usePngClipboardSupported() {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSupported(window.navigator && window.navigator.clipboard && typeof ClipboardItem === "function");
+    setSupported(
+      window.navigator &&
+        window.navigator.clipboard &&
+        typeof ClipboardItem === "function",
+    );
   }, []);
 
   return supported;

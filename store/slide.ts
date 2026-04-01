@@ -1,6 +1,12 @@
 import { atom } from "jotai";
 import { codeAtom } from "./code";
-import { fileNameAtom, Slide, slidesAtom, activeSlideIdAtom, animateSlideTransitionAtom } from ".";
+import {
+  fileNameAtom,
+  Slide,
+  slidesAtom,
+  activeSlideIdAtom,
+  animateSlideTransitionAtom,
+} from ".";
 
 type SlidePatch = {
   title?: string;
@@ -59,21 +65,24 @@ export const selectSlideAtom = atom(null, (get, set, slideId: string) => {
   set(codeAtom, slide.code);
 });
 
-export const updateActiveSlideAtom = atom(null, (get, set, patch: SlidePatch) => {
-  const activeSlideId = get(activeSlideIdAtom);
-  if (!activeSlideId) return;
+export const updateActiveSlideAtom = atom(
+  null,
+  (get, set, patch: SlidePatch) => {
+    const activeSlideId = get(activeSlideIdAtom);
+    if (!activeSlideId) return;
 
-  set(slidesAtom, (prev) =>
-    prev.map((slide) => {
-      if (slide.id !== activeSlideId) return slide;
-      return {
-        ...slide,
-        title: normalizeSlideTitle(patch.title ?? slide.title),
-        code: patch.code ?? slide.code,
-      };
-    }),
-  );
-});
+    set(slidesAtom, (prev) =>
+      prev.map((slide) => {
+        if (slide.id !== activeSlideId) return slide;
+        return {
+          ...slide,
+          title: normalizeSlideTitle(patch.title ?? slide.title),
+          code: patch.code ?? slide.code,
+        };
+      }),
+    );
+  },
+);
 
 export const goToNextSlideAtom = atom(null, (get, set) => {
   const slides = get(slidesAtom);

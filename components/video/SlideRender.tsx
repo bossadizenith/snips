@@ -20,17 +20,22 @@ export const SlideRender: React.FC<SlideRenderProps> = ({
   const slide = slides[slideIndex];
 
   // Simple fade transition
-  const opacity = interpolate(
-    frame,
-    [startFrame, startFrame + 15],
-    [0, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-  );
+  const opacity = interpolate(frame, [startFrame, startFrame + 15], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   return (
     <AbsoluteFill style={{ opacity }}>
       <div className="flex items-center justify-center w-full h-full bg-slate-900">
-        <pre style={{ color: "#fff", fontFamily: "monospace", fontSize: 14, padding: 24 }}>
+        <pre
+          style={{
+            color: "#fff",
+            fontFamily: "monospace",
+            fontSize: 14,
+            padding: 24,
+          }}
+        >
           {slide?.code ?? ""}
         </pre>
       </div>

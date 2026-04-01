@@ -57,5 +57,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ link: `https://ray.so/${link.key}` });
   }
 
-  return NextResponse.json({ error: "Unable to shorten this link" }, { status: 400 });
+  return NextResponse.json(
+    { error: "Unable to shorten this link" },
+    { status: 400 },
+  );
 }

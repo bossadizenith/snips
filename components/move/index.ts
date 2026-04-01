@@ -13,7 +13,8 @@ import { MagicMoveRenderer } from "shiki-magic-move/renderer";
 import "shiki-magic-move/dist/style.css";
 
 interface MagicMoveOptions
-  extends MagicMoveRenderOptions, MagicMoveDifferOptions {
+  extends MagicMoveRenderOptions,
+    MagicMoveDifferOptions {
   lang: BundledLanguage;
   theme: BundledTheme;
   onEnd?: () => void;

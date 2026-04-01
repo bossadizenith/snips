@@ -141,21 +141,31 @@
     },
     {
       "name": "[HTML] - Attribute Values",
-      "scope": ["text.html string.quoted", "text.html punctuation.definition.string"],
+      "scope": [
+        "text.html string.quoted",
+        "text.html punctuation.definition.string"
+      ],
       "settings": {
         "foreground": "#4f46e5"
       }
     },
     {
       "name": "[HTML] - Punctation",
-      "scope": ["text.html punctuation", "text.html keyword.operator", "text.html meta.tag"],
+      "scope": [
+        "text.html punctuation",
+        "text.html keyword.operator",
+        "text.html meta.tag"
+      ],
       "settings": {
         "foreground": "#64748b"
       }
     },
     {
       "name": "[HTML] - Doctype",
-      "scope": ["text.html meta.tag.sgml", "text.html meta.tag.sgml punctuation"],
+      "scope": [
+        "text.html meta.tag.sgml",
+        "text.html meta.tag.sgml punctuation"
+      ],
       "settings": {
         "foreground": "#94a3b8"
       }
@@ -193,7 +203,10 @@
     },
     {
       "name": "[CSS] - @ - eg. @media",
-      "scope": ["source.css keyword.control.at-rule", "source.css punctuation.definition.keyword"],
+      "scope": [
+        "source.css keyword.control.at-rule",
+        "source.css punctuation.definition.keyword"
+      ],
       "settings": {
         "foreground": "#0369a1"
       }
@@ -219,7 +232,11 @@
     },
     {
       "name": "[CSS] - Meta Name - eg. font-family, 'name'",
-      "scope": ["source.css meta.property-name", "source.css support.type.property-name", "source.css string"],
+      "scope": [
+        "source.css meta.property-name",
+        "source.css support.type.property-name",
+        "source.css string"
+      ],
       "settings": {
         "foreground": "#4f46e5"
       }
@@ -388,7 +405,10 @@
     },
     {
       "name": "[JS] - Import String - eg. '../location/file",
-      "scope": ["meta.import string", "meta.import string punctuation.definition.string"],
+      "scope": [
+        "meta.import string",
+        "meta.import string punctuation.definition.string"
+      ],
       "settings": {
         "foreground": "#334155"
       }
