@@ -7,12 +7,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 const ExportButton: React.FC = () => {
   return (
     <ButtonGroup>
-      <Button
-        disabled
-        onClick={() => {}}
-        variant="primary"
-        aria-label="Export as PNG"
-      >
+      <Button disabled onClick={() => {}} aria-label="Export as PNG">
         <DownloadIcon className="w-4 h-4" />
         Export
       </Button>

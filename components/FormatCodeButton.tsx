@@ -58,7 +58,6 @@ const FormatButton: React.FC = () => {
   return (
     <Button
       onClick={handleFormatCode}
-      variant="transparent"
       className={cn(
         "hidden",
         selectedLanguage &&

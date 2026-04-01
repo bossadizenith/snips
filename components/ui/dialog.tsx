@@ -64,10 +64,10 @@ function DialogContent({
             data-slot="dialog-close"
             render={
               <Button
-                variant="transparent"
+                // variant="transparent"
                 className="absolute top-2 right-2"
-                size="medium"
-                iconOnly
+                size="icon-xs"
+                // iconOnly
               >
                 <XIcon className="w-4 h-4" />
                 <span className="sr-only">Close</span>

@@ -5,13 +5,12 @@
 
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useAtomValue } from "jotai";
 import { slidesAtom } from "@/store";
-import { themeAtom, darkModeAtom } from "@/store/themes";
 import { selectedLanguageAtom } from "@/store/code";
 import { paddingAtom } from "@/store/padding";
-import type { CodeCompositionProps } from "@/components/video/types";
+import { darkModeAtom, themeAtom } from "@/store/themes";
+import { useAtomValue } from "jotai";
+import React, { useEffect, useRef, useState } from "react";
 
 const SLIDE_DURATION = 90; // frames per slide at 60fps
 const FPS = 60;
