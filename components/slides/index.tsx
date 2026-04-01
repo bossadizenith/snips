@@ -9,6 +9,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import Link from "next/link";
 import React from "react";
 import { Icons } from "@/components/icons";
+import { siteConfig } from "@/lib/site";
 
 export const Slides = () => {
   const slides = useAtomValue(slidesAtom);
@@ -58,7 +59,7 @@ export const Slides = () => {
         </div>
       </div>
       <div className="flex justify-end">
-        <Link href={"/"}>
+        <Link href={siteConfig.links.github} target="_blank">
           <Icons.github className="size-6 text-muted-foreground" />
         </Link>
       </div>
