@@ -30,6 +30,7 @@ export const Slides = () => {
           <h2 className="text-sm font-semibold">Slides</h2>
           <Button
             type="button"
+            disabled={slides.length >= 10}
             onClick={() =>
               addSlide({ title: `Slide ${slides.length + 1}`, code: "" })
             }

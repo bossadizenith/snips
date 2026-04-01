@@ -42,6 +42,9 @@ export const initializeSlidesAtom = atom(null, (get, set) => {
 });
 
 export const addSlideAtom = atom(null, (get, set, patch?: SlidePatch) => {
+  const slides = get(slidesAtom);
+  if (slides.length >= 10) return;
+
   const slide: Slide = {
     id: createSlideId(),
     title: normalizeSlideTitle(patch?.title ?? get(fileNameAtom)),
