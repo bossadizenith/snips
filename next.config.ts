@@ -47,6 +47,47 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  webpack(config) {
+    // Unify SVGR behavior between Webpack and Turbopack
+    const fileLoaderRule = config.module.rules.find((rule: any) =>
+      rule.test?.test?.(".svg"),
+    );
+
+    config.module.rules.push(
+      // Re-assign the existing image loader to only handle ?url queries
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/, // *.svg?url
+      },
+      // Convert all other *.svg imports to React components
+      {
+        test: /\.svg$/i,
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [/url/] }, // exclude *.svg?url
+        use: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: "removeViewBox",
+                    active: false,
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+    );
+
+    // Modify the original file loader rule to ignore *.svg, since we now handle it above.
+    fileLoaderRule.exclude = /\.svg$/i;
+
+    return config;
+  },
 };
 
 export default nextConfig;

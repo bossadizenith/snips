@@ -27,23 +27,18 @@ interface ThemeGroup {
 }
 
 function ThemePreview({ theme }: { theme: Theme }) {
-  if (theme.icon) {
-    return (
-      <UniqueSvg className={styles.themePreview}>
-        {React.createElement(theme.icon as React.ElementType, {
-          className: styles.logo,
-        })}
-      </UniqueSvg>
-    );
-  }
-
   return (
     <span
       className={styles.themePreview}
       style={{
         backgroundImage: `linear-gradient(140deg, ${theme.background.from}, ${theme.background.to})`,
       }}
-    ></span>
+    >
+      {theme.icon &&
+        React.createElement(theme.icon as React.ElementType, {
+          className: styles.logo,
+        })}
+    </span>
   );
 }
 

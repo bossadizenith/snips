@@ -5,11 +5,16 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  position: relative;
+  overflow: hidden;
 }
 
 .logo {
   width: 14px;
-  height: auto;
-  max-height: 14px;
-  color: white;
+  height: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
