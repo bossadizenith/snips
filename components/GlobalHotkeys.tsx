@@ -5,10 +5,12 @@ import { useEffect } from "react";
 import { slidesAtom } from "@/store";
 import { addSlideAtom } from "@/store/slide";
 import { toast } from "@/components/ui/toast";
+import useModal from "@/store/modal";
 
 export const GlobalHotkeys = () => {
   const addSlide = useSetAtom(addSlideAtom);
   const slides = useAtomValue(slidesAtom);
+  const { onOpen } = useModal();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -38,6 +40,12 @@ export const GlobalHotkeys = () => {
         (!isInputFocused && isShift && isN) || // Shift+N (when not typing)
         (isAlt && isS) || // Alt+S
         (isCtrlOrMeta && isM); // Ctrl+M
+
+      if (event.key === "?" && !isInputFocused) {
+        event.preventDefault();
+        onOpen("shortcuts");
+        return;
+      }
 
       if (shouldTrigger) {
         // Most aggressive interception possible

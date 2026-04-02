@@ -23,4 +23,23 @@ function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+export function Shortcut({
+  children,
+  keys,
+}: {
+  children: React.ReactNode;
+  keys: string[];
+}) {
+  return (
+    <div className="flex justify-between items-center">
+      <div className="text-gray-11 text-[13px]">{children}</div>
+      <div className="flex items-end gap-1">
+        {keys.map((key) => (
+          <Kbd key={key}>{key}</Kbd>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export { Kbd, KbdGroup };
