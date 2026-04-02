@@ -15,7 +15,7 @@ export const ShortcutsModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl w-full p-0 overflow-hidden border-neutral-800 bg-neutral-950 shadow-2xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 min-h-[600px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 min-h-150">
           <div className="p-10 border-r border-neutral-800 flex flex-col h-full bg-neutral-900/30">
             <div className="flex-1 space-y-10">
               <section>
