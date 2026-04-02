@@ -2,9 +2,8 @@
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Shortcut } from "@/components/ui/kbd";
-import useModal from "@/store/modal";
 import { siteConfig } from "@/lib/site";
-import { Github, Twitter, Heart, Coffee } from "lucide-react";
+import useModal from "@/store/modal";
 import Link from "next/link";
 import { Icons } from "../icons";
 
