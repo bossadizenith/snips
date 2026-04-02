@@ -48,7 +48,7 @@ export function UniqueSvg({ children, className }: UniqueSvgProps) {
   }, [id, children]);
 
   return (
-    <span ref={ref} className={className}>
+    <span ref={ref} className="size-4">
       {children}
     </span>
   );

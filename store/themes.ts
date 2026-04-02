@@ -39,7 +39,9 @@ import StripeLogo from "@/public/assets/stripe/logo.svg";
 import StripeLogoUrl from "@/public/assets/stripe/logo.svg?url";
 import { showLineNumbersAtom } from ".";
 import { createCssVariablesTheme } from "@/utils/theme-css-variables";
-import { BASE_URL } from "@/utils/common";
+import { siteConfig } from "@/lib/site";
+
+const BASE_URL = siteConfig.url;
 
 export const shikiTheme = createCssVariablesTheme({
   name: "css-variables",

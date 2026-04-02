@@ -1,25 +1,25 @@
+import { Theme, themeAtom, THEMES, unlockedThemesAtom } from "@/store/themes";
 import { useAtom } from "jotai";
 import React, { useEffect, useMemo } from "react";
-import { themeAtom, THEMES, Theme, unlockedThemesAtom } from "@/store/themes";
 import ControlContainer from "./ControlContainer";
 
-import styles from "./ThemeControl.module.css";
-import useHotkeys from "@/hooks/useHotkeys";
-import { paddingAtom } from "@/store/padding";
 import {
   Combobox,
-  ComboboxTrigger,
   ComboboxContent,
-  ComboboxList,
+  ComboboxEmpty,
   ComboboxGroup,
   ComboboxGroupLabel,
   ComboboxItem,
+  ComboboxList,
   ComboboxSeparator,
+  ComboboxTrigger,
   ComboboxValue,
-  ComboboxEmpty,
 } from "@/components/ui/combobox";
-import { UniqueSvg } from "@/components/unique-svg";
+import useHotkeys from "@/hooks/useHotkeys";
+import { paddingAtom } from "@/store/padding";
 import { ChevronUpIcon } from "@raycast/icons";
+import styles from "./ThemeControl.module.css";
+import { UniqueSvg } from "./unique-svg";
 
 interface ThemeGroup {
   label: string;
@@ -27,18 +27,23 @@ interface ThemeGroup {
 }
 
 function ThemePreview({ theme }: { theme: Theme }) {
+  if (theme.icon) {
+    return (
+      <UniqueSvg className={styles.themePreview}>
+        {React.createElement(theme.icon as React.ElementType, {
+          className: styles.logo,
+        })}
+      </UniqueSvg>
+    );
+  }
+
   return (
     <span
       className={styles.themePreview}
       style={{
         backgroundImage: `linear-gradient(140deg, ${theme.background.from}, ${theme.background.to})`,
       }}
-    >
-      {theme.icon &&
-        React.createElement(theme.icon as React.ElementType, {
-          className: styles.logo,
-        })}
-    </span>
+    ></span>
   );
 }
 

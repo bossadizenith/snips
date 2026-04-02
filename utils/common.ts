@@ -1,15 +1,10 @@
 import { refProps } from "@/app/api/shorten-url/route";
 import { toast } from "@/components/ui/toast";
-
-export const BASE_URL = {
-  development: "http://localhost:3000",
-  preview: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`,
-  production: "https://www.ray.so",
-}[process.env.NEXT_PUBLIC_VERCEL_ENV || "development"] as string;
+import { siteConfig } from "@/lib/site";
 
 export async function shortenUrl(url: string, ref: refProps) {
   const response = await fetch(
-    `${BASE_URL}/api/shorten-url?url=${encodeURIComponent(url)}&ref=${ref}`,
+    `${siteConfig.url}/api/shorten-url?url=${encodeURIComponent(url)}&ref=${ref}`,
   ).then((res) => res.json());
 
   if (response.link) {
