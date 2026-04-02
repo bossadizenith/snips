@@ -2,12 +2,19 @@
 
 import classNames from "classnames";
 
+import { toast } from "@/components/ui/toast";
+import useHotkeys from "@/hooks/useHotkeys";
 import { highlighterAtom, presentationModeAtom } from "@/store";
-import { goToNextSlideAtom, goToPrevSlideAtom } from "@/store/slide";
-import { useAtom, useSetAtom } from "jotai";
+import { selectedLanguageAtom } from "@/store/code";
+import {
+  formatAllSlidesAtom,
+  goToNextSlideAtom,
+  goToPrevSlideAtom,
+} from "@/store/slide";
+import { formatterSupportedLanguages } from "@/utils/formatCode";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import getWasm from "shiki/wasm";
-import useHotkeys from "@/hooks/useHotkeys";
 
 import { shikiTheme } from "@/store/themes";
 
@@ -21,21 +28,38 @@ import styles from "./code.module.css";
 import { LANGUAGES } from "@/utils/languages";
 import { Highlighter, getHighlighterCore } from "shiki";
 
-import ExportButton from "@/components/ExportButton";
 import FormatButton from "@/components/FormatCodeButton";
 import { NavigationActions } from "@/components/navigation";
 import { Slides } from "@/components/slides";
+import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/lib/site";
 import tailwindDark from "@/public/assets/tailwind/dark.json";
 import tailwindLight from "@/public/assets/tailwind/light.json";
-import { Button } from "../ui/button";
 import { Laptop } from "lucide-react";
-import { siteConfig } from "@/lib/site";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
   const [presentationMode, setPresentationMode] = useAtom(presentationModeAtom);
   const goToNextSlide = useSetAtom(goToNextSlideAtom);
   const goToPrevSlide = useSetAtom(goToPrevSlideAtom);
+  const formatAllSlides = useSetAtom(formatAllSlidesAtom);
+  const selectedLanguage = useAtomValue(selectedLanguageAtom);
+
+  useEffect(() => {
+    if (presentationMode) {
+      const isSupportedLanguage = formatterSupportedLanguages.includes(
+        selectedLanguage?.name || "",
+      );
+
+      if (isSupportedLanguage) {
+        toast.promise(formatAllSlides(), {
+          loading: "Formatting slides...",
+          success: "Formatted all slides",
+          error: "Failed to format slides",
+        });
+      }
+    }
+  }, [presentationMode, formatAllSlides, selectedLanguage]);
 
   useHotkeys("f5", (event) => {
     event.preventDefault();

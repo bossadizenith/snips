@@ -7,6 +7,8 @@ import {
   activeSlideIdAtom,
   animateSlideTransitionAtom,
 } from ".";
+import { selectedLanguageAtom } from "./code";
+import formatCode from "@/utils/formatCode";
 
 type SlidePatch = {
   title?: string;
@@ -102,5 +104,32 @@ export const goToPrevSlideAtom = atom(null, (get, set) => {
   const currentIndex = slides.findIndex((slide) => slide.id === activeSlideId);
   if (currentIndex > 0) {
     set(selectSlideAtom, slides[currentIndex - 1].id);
+  }
+});
+
+export const formatAllSlidesAtom = atom(null, async (get, set) => {
+  const slides = get(slidesAtom);
+  const selectedLanguage = get(selectedLanguageAtom);
+  const activeSlideId = get(activeSlideIdAtom);
+
+  if (!selectedLanguage || slides.length === 0) return;
+
+  const formattedSlides = await Promise.all(
+    slides.map(async (slide) => {
+      const formattedCode = await formatCode(slide.code, selectedLanguage);
+      return { ...slide, code: formattedCode };
+    }),
+  );
+
+  set(slidesAtom, formattedSlides);
+
+  // Sync current code atom if the active slide was updated
+  const updatedActiveSlide = formattedSlides.find(
+    (s) => s.id === activeSlideId,
+  );
+  if (updatedActiveSlide) {
+    set(codeAtom, updatedActiveSlide.code);
+    // Enforce the original language to prevent hljs auto-detection from changing it
+    set(selectedLanguageAtom, selectedLanguage);
   }
 });

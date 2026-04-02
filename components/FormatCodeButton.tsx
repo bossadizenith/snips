@@ -12,7 +12,6 @@ import { useAtom } from "jotai";
 const FormatButton: React.FC = () => {
   const [selectedLanguage, setSelectedLanguage] = useAtom(selectedLanguageAtom);
   const [code, setCode] = useAtom(codeAtom);
-  // const [isClient, setIsClient] = useState(false);
 
   const handleFormatCode = () => {
     const isSupportedLanguage = formatterSupportedLanguages.includes(
@@ -58,6 +57,7 @@ const FormatButton: React.FC = () => {
   return (
     <Button
       onClick={handleFormatCode}
+      variant="ghost"
       className={cn(
         "hidden",
         selectedLanguage &&
