@@ -11,6 +11,7 @@ import React from "react";
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
 import { Info } from "lucide-react";
+import useModal from "@/store/modal";
 
 export const Slides = () => {
   const slides = useAtomValue(slidesAtom);
@@ -19,6 +20,8 @@ export const Slides = () => {
   const initializeSlides = useSetAtom(initializeSlidesAtom);
   const selectSlide = useSetAtom(selectSlideAtom);
   const addSlide = useSetAtom(addSlideAtom);
+
+  const { onOpen } = useModal();
 
   React.useEffect(() => {
     initializeSlides();
@@ -61,7 +64,11 @@ export const Slides = () => {
         </div>
       </div>
       <div className="flex items-center justify-between">
-        <Button size="icon-sm" variant="outline">
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          onClick={() => onOpen("shortcuts")}
+        >
           <Info className=" text-muted-foreground" />
         </Button>
         <Link href={siteConfig.links.github} target="_blank">
