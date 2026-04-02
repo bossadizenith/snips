@@ -23,6 +23,7 @@ export const GlobalHotkeys = () => {
       const isN = event.code === "KeyN";
       const isS = event.code === "KeyS";
       const isM = event.code === "KeyM";
+      const isK = event.code === "KeyK";
 
       const isCtrlOrMeta = event.ctrlKey || event.metaKey;
       const isAlt = event.altKey;
@@ -41,7 +42,7 @@ export const GlobalHotkeys = () => {
         (isAlt && isS) || // Alt+S
         (isCtrlOrMeta && isM); // Ctrl+M
 
-      if (event.key === "?" && !isInputFocused) {
+      if ((event.key === "?" && !isInputFocused) || (isCtrlOrMeta && isK)) {
         event.preventDefault();
         onOpen("shortcuts");
         return;

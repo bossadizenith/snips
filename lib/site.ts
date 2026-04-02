@@ -5,6 +5,7 @@ export const siteConfig = {
   url: "https://snips.bossadizenith.me",
   links: {
     github: "https://github.com/bossadizenith/snips",
+    x: "https://x.com/bossadizenith",
     author: {
       name: "Bossadi Zenith",
       username: "bossadizenith",
