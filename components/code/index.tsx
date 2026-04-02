@@ -4,12 +4,13 @@ import classNames from "classnames";
 
 import { toast } from "@/components/ui/toast";
 import useHotkeys from "@/hooks/useHotkeys";
-import { highlighterAtom, presentationModeAtom } from "@/store";
+import { highlighterAtom, presentationModeAtom, slidesAtom } from "@/store";
 import { selectedLanguageAtom } from "@/store/code";
 import {
   formatAllSlidesAtom,
   goToNextSlideAtom,
   goToPrevSlideAtom,
+  addSlideAtom,
 } from "@/store/slide";
 import { formatterSupportedLanguages } from "@/utils/formatCode";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -43,6 +44,8 @@ export function Code() {
   const goToNextSlide = useSetAtom(goToNextSlideAtom);
   const goToPrevSlide = useSetAtom(goToPrevSlideAtom);
   const formatAllSlides = useSetAtom(formatAllSlidesAtom);
+  const addSlide = useSetAtom(addSlideAtom);
+  const slides = useAtomValue(slidesAtom);
   const selectedLanguage = useAtomValue(selectedLanguageAtom);
 
   useEffect(() => {

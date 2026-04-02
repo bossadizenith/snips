@@ -16,6 +16,7 @@ import {
   sourceCodePro,
   googleSansCode,
 } from "@/lib/fonts";
+import { GlobalHotkeys } from "@/components/GlobalHotkeys";
 
 export const metadata: Metadata = {
   title: {
@@ -89,6 +90,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <GlobalHotkeys />
         {children}
       </body>
     </html>
