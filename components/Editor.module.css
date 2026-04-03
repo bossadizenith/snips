@@ -110,6 +110,11 @@
   }
 } */
 
+.formatted > div {
+  width: fit-content;
+  min-width: 100%;
+}
+
 .textarea {
   z-index: 2;
   overflow: hidden;
@@ -145,10 +150,11 @@
 .formatted > pre > code {
   font-family: inherit;
 }
-
 :global(.shiki-magic-move-container) {
   position: relative;
   display: block;
+  min-width: 0;
+  width: auto;
   line-height: var(--editor-line-height, 30px);
 }
 
@@ -220,7 +226,7 @@
     var(--smm-delay-container, 0) * var(--smm-duration, 500ms)
   );
   transition-duration: var(--smm-duration, 500ms);
-  transition-property: width, height, color, background-color;
+  transition-property: width, height;
   transition-timing-function: var(--smm-easing, ease);
 }
 

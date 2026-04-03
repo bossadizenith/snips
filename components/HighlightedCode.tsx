@@ -1,24 +1,18 @@
-import classNames from "classnames";
-import React, { useEffect, useState, useRef } from "react";
 import { Language, LANGUAGES } from "@/utils/languages";
+import classNames from "classnames";
+import React, { useEffect, useRef, useState } from "react";
 import "shiki-magic-move/dist/style.css";
 import { MagicMove } from "./move";
 
-import styles from "./Editor.module.css";
+import { cn } from "@/lib/utils";
 import {
   animateSlideTransitionAtom,
-  highlightedLinesAtom,
   highlighterAtom,
   loadingLanguageAtom,
 } from "@/store";
+import { Theme, themeAtom, themeDarkModeAtom } from "@/store/themes";
 import { useAtomValue, useSetAtom } from "jotai";
-import {
-  themeDarkModeAtom,
-  themeAtom,
-  Theme,
-  // themeLineNumbersAtom,
-} from "@/store/themes";
-import { cn } from "@/lib/utils";
+import styles from "./Editor.module.css";
 
 type PropTypes = {
   selectedLanguage: Language | null;
@@ -39,15 +33,11 @@ const HighlightedCode: React.FC<PropTypes> = ({
   darkMode: propDarkMode,
 }) => {
   const [isLanguageReady, setIsLanguageReady] = useState(false);
-  // const [prevCode, setPrevCode] = useState(code);
   const highlighter = useAtomValue(highlighterAtom);
   const setIsLoadingLanguage = useSetAtom(loadingLanguageAtom);
-  // const highlightedLines = useAtomValue(highlightedLinesAtom);
   const storeDarkMode = useAtomValue(themeDarkModeAtom);
   const storeTheme = useAtomValue(themeAtom);
-  const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
   const setAnimateSlideTransition = useSetAtom(animateSlideTransitionAtom);
-  // const showLineNumbers = useAtomValue(themeLineNumbersAtom);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const magicMoveRef = useRef<MagicMove | null>(null);
@@ -181,7 +171,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
     <div
       className={classNames(styles.formatted, "select-none overflow-hidden")}
     >
-      <div ref={containerRef} className={cn("min-w-150!")} />
+      <div ref={containerRef} />
     </div>
   );
 };

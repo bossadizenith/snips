@@ -18,6 +18,8 @@ import {
 } from "@/lib/fonts";
 import { GlobalHotkeys } from "@/components/GlobalHotkeys";
 import { Modals } from "@/components/modals";
+import Link from "next/link";
+import { Icons } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: {
@@ -93,7 +95,26 @@ export default function RootLayout({
       >
         <GlobalHotkeys />
         <Modals />
-        {children}
+        <main className="md:block hidden">{children}</main>
+        <main className="md:hidden h-screen flex flex-col gap-10  p-6">
+          <div className="flex-1 flex flex-col gap-8 justify-center">
+            <div className="flex flex-col gap-4">
+              <h1>{siteConfig.name}</h1>
+              <p className="text-muted-foreground">{siteConfig.description}</p>
+            </div>
+
+            <p className="text-muted-foreground">
+              We're not yet ready for modile devices. Please port to your laptop
+            </p>
+          </div>
+          <Link
+            href={siteConfig.links.github}
+            className="flex items-center gap-2"
+          >
+            <Icons.github className="size-10" />
+            Give us a helping hand on
+          </Link>
+        </main>
       </body>
     </html>
   );
