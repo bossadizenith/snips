@@ -96,20 +96,26 @@ export default function RootLayout({
         <GlobalHotkeys />
         <Modals />
         <main className="md:block hidden">{children}</main>
-        <main className="md:hidden h-screen flex flex-col gap-10  p-6">
+        <main
+          className={cn(
+            "md:hidden h-screen flex flex-col gap-10  p-6",
+            geistMono.className,
+          )}
+        >
           <div className="flex-1 flex flex-col gap-8 justify-center">
             <div className="flex flex-col gap-4">
-              <h1>{siteConfig.name}</h1>
-              <p className="text-muted-foreground">{siteConfig.description}</p>
+              <h1 className="text-lg">{siteConfig.name}</h1>
+              <p className="text-muted-foreground text-sm">
+                {siteConfig.description}
+              </p>
             </div>
-
-            <p className="text-muted-foreground">
+            <p>
               We're not yet ready for modile devices. Please port to your laptop
             </p>
           </div>
           <Link
             href={siteConfig.links.github}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 text-sm text-muted-foreground"
           >
             <Icons.github className="size-10" />
             Give us a helping hand on
