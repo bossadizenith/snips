@@ -63,6 +63,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
       delayEnter: 0.1,
       delayLeave: 0.1,
       delayMove: 0.1,
+      containerStyle: false,
       ...BASE_MAGIC_MOVE_OPTIONS,
       // lineNumbers: showLineNumbers && selectedLanguage !== LANGUAGES.plaintext,
     }),
