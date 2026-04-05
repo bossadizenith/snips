@@ -1,5 +1,6 @@
 import useHotkeys from "@/hooks/useHotkeys";
 import {
+  activeSlideIdAtom,
   animateSlideTransitionAtom,
   highlightedLinesAtom,
   presentationModeAtom,
@@ -180,6 +181,16 @@ function Editor({
   const animateSlideTransition = useAtomValue(animateSlideTransitionAtom);
   const storeDarkMode = useAtomValue(themeDarkModeAtom);
   const isPresentationMode = useAtomValue(presentationModeAtom);
+  const activeSlideId = useAtomValue(activeSlideIdAtom);
+
+  useEffect(() => {
+    if (!isPresentationMode && activeSlideId) {
+      const timeoutId = setTimeout(() => {
+        textareaRef.current?.focus();
+      }, 0);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [activeSlideId, isPresentationMode]);
 
   const code = propCode ?? storeCode;
   const selectedLanguage = propLanguage ?? storeLanguage;

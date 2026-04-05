@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "shiki-magic-move/dist/style.css";
 import { MagicMove } from "./move";
 
-import { cn } from "@/lib/utils";
 import {
   animateSlideTransitionAtom,
   highlighterAtom,
