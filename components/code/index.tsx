@@ -37,6 +37,7 @@ import { siteConfig } from "@/lib/site";
 import tailwindDark from "@/public/assets/tailwind/dark.json";
 import tailwindLight from "@/public/assets/tailwind/light.json";
 import { Laptop } from "lucide-react";
+import ExportButton from "../ExportButton";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
@@ -110,6 +111,7 @@ export function Code() {
               <p className="text-sm font-semibold">{siteConfig.name}</p>
               <div>
                 <FormatButton />
+                <ExportButton />
                 <Button onClick={() => setPresentationMode(true)}>
                   <Laptop className="size-4" />
                   Present

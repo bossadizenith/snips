@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ShortcutsModal } from "./shotcuts";
+import { ExportModal } from "./ExportModal";
 
 export const Modals = () => {
   const [mounted, setMounted] = useState(false);
@@ -15,6 +16,7 @@ export const Modals = () => {
   return (
     <>
       <ShortcutsModal />
+      <ExportModal />
     </>
   );
 };
