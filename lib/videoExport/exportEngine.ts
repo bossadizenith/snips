@@ -103,29 +103,41 @@ export async function runExport(
       checkAbort();
 
       const nextSlide = slides[slideIndex + 1];
-      const animStart = Date.now();
-      const animEnd = animStart + transitionDuration;
 
       const transitionDone = renderer.updateCode(nextSlide.code);
 
-      let transitionFrameCount = 0;
-      while (Date.now() < animEnd) {
+      await new Promise((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(r)),
+      );
+
+      const captureEl = renderer.getElement();
+      if (!captureEl) break;
+
+      const animations = captureEl.getAnimations({ subtree: true });
+
+      animations.forEach((anim) => anim.pause());
+      const transitionFrames = Math.round((transitionDuration / 1000) * fps);
+
+      for (let f = 0; f < transitionFrames; f++) {
         checkAbort();
 
-        const captureEl = renderer.getElement();
-        if (!captureEl) break;
+        const frameTimeMs = (f / transitionFrames) * transitionDuration;
 
+        animations.forEach((anim) => {
+          anim.currentTime = frameTimeMs;
+        });
         const bitmap = await captureElementAsImageBitmap(
           captureEl,
           width,
           height,
         );
+
         await encoder.encodeFrame(bitmap, toUs(currentTimeMs));
         currentTimeMs += 1000 / fps;
         framesEncoded++;
-        transitionFrameCount++;
       }
 
+      animations.forEach((anim) => anim.finish());
       await transitionDone;
 
       const settledEl = renderer.getElement();

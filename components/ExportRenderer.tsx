@@ -188,6 +188,7 @@ const ExportEditorContent = forwardRef<
           fontSize: 20,
           lineHeight: "30px",
           whiteSpace: "pre-wrap",
+          overflow: "hidden",
         }}
       >
         {initialCode}
@@ -202,6 +203,7 @@ const ExportEditorContent = forwardRef<
         fontSize: 20,
         lineHeight: "30px",
         fontVariantLigatures: "none",
+        overflow: "hidden",
       }}
     >
       <div ref={containerRef} />
@@ -339,6 +341,7 @@ export const ExportRenderer = forwardRef<
             ...themeCSS,
             fontFamily,
             backgroundColor: "#000000",
+            overflow: "hidden",
           }}
           data-theme={darkMode ? "dark" : "light"}
         >

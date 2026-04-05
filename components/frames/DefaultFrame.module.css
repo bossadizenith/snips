@@ -36,6 +36,7 @@
   border-radius: 18px;
   background: var(--frame-background);
   transition: all ease 0.3s;
+  overflow: hidden;
 
   &.withBorder {
     border: none;
