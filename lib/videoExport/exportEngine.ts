@@ -1,3 +1,4 @@
+import * as htmlToImage from "html-to-image";
 import {
   captureElementAsImageBitmap,
   captureElementAsCanvas,
@@ -73,6 +74,17 @@ export async function runExport(
 
   report("preparing", 0, "Preparing first slide…");
   await renderer.updateCode(slides[0].code);
+  report("starting", slides.length, "Starting export…");
+
+  // --- Precalculate Font Embed CSS ---
+  report("fonts", slides.length, "Caching fonts for fast render…");
+  const rendererElement = renderer.getElement();
+  let fontEmbedCSS = "";
+  if (rendererElement) {
+    fontEmbedCSS = await htmlToImage.getFontEmbedCSS(rendererElement);
+  }
+
+  // --- Process Slides ---
   for (let slideIndex = 0; slideIndex < slides.length; slideIndex++) {
     checkAbort();
 
@@ -88,7 +100,12 @@ export async function runExport(
     const element = renderer.getElement();
     if (!element) throw new Error("ExportRenderer element not found");
 
-    const canvas = await captureElementAsCanvas(element, width, height);
+    const canvas = await captureElementAsCanvas(
+      element,
+      width,
+      height,
+      fontEmbedCSS,
+    );
 
     for (let f = 0; f < holdFrames; f++) {
       checkAbort();
@@ -130,6 +147,7 @@ export async function runExport(
           captureEl,
           width,
           height,
+          fontEmbedCSS,
         );
 
         await encoder.encodeFrame(bitmap, toUs(currentTimeMs));
@@ -146,6 +164,7 @@ export async function runExport(
           settledEl,
           width,
           height,
+          fontEmbedCSS,
         );
         await encoder.encodeFrame(settledBitmap, toUs(currentTimeMs));
         currentTimeMs += 1000 / fps;

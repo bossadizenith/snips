@@ -25,6 +25,8 @@ export interface ExportConfig {
 
 export type ExportStage =
   | "idle"
+  | "starting"
+  | "fonts"
   | "preparing"
   | "encoding"
   | "muxing"
