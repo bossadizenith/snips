@@ -185,8 +185,8 @@ const ExportEditorContent = forwardRef<
           padding: "16px",
           color: "var(--ray-foreground)",
           fontFamily: "inherit",
-          fontSize: 20,
-          lineHeight: "30px",
+          fontSize: "var(--editor-font-size)",
+          lineHeight: "var(--editor-line-height)",
           whiteSpace: "pre-wrap",
           overflow: "hidden",
         }}
@@ -200,8 +200,8 @@ const ExportEditorContent = forwardRef<
     <div
       style={{
         padding: "16px",
-        fontSize: 20,
-        lineHeight: "30px",
+        fontSize: "var(--editor-font-size)",
+        lineHeight: "var(--editor-line-height)",
         fontVariantLigatures: "none",
         overflow: "hidden",
       }}

@@ -99,6 +99,8 @@
   --ray-highlight-border: transparent;
   --line-number: rgba(0, 0, 0, 0.2);
   --line-number: rgba(0, 0, 0, 0.2);
+  --editor-font-size: 30px;
+  --editor-line-height: 45px;
 }
 
 [data-theme="dark"] {
