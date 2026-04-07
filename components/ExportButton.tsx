@@ -12,8 +12,12 @@ import { showBackgroundAtom, slidesAtom } from "@/store";
 import { codeAtom, selectedLanguageAtom } from "@/store/code";
 import {
   exportBlobAtom,
+  exportFPSAtom,
+  exportHoldDurationAtom,
   exportModalOpenAtom,
   exportProgressAtom,
+  exportResolutionAtom,
+  exportTransitionDurationAtom,
   isExportingAtom,
 } from "@/store/export";
 import { paddingAtom } from "@/store/padding";
@@ -33,6 +37,11 @@ const ExportButton: React.FC = () => {
   const padding = useAtomValue(paddingAtom);
   const showBackground = useAtomValue(showBackgroundAtom);
   const code = useAtomValue(codeAtom);
+  
+  const fps = useAtomValue(exportFPSAtom);
+  const holdDuration = useAtomValue(exportHoldDurationAtom);
+  const transitionDuration = useAtomValue(exportTransitionDurationAtom);
+  const resolution = useAtomValue(exportResolutionAtom);
 
   const setIsExporting = useSetAtom(isExportingAtom);
   const setProgress = useSetAtom(exportProgressAtom);
@@ -82,6 +91,11 @@ const ExportButton: React.FC = () => {
       language,
       padding,
       showBackground,
+      fps,
+      holdDuration,
+      transitionDuration,
+      width: resolution.width,
+      height: resolution.height,
     });
 
     try {
@@ -131,10 +145,12 @@ const ExportButton: React.FC = () => {
     language,
     padding,
     showBackground,
-    setBlob,
-    setIsExporting,
     setModalOpen,
     setProgress,
+    fps,
+    holdDuration,
+    transitionDuration,
+    resolution,
   ]);
 
   const isExporting = useAtomValue(isExportingAtom);
@@ -164,8 +180,8 @@ const ExportButton: React.FC = () => {
             padding={padding}
             showBackground={showBackground}
             initialCode={slides[0]?.code ?? code}
-            width={1920}
-            height={1080}
+            width={resolution.width}
+            height={resolution.height}
           />,
           document.body,
         )}
