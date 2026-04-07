@@ -142,7 +142,7 @@ function handleBracketClose(textarea: HTMLTextAreaElement) {
   document.execCommand("insertText", false, "}");
 }
 
-const fontMap = {
+export const fontMap = {
   "jetbrains-mono": styles.jetBrainsMono,
   "geist-mono": styles.geistMono,
   "ibm-plex-mono": styles.ibmPlexMono,
@@ -392,6 +392,7 @@ function Editor({
           selectedLanguage={selectedLanguage}
           theme={theme}
           darkMode={darkMode}
+          font={font}
         />
       ) : (
         <RawHighlightedCode
