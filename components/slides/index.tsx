@@ -1,75 +1,74 @@
-import { Button } from "@/components/ui/button";
-import { activeSlideIdAtom, slidesAtom } from "@/store";
-import {
-  addSlideAtom,
-  initializeSlidesAtom,
-  selectSlideAtom,
-} from "@/store/slide";
-import { useAtomValue, useSetAtom } from "jotai";
-import Link from "next/link";
-import React from "react";
+"use client";
+
 import { Icons } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site";
-import { Info } from "lucide-react";
+import { initializeSlidesAtom } from "@/store/slide";
 import useModal from "@/store/modal";
+import { useSetAtom } from "jotai";
+import classNames from "classnames";
+import { Info, Layers, Settings } from "lucide-react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { SlidesPanel } from "./SlidesPanel";
+import styles from "./slides.module.css";
+
+type SidebarTab = "slides" | "settings";
 
 export const Slides = () => {
-  const slides = useAtomValue(slidesAtom);
-  const activeSlideId = useAtomValue(activeSlideIdAtom);
-
+  const [activeTab, setActiveTab] = useState<SidebarTab>("slides");
   const initializeSlides = useSetAtom(initializeSlidesAtom);
-  const selectSlide = useSetAtom(selectSlideAtom);
-  const addSlide = useSetAtom(addSlideAtom);
-
   const { onOpen } = useModal();
 
-  React.useEffect(() => {
+  useEffect(() => {
     initializeSlides();
   }, [initializeSlides]);
 
   return (
-    <aside className="h-screen w-(--sidebar-width) border-l border-gray-2 p-4 flex flex-col bg-sidebar shrink-0 overflow-y-auto">
-      <div className="flex flex-col gap-2 flex-1">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold">Slides</h2>
-          <Button
-            type="button"
-            disabled={slides.length >= 10}
-            onClick={() =>
-              addSlide({ title: `Slide ${slides.length + 1}`, code: "" })
-            }
-            className="rounded border border-gray-2 px-2 py-1 text-xs"
-          >
-            New
-          </Button>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          {slides.map((slide, index) => {
-            const isActive = slide.id === activeSlideId;
-
-            return (
-              <Button
-                key={slide.id}
-                type="button"
-                onClick={() => selectSlide(slide.id)}
-                variant={isActive ? "default" : "outline"}
-              >
-                <span className="block truncate">
-                  {slide.title || `Slide ${index + 1}`}
-                </span>
-              </Button>
-            );
+    <aside className="h-screen w-(--sidebar-width) border-l border-gray-2 p-4 flex flex-col bg-sidebar shrink-0 overflow-hidden">
+      {/* Tab Switcher */}
+      <div className={styles.tabSwitcher}>
+        <button
+          type="button"
+          className={classNames(styles.tab, {
+            [styles.tabActive]: activeTab === "slides",
           })}
-        </div>
+          onClick={() => setActiveTab("slides")}
+        >
+          <Layers className="size-3.5" />
+          Slides
+        </button>
+        <button
+          type="button"
+          className={classNames(styles.tab, {
+            [styles.tabActive]: activeTab === "settings",
+          })}
+          onClick={() => setActiveTab("settings")}
+          disabled
+        >
+          <Settings className="size-3.5" />
+          Settings
+        </button>
       </div>
-      <div className="flex items-center justify-between">
+
+      {/* Tab Content */}
+      <div className="flex-1 min-h-0">
+        {activeTab === "slides" && <SlidesPanel />}
+        {activeTab === "settings" && (
+          <div className="flex items-center justify-center h-full text-xs text-muted-foreground">
+            Coming soon
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between pt-3 border-t border-gray-2 mt-3">
         <Button
           size="icon-sm"
           variant="ghost"
           onClick={() => onOpen("shortcuts")}
         >
-          <Info className=" text-muted-foreground" />
+          <Info className="text-muted-foreground" />
         </Button>
         <Link href={siteConfig.links.github} target="_blank">
           <Icons.github className="size-6 text-muted-foreground" />
