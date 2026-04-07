@@ -11,6 +11,7 @@ import { Info, Layers, Settings } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { SlidesPanel } from "./SlidesPanel";
+import { SettingsPanel } from "./SettingsPanel";
 import styles from "./slides.module.css";
 
 type SidebarTab = "slides" | "settings";
@@ -44,7 +45,6 @@ export const Slides = () => {
             [styles.tabActive]: activeTab === "settings",
           })}
           onClick={() => setActiveTab("settings")}
-          disabled
         >
           <Settings className="size-3.5" />
           Settings
@@ -52,13 +52,9 @@ export const Slides = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar py-2">
         {activeTab === "slides" && <SlidesPanel />}
-        {activeTab === "settings" && (
-          <div className="flex items-center justify-center h-full text-xs text-muted-foreground">
-            Coming soon
-          </div>
-        )}
+        {activeTab === "settings" && <SettingsPanel />}
       </div>
 
       {/* Footer */}
