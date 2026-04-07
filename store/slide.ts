@@ -107,6 +107,67 @@ export const goToPrevSlideAtom = atom(null, (get, set) => {
   }
 });
 
+export const deleteSlideAtom = atom(null, (get, set, slideId: string) => {
+  const slides = get(slidesAtom);
+  if (slides.length <= 1) return;
+
+  const index = slides.findIndex((s) => s.id === slideId);
+  if (index === -1) return;
+
+  const wasActive = get(activeSlideIdAtom) === slideId;
+  const nextSlides = slides.filter((s) => s.id !== slideId);
+  set(slidesAtom, nextSlides);
+
+  if (wasActive) {
+    const nextIndex = Math.min(index, nextSlides.length - 1);
+    set(selectSlideAtom, nextSlides[nextIndex].id);
+  }
+});
+
+export const duplicateSlideAtom = atom(null, (get, set, slideId: string) => {
+  const slides = get(slidesAtom);
+  if (slides.length >= 10) return;
+
+  const source = slides.find((s) => s.id === slideId);
+  if (!source) return;
+
+  const index = slides.indexOf(source);
+  const clone: Slide = {
+    id: createSlideId(),
+    title: normalizeSlideTitle(`${source.title} (copy)`),
+    code: source.code,
+  };
+
+  const nextSlides = [...slides];
+  nextSlides.splice(index + 1, 0, clone);
+  set(slidesAtom, nextSlides);
+  set(selectSlideAtom, clone.id);
+});
+
+export const reorderSlidesAtom = atom(
+  null,
+  (_get, set, reordered: Slide[]) => {
+    set(slidesAtom, reordered);
+  },
+);
+
+export const renameSlideAtom = atom(
+  null,
+  (get, set, { slideId, title }: { slideId: string; title: string }) => {
+    const normalized = normalizeSlideTitle(title);
+
+    set(slidesAtom, (prev) =>
+      prev.map((slide) =>
+        slide.id === slideId ? { ...slide, title: normalized } : slide,
+      ),
+    );
+
+    if (get(activeSlideIdAtom) === slideId) {
+      set(fileNameAtom, normalized);
+    }
+  },
+);
+
 export const formatAllSlidesAtom = atom(null, async (get, set) => {
   const slides = get(slidesAtom);
   const selectedLanguage = get(selectedLanguageAtom);
