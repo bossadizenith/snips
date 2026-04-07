@@ -152,3 +152,64 @@
   color: var(--muted-foreground);
   font-variant-numeric: tabular-nums;
 }
+
+/* ── Settings Panel ── */
+.settingsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 4px;
+}
+
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controlLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.numericInput {
+  width: 60px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--foreground);
+  font-size: 11px;
+  padding: 0 6px;
+  outline: none;
+  font-variant-numeric: tabular-nums;
+
+  &:focus {
+    border-color: var(--ring);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+}
+
