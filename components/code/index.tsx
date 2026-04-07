@@ -19,7 +19,6 @@ import getWasm from "shiki/wasm";
 
 import { shikiTheme } from "@/store/themes";
 
-import Controls from "@/components/Controls";
 import Frame from "@/components/Frame";
 import FrameContextStore from "@/store/FrameContextStore";
 
@@ -29,15 +28,9 @@ import styles from "./code.module.css";
 import { LANGUAGES } from "@/utils/languages";
 import { Highlighter, getHighlighterCore } from "shiki";
 
-import FormatButton from "@/components/FormatCodeButton";
-import { NavigationActions } from "@/components/navigation";
 import { Slides } from "@/components/slides";
-import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/lib/site";
 import tailwindDark from "@/public/assets/tailwind/dark.json";
 import tailwindLight from "@/public/assets/tailwind/light.json";
-import { Laptop } from "lucide-react";
-import ExportButton from "../ExportButton";
 
 export function Code() {
   const [highlighter, setHighlighter] = useAtom(highlighterAtom);
@@ -106,19 +99,6 @@ export function Code() {
             presentationMode && styles.presentationMode,
           )}
         >
-          {!presentationMode && (
-            <NavigationActions>
-              <p className="text-sm font-semibold">{siteConfig.name}</p>
-              <div>
-                <FormatButton />
-                <ExportButton />
-                <Button onClick={() => setPresentationMode(true)}>
-                  <Laptop className="size-4" />
-                  Present
-                </Button>
-              </div>
-            </NavigationActions>
-          )}
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
             <div className={styles.app}>
               <NoSSR>
