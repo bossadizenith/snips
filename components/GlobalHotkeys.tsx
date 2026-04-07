@@ -3,8 +3,17 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useCallback } from "react";
 import { presentationModeAtom, showBackgroundAtom, slidesAtom } from "@/store";
-import { addSlideAtom, goToNextSlideAtom, goToPrevSlideAtom } from "@/store/slide";
-import { darkModeAtom, themeAtom, THEMES, unlockedThemesAtom } from "@/store/themes";
+import {
+  addSlideAtom,
+  goToNextSlideAtom,
+  goToPrevSlideAtom,
+} from "@/store/slide";
+import {
+  darkModeAtom,
+  themeAtom,
+  THEMES,
+  unlockedThemesAtom,
+} from "@/store/themes";
 import { selectedLanguageAtom } from "@/store/code";
 import { LANGUAGES } from "@/utils/languages";
 import { toast } from "@/components/ui/toast";
@@ -47,10 +56,9 @@ export const GlobalHotkeys = () => {
         target.tagName === "TEXTAREA" ||
         target.tagName === "SELECT" ||
         target.isContentEditable ||
-        target.closest('.cm-editor') !== null; // Ensure CodeMirror focus is detected
+        target.closest(".cm-editor") !== null;
 
-      // Shortcuts that should trigger even if input IS focused (mostly Ctrl/Meta combos)
-      if ((isCtrlOrMeta && isShift && isN)) {
+      if (isCtrlOrMeta && isShift && isN) {
         event.preventDefault();
         if (slides.length >= 10) {
           toast.error("Maximum 10 slides allowed");
@@ -68,7 +76,6 @@ export const GlobalHotkeys = () => {
         return;
       }
 
-      // Shortcuts that should ONLY trigger if input is NOT focused
       if (isInputFocused) return;
 
       if (event.key === "?") {
@@ -112,8 +119,11 @@ export const GlobalHotkeys = () => {
         const availableThemes = Object.values(THEMES).filter(
           (t) => unlockedThemes.includes(t.id) || !t.hidden,
         );
-        const currentIndex = availableThemes.findIndex(t => t.id === currentTheme.id);
-        const nextTheme = availableThemes[(currentIndex + 1) % availableThemes.length];
+        const currentIndex = availableThemes.findIndex(
+          (t) => t.id === currentTheme.id,
+        );
+        const nextTheme =
+          availableThemes[(currentIndex + 1) % availableThemes.length];
         setTheme(nextTheme);
         return;
       }
@@ -121,8 +131,11 @@ export const GlobalHotkeys = () => {
       if (isL) {
         event.preventDefault();
         const availableLanguages = Object.values(LANGUAGES);
-        const currentIndex = availableLanguages.findIndex(l => l.name === selectedLanguage?.name);
-        const nextLang = availableLanguages[(currentIndex + 1) % availableLanguages.length];
+        const currentIndex = availableLanguages.findIndex(
+          (l) => l.name === selectedLanguage?.name,
+        );
+        const nextLang =
+          availableLanguages[(currentIndex + 1) % availableLanguages.length];
         setSelectedLanguage(nextLang);
         return;
       }
@@ -181,7 +194,7 @@ export const GlobalHotkeys = () => {
     unlockedThemes,
     goToNextSlide,
     goToPrevSlide,
-    onOpen
+    onOpen,
   ]);
 
   return null;
