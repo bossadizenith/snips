@@ -1,43 +1,54 @@
 "use client";
 
-import React from "react";
-import { useAtom, useAtomValue } from "jotai";
-import { 
-  exportFPSAtom, 
-  exportHoldDurationAtom, 
-  exportTransitionDurationAtom, 
-  exportResolutionAtom,
-  RESOLUTIONS,
-  type Resolution
-} from "@/store/export";
-import { showBackgroundAtom, showLineNumbersAtom } from "@/store";
-import { selectedLanguageAtom } from "@/store/code";
-import { themeAtom, themeDarkModeAtom, darkModeAtom, THEMES, type Theme } from "@/store/themes";
-import { fontAtom, FONTS, type Font } from "@/store/font";
-import { paddingAtom, PADDING_OPTIONS } from "@/store/padding";
-import { Language, LANGUAGES } from "@/utils/languages";
-import styles from "./slides.module.css";
-import { Switch } from "@/components/ui/switch";
-import { 
-  Combobox, 
-  ComboboxContent, 
-  ComboboxItem, 
-  ComboboxList, 
-  ComboboxTrigger, 
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
   ComboboxValue,
-  ComboboxEmpty
 } from "@/components/ui/combobox";
+import { Switch } from "@/components/ui/switch";
+import { showBackgroundAtom } from "@/store";
+import { selectedLanguageAtom } from "@/store/code";
+import {
+  exportFPSAtom,
+  exportHoldDurationAtom,
+  exportResolutionAtom,
+  exportTransitionDurationAtom,
+  RESOLUTIONS,
+  type Resolution,
+} from "@/store/export";
+import { fontAtom, FONTS, type Font } from "@/store/font";
+import { darkModeAtom, themeAtom, THEMES, type Theme } from "@/store/themes";
+import { Language, LANGUAGES } from "@/utils/languages";
+import NumberInput from "@/components/ui/number-input";
 import { ChevronUpIcon } from "@raycast/icons";
-import { cn } from "@/lib/utils";
+import { useAtom } from "jotai";
+import React from "react";
+import styles from "./slides.module.css";
 
-const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+const Section = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
   <section className={styles.settingsSection}>
     <h3 className={styles.sectionTitle}>{title}</h3>
     {children}
   </section>
 );
 
-const Row = ({ label, children }: { label: string; children: React.ReactNode }) => (
+const Row = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) => (
   <div className={styles.controlRow}>
     <span className={styles.controlLabel}>{label}</span>
     {children}
@@ -49,9 +60,9 @@ export const SettingsPanel = () => {
   const [darkMode, setDarkMode] = useAtom(darkModeAtom);
   const [showBackground, setShowBackground] = useAtom(showBackgroundAtom);
   const [font, setFont] = useAtom(fontAtom);
-  
+
   const [language, setLanguage] = useAtom(selectedLanguageAtom);
-  
+
   const [fps, setFps] = useAtom(exportFPSAtom);
   const [hold, setHold] = useAtom(exportHoldDurationAtom);
   const [transition, setTransition] = useAtom(exportTransitionDurationAtom);
@@ -68,7 +79,9 @@ export const SettingsPanel = () => {
             itemToStringLabel={(item) => item?.name ?? ""}
           >
             <ComboboxTrigger size="small" className="w-30" icon={ChevronUpIcon}>
-              <ComboboxValue<Theme>>{(val) => val?.name ?? "Select"}</ComboboxValue>
+              <ComboboxValue<Theme>>
+                {(val) => val?.name ?? "Select"}
+              </ComboboxValue>
             </ComboboxTrigger>
             <ComboboxContent>
               <ComboboxEmpty>No themes.</ComboboxEmpty>
@@ -84,11 +97,21 @@ export const SettingsPanel = () => {
         </Row>
 
         <Row label="Dark Mode">
-          <Switch checked={darkMode} onCheckedChange={(checked) => { setDarkMode(checked); }} />
+          <Switch
+            checked={darkMode}
+            onCheckedChange={(checked) => {
+              setDarkMode(checked);
+            }}
+          />
         </Row>
 
         <Row label="Background">
-          <Switch checked={showBackground} onCheckedChange={(checked) => { setShowBackground(checked); }} />
+          <Switch
+            checked={showBackground}
+            onCheckedChange={(checked) => {
+              setShowBackground(checked);
+            }}
+          />
         </Row>
 
         <Row label="Font">
@@ -99,13 +122,23 @@ export const SettingsPanel = () => {
             itemToStringLabel={(item) => item ?? ""}
           >
             <ComboboxTrigger size="small" className="w-30" icon={ChevronUpIcon}>
-              <ComboboxValue<Font>>{(val) => val?.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') ?? "Select"}</ComboboxValue>
+              <ComboboxValue<Font>>
+                {(val) =>
+                  val
+                    ?.split("-")
+                    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(" ") ?? "Select"
+                }
+              </ComboboxValue>
             </ComboboxTrigger>
             <ComboboxContent>
               <ComboboxList<Font>>
                 {(item) => (
                   <ComboboxItem key={item} value={item}>
-                    {item.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                    {item
+                      .split("-")
+                      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                      .join(" ")}
                   </ComboboxItem>
                 )}
               </ComboboxList>
@@ -123,7 +156,9 @@ export const SettingsPanel = () => {
             itemToStringLabel={(item) => item?.name ?? "Auto-Detect"}
           >
             <ComboboxTrigger size="small" className="w-30" icon={ChevronUpIcon}>
-              <ComboboxValue<Language | null>>{(val) => val?.name ?? "Auto-Detect"}</ComboboxValue>
+              <ComboboxValue<Language | null>>
+                {(val) => val?.name ?? "Auto-Detect"}
+              </ComboboxValue>
             </ComboboxTrigger>
             <ComboboxContent>
               <ComboboxEmpty>No languages.</ComboboxEmpty>
@@ -141,7 +176,7 @@ export const SettingsPanel = () => {
 
       <Section title="Video Export">
         <Row label="FPS">
-          <select 
+          <select
             className={styles.numericInput}
             value={fps}
             onChange={(e) => setFps(Number(e.target.value))}
@@ -152,24 +187,20 @@ export const SettingsPanel = () => {
         </Row>
 
         <Row label="Hold (ms)">
-          <input 
-            type="number"
-            className={styles.numericInput}
+          <NumberInput
             value={hold}
-            onChange={(e) => setHold(Number(e.target.value))}
-            step={500}
+            onChange={(val: number) => setHold(val)}
             min={0}
+            className="text-xs py-0.5 bg-white/5 border border-white/10 ring-0 focus-within:ring-1 focus-within:ring-ring"
           />
         </Row>
 
         <Row label="Morph (ms)">
-          <input 
-            type="number"
-            className={styles.numericInput}
+          <NumberInput
             value={transition}
-            onChange={(e) => setTransition(Number(e.target.value))}
-            step={100}
+            onChange={(val: number) => setTransition(val)}
             min={0}
+            className="text-xs py-0.5 bg-white/5 border border-white/10 ring-0 focus-within:ring-1 focus-within:ring-ring"
           />
         </Row>
 
@@ -181,7 +212,9 @@ export const SettingsPanel = () => {
             itemToStringLabel={(item) => item?.name ?? ""}
           >
             <ComboboxTrigger size="small" className="w-30" icon={ChevronUpIcon}>
-              <ComboboxValue<Resolution>>{(val) => val?.id.toUpperCase() ?? "1080P"}</ComboboxValue>
+              <ComboboxValue<Resolution>>
+                {(val) => val?.id.toUpperCase() ?? "1080P"}
+              </ComboboxValue>
             </ComboboxTrigger>
             <ComboboxContent>
               <ComboboxList<Resolution>>
