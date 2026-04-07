@@ -1,26 +1,24 @@
 "use client";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { downloadBlob } from "@/lib/videoExport/exportEngine";
+import { DEFAULT_EXPORT_CONFIG } from "@/lib/videoExport/types";
 import {
   exportBlobAtom,
   exportModalOpenAtom,
   exportProgressAtom,
   isExportingAtom,
 } from "@/store/export";
-import { downloadBlob } from "@/lib/videoExport/exportEngine";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { CheckCircle2, Download, Film, Loader2, X } from "lucide-react";
-import React from "react";
 
 export const ExportModal = () => {
   const [isOpen, setIsOpen] = useAtom(exportModalOpenAtom);
   const isExporting = useAtomValue(isExportingAtom);
   const progress = useAtomValue(exportProgressAtom);
   const blob = useAtomValue(exportBlobAtom);
-  const setIsOpen2 = useSetAtom(exportModalOpenAtom);
 
   const handleClose = () => {
-    // Don't allow closing mid-export
     if (isExporting) return;
     setIsOpen(false);
   };
@@ -41,68 +39,60 @@ export const ExportModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md w-full p-0 overflow-hidden border-neutral-800 bg-neutral-950 shadow-2xl">
+      <DialogContent className="max-w-md w-full p-0 overflow-hidden">
         <div className="p-8 flex flex-col gap-6">
-          {/* Header */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-neutral-800 rounded-lg">
-                <Film className="size-5 text-white" />
+              <div className="p-2 bg-secondary rounded-lg">
+                <Film className="size-5 text-foreground" />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-white tracking-tight">
+                <h2 className="text-base font-semibold text-foreground tracking-tight">
                   Export Video
                 </h2>
-                <p className="text-xs text-neutral-500 mt-0.5">
-                  WebM · 1920×1080 · 30fps
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  WebM · 1920×1080 ·{" "}
+                  {DEFAULT_EXPORT_CONFIG.TRANSITION_CAPTURE_FPS}fps
                 </p>
               </div>
             </div>
-            {!isExporting && (
-              <button
-                onClick={handleClose}
-                className="p-1.5 rounded-md text-neutral-500 hover:text-white hover:bg-neutral-800 transition-colors"
-                aria-label="Close"
-              >
-                <X className="size-4" />
-              </button>
-            )}
           </div>
 
           {/* Progress section */}
           <div className="flex flex-col gap-3">
-            {/* Status line */}
             <div className="flex items-center gap-2">
               {isDone ? (
-                <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="size-4 text-chart-1 shrink-0" />
               ) : isError ? (
-                <X className="size-4 text-red-400 shrink-0" />
+                <X className="size-4 text-destructive shrink-0" />
               ) : (
-                <Loader2 className="size-4 text-blue-400 shrink-0 animate-spin" />
+                <Loader2 className="size-4 text-chart-2 shrink-0 animate-spin" />
               )}
-              <span className="text-sm text-neutral-300 font-medium">
-                {isError ? (progress.error ?? "An error occurred") : progress.message}
+              <span className="text-sm text-foreground font-medium">
+                {isError
+                  ? (progress.error ?? "An error occurred")
+                  : progress.message}
               </span>
             </div>
 
-            {/* Progress bar */}
             {!isDone && !isError && (
-              <div className="w-full h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-300"
                   style={{
                     width: isMuxing ? "100%" : `${progressPercent}%`,
                     background:
-                      "linear-gradient(90deg, #3b82f6, #8b5cf6)",
-                    animation: isMuxing ? "pulse 1s ease-in-out infinite" : undefined,
+                      "linear-gradient(90deg, var(--chart-3), var(--chart-2))",
+                    animation: isMuxing
+                      ? "pulse 1s ease-in-out infinite"
+                      : undefined,
                   }}
                 />
               </div>
             )}
 
-            {/* Stats */}
             {!isDone && !isError && progress.stage === "encoding" && (
-              <div className="flex items-center justify-between text-xs text-neutral-500">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span>
                   Slide {progress.currentSlide} of {progress.totalSlides}
                 </span>
@@ -116,14 +106,14 @@ export const ExportModal = () => {
           {/* Done state */}
           {isDone && blob && (
             <div className="flex flex-col gap-3">
-              <div className="rounded-lg bg-emerald-950/40 border border-emerald-800/30 px-4 py-3">
-                <p className="text-sm text-emerald-300">
+              <div className="rounded-lg bg-muted border border-border px-4 py-3">
+                <p className="text-sm text-foreground">
                   Your video is ready! Click below to download it.
                 </p>
               </div>
               <button
                 onClick={handleDownload}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white text-black text-sm font-semibold hover:bg-neutral-100 transition-colors"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 <Download className="size-4" />
                 Download snips-export.webm
@@ -133,16 +123,16 @@ export const ExportModal = () => {
 
           {/* Error state */}
           {isError && (
-            <div className="rounded-lg bg-red-950/40 border border-red-800/30 px-4 py-3">
-              <p className="text-sm text-red-300">
-                {progress.error ?? "Something went wrong during export. Please try again."}
+            <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-4 py-3">
+              <p className="text-sm text-destructive">
+                {progress.error ??
+                  "Something went wrong during export. Please try again."}
               </p>
             </div>
           )}
 
-          {/* Info note */}
           {progress.stage === "preparing" && (
-            <p className="text-xs text-neutral-600 leading-relaxed">
+            <p className="text-xs text-muted-foreground leading-relaxed">
               The first export may take a moment while fonts and styles are
               serialised. Subsequent exports in this session will be faster.
             </p>
