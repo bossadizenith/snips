@@ -123,7 +123,6 @@ export function Code() {
             <div className={styles.app}>
               <NoSSR>
                 {highlighter && <Frame />}
-                {!presentationMode && <Controls />}
               </NoSSR>
             </div>
           </div>
