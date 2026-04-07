@@ -46,6 +46,7 @@ interface ExportRendererProps {
   initialCode: string;
   width: number;
   height: number;
+  font: string;
 }
 
 const TRANSITION_DURATION = DEFAULT_EXPORT_CONFIG.TRANSITION_DURATION_MS;
@@ -99,8 +100,9 @@ const ExportEditorContent = forwardRef<
     theme: Theme;
     darkMode: boolean;
     initialCode: string;
+    font: string;
   }
->(({ language, theme, darkMode, initialCode }, ref) => {
+>(({ language, theme, darkMode, initialCode, font }, ref) => {
   const highlighter = useAtomValue(highlighterAtom);
   const containerRef = useRef<HTMLDivElement>(null);
   const magicMoveRef = useRef<MagicMove | null>(null);
@@ -202,6 +204,7 @@ const ExportEditorContent = forwardRef<
         padding: "16px",
         fontSize: "var(--editor-font-size)",
         lineHeight: "var(--editor-line-height)",
+        fontFamily: font ? fontFamilyMap[font] : "inherit",
         fontVariantLigatures: "none",
         overflow: "hidden",
       }}
@@ -227,6 +230,7 @@ export const ExportRenderer = forwardRef<
       initialCode,
       width,
       height,
+      font: propFont,
     },
     ref,
   ) => {
@@ -237,7 +241,7 @@ export const ExportRenderer = forwardRef<
 
     const themeCSS = resolveThemeCSS(theme, darkMode);
     const themeBackground = resolveBackground(theme);
-    const font = theme.font || "jetbrains-mono";
+    const font = propFont || theme.font || "jetbrains-mono";
     const fontFamily = fontFamilyMap[font] || fontFamilyMap["jetbrains-mono"];
 
     useImperativeHandle(ref, () => ({
@@ -254,6 +258,7 @@ export const ExportRenderer = forwardRef<
         theme={theme}
         darkMode={darkMode}
         initialCode={initialCode}
+        font={font}
       />
     );
 
