@@ -1,6 +1,6 @@
 export interface EncoderChunk {
   data: ArrayBuffer;
-  timestamp: number; // µs
+  timestamp: number;
   isKeyframe: boolean;
 }
 
@@ -59,17 +59,25 @@ export class VideoFrameEncoder {
     if (this.error) throw this.error;
   }
 
-  encodeFrame(
-    bitmap: ImageBitmap,
-    timestampUs: number,
-    forceKeyframe = false,
-  ) {
+  encodeFrame(bitmap: ImageBitmap, timestampUs: number, forceKeyframe = false) {
     if (this.error) throw this.error;
 
     const frame = new VideoFrame(bitmap, { timestamp: timestampUs });
     this.encoder.encode(frame, { keyFrame: forceKeyframe });
     frame.close();
     bitmap.close();
+  }
+
+  encodeCanvas(
+    canvas: HTMLCanvasElement,
+    timestampUs: number,
+    forceKeyframe = false,
+  ) {
+    if (this.error) throw this.error;
+
+    const frame = new VideoFrame(canvas, { timestamp: timestampUs });
+    this.encoder.encode(frame, { keyFrame: forceKeyframe });
+    frame.close();
   }
 
   async flush(): Promise<EncoderChunk[]> {
@@ -83,9 +91,6 @@ export class VideoFrameEncoder {
   }
 }
 
-/**
- * Check if the WebCodecs VideoEncoder API is available in this browser.
- */
 export function isWebCodecsSupported(): boolean {
   return (
     typeof VideoEncoder !== "undefined" && typeof VideoFrame !== "undefined"

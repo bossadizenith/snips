@@ -49,4 +49,5 @@ export const DEFAULT_EXPORT_CONFIG = {
   FPS: 30,
   WIDTH: 1920,
   HEIGHT: 1080,
+  TRANSITION_CAPTURE_FPS: 60,
 } as const;

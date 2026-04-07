@@ -83,7 +83,6 @@ export async function runExport(
   for (let slideIndex = 0; slideIndex < slides.length; slideIndex++) {
     checkAbort();
 
-    const slide = slides[slideIndex];
     const isLastSlide = slideIndex === slides.length - 1;
 
     report(
@@ -101,22 +100,18 @@ export async function runExport(
       height,
       fontEmbedCSS,
     );
-    const holdBitmap = await createImageBitmap(holdCanvas);
 
     for (let f = 0; f < holdFrames; f++) {
       checkAbort();
-      const frameBitmap = await createImageBitmap(holdCanvas);
-      encoder.encodeFrame(frameBitmap, toUs(currentTimeMs), f === 0);
+      encoder.encodeCanvas(holdCanvas, toUs(currentTimeMs), f === 0);
       currentTimeMs += 1000 / fps;
       framesEncoded++;
     }
-    holdBitmap.close();
 
     if (!isLastSlide) {
       checkAbort();
 
       const nextSlide = slides[slideIndex + 1];
-
       const transitionDone = renderer.updateCode(nextSlide.code);
 
       await new Promise((r) =>
@@ -131,6 +126,14 @@ export async function runExport(
 
       const transitionFrames = Math.round((transitionDuration / 1000) * fps);
 
+      const captureCount = Math.max(
+        2,
+        Math.round(
+          (transitionDuration / 1000) *
+            DEFAULT_EXPORT_CONFIG.TRANSITION_CAPTURE_FPS,
+        ),
+      );
+
       animations.forEach((anim) => {
         anim.currentTime = 0;
       });
@@ -141,16 +144,15 @@ export async function runExport(
         fontEmbedCSS,
       );
 
-      for (let f = 0; f < transitionFrames; f++) {
+      for (let c = 0; c < captureCount; c++) {
         checkAbort();
 
-        const frameCanvas = await pendingCapture;
+        const captureCanvas = await pendingCapture;
 
-        if (f + 1 < transitionFrames) {
-          const nextFrameTimeMs =
-            ((f + 1) / transitionFrames) * transitionDuration;
+        if (c + 1 < captureCount) {
+          const nextT = ((c + 1) / (captureCount - 1)) * transitionDuration;
           animations.forEach((anim) => {
-            anim.currentTime = nextFrameTimeMs;
+            anim.currentTime = nextT;
           });
           pendingCapture = captureElementAsCanvas(
             captureEl,
@@ -160,16 +162,21 @@ export async function runExport(
           );
         }
 
-        const bitmap = await createImageBitmap(frameCanvas);
-        encoder.encodeFrame(bitmap, toUs(currentTimeMs));
-        currentTimeMs += 1000 / fps;
-        framesEncoded++;
+        const frameStart = Math.round((c / captureCount) * transitionFrames);
+        const frameEnd = Math.round(
+          ((c + 1) / captureCount) * transitionFrames,
+        );
+
+        for (let dup = frameStart; dup < frameEnd; dup++) {
+          encoder.encodeCanvas(captureCanvas, toUs(currentTimeMs));
+          currentTimeMs += 1000 / fps;
+          framesEncoded++;
+        }
       }
 
       animations.forEach((anim) => anim.finish());
       await transitionDone;
 
-      // Settled frame after transition completes
       const settledEl = renderer.getElement();
       if (settledEl) {
         const settledCanvas = await captureElementAsCanvas(
@@ -178,8 +185,7 @@ export async function runExport(
           height,
           fontEmbedCSS,
         );
-        const settledBitmap = await createImageBitmap(settledCanvas);
-        encoder.encodeFrame(settledBitmap, toUs(currentTimeMs));
+        encoder.encodeCanvas(settledCanvas, toUs(currentTimeMs));
         currentTimeMs += 1000 / fps;
         framesEncoded++;
       }
