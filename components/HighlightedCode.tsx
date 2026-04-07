@@ -12,12 +12,15 @@ import {
 import { Theme, themeAtom, themeDarkModeAtom } from "@/store/themes";
 import { useAtomValue, useSetAtom } from "jotai";
 import styles from "./Editor.module.css";
+import { fontMap } from "./Editor";
+import { Font } from "@/store/font";
 
 type PropTypes = {
   selectedLanguage: Language | null;
   code: string;
   theme?: Theme;
   darkMode?: boolean;
+  font?: Font;
 };
 
 const BASE_MAGIC_MOVE_OPTIONS = {
@@ -30,6 +33,7 @@ const HighlightedCode: React.FC<PropTypes> = ({
   code,
   theme: propTheme,
   darkMode: propDarkMode,
+  font,
 }) => {
   const [isLanguageReady, setIsLanguageReady] = useState(false);
   const highlighter = useAtomValue(highlighterAtom);
@@ -169,7 +173,11 @@ const HighlightedCode: React.FC<PropTypes> = ({
 
   return (
     <div
-      className={classNames(styles.formatted, "select-none overflow-hidden")}
+      className={classNames(
+        styles.formatted,
+        "select-none overflow-hidden",
+        font && fontMap[font],
+      )}
     >
       <div ref={containerRef} />
     </div>
