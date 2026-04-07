@@ -19,7 +19,6 @@ export default function Input({
   const defaultValue = React.useRef(value);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [animated, setAnimated] = React.useState(true);
-  // Hide the caret during transitions so you can't see it shifting around:
   const [showCaret, setShowCaret] = React.useState(true);
   const handleInput: React.InputEventHandler<HTMLInputElement> = ({
     currentTarget: el,
@@ -47,7 +46,12 @@ export default function Input({
       onChange?.(newVal);
     };
   return (
-    <div className={clsx("group flex items-stretch rounded-md font-semibold ring ring-zinc-200 transition-shadow focus-within:ring-2 focus-within:ring-blue-500 dark:ring-zinc-800", className)}>
+    <div
+      className={clsx(
+        "group flex items-stretch rounded-md font-semibold ring ring-zinc-200 transition-shadow focus-within:ring-2 focus-within:ring-blue-500 dark:ring-zinc-800",
+        className,
+      )}
+    >
       <button
         aria-hidden="true"
         tabIndex={-1}
@@ -61,10 +65,9 @@ export default function Input({
         <input
           ref={inputRef}
           className={clsx(
-            showCaret ? "caret-primary" : "caret-transparent",
+            "caret-primary",
             "spin-hide w-[1.5em] bg-transparent py-2 text-center font-[inherit] text-transparent outline-none",
           )}
-          // Make sure to disable kerning, to match NumberFlow:
           style={{ fontKerning: "none" }}
           type="number"
           min={min}
@@ -83,7 +86,7 @@ export default function Input({
           animated={animated}
           onAnimationsStart={() => setShowCaret(false)}
           onAnimationsFinish={() => setShowCaret(true)}
-          className="pointer-events-none"
+          className="pointer-events-none tabular-nums"
           willChange
         />
       </div>
