@@ -1,8 +1,5 @@
 import * as htmlToImage from "html-to-image";
-import {
-  captureElementAsImageBitmap,
-  captureElementAsCanvas,
-} from "./captureFrame";
+import { captureElementAsCanvas } from "./captureFrame";
 import { VideoFrameEncoder } from "./encoder";
 import { WebMVideoMuxer } from "./muxer";
 import {
@@ -76,7 +73,6 @@ export async function runExport(
   await renderer.updateCode(slides[0].code);
   report("starting", slides.length, "Starting export…");
 
-  // --- Precalculate Font Embed CSS ---
   report("fonts", slides.length, "Caching fonts for fast render…");
   const rendererElement = renderer.getElement();
   let fontEmbedCSS = "";
@@ -84,7 +80,6 @@ export async function runExport(
     fontEmbedCSS = await htmlToImage.getFontEmbedCSS(rendererElement);
   }
 
-  // --- Process Slides ---
   for (let slideIndex = 0; slideIndex < slides.length; slideIndex++) {
     checkAbort();
 
@@ -100,21 +95,22 @@ export async function runExport(
     const element = renderer.getElement();
     if (!element) throw new Error("ExportRenderer element not found");
 
-    const canvas = await captureElementAsCanvas(
+    const holdCanvas = await captureElementAsCanvas(
       element,
       width,
       height,
       fontEmbedCSS,
     );
+    const holdBitmap = await createImageBitmap(holdCanvas);
 
     for (let f = 0; f < holdFrames; f++) {
       checkAbort();
-      const frameBitmap = await createImageBitmap(canvas);
-
-      await encoder.encodeFrame(frameBitmap, toUs(currentTimeMs), f === 0);
+      const frameBitmap = await createImageBitmap(holdCanvas);
+      encoder.encodeFrame(frameBitmap, toUs(currentTimeMs), f === 0);
       currentTimeMs += 1000 / fps;
       framesEncoded++;
     }
+    holdBitmap.close();
 
     if (!isLastSlide) {
       checkAbort();
@@ -131,26 +127,41 @@ export async function runExport(
       if (!captureEl) break;
 
       const animations = captureEl.getAnimations({ subtree: true });
-
       animations.forEach((anim) => anim.pause());
+
       const transitionFrames = Math.round((transitionDuration / 1000) * fps);
+
+      animations.forEach((anim) => {
+        anim.currentTime = 0;
+      });
+      let pendingCapture: Promise<HTMLCanvasElement> = captureElementAsCanvas(
+        captureEl,
+        width,
+        height,
+        fontEmbedCSS,
+      );
 
       for (let f = 0; f < transitionFrames; f++) {
         checkAbort();
 
-        const frameTimeMs = (f / transitionFrames) * transitionDuration;
+        const frameCanvas = await pendingCapture;
 
-        animations.forEach((anim) => {
-          anim.currentTime = frameTimeMs;
-        });
-        const bitmap = await captureElementAsImageBitmap(
-          captureEl,
-          width,
-          height,
-          fontEmbedCSS,
-        );
+        if (f + 1 < transitionFrames) {
+          const nextFrameTimeMs =
+            ((f + 1) / transitionFrames) * transitionDuration;
+          animations.forEach((anim) => {
+            anim.currentTime = nextFrameTimeMs;
+          });
+          pendingCapture = captureElementAsCanvas(
+            captureEl,
+            width,
+            height,
+            fontEmbedCSS,
+          );
+        }
 
-        await encoder.encodeFrame(bitmap, toUs(currentTimeMs));
+        const bitmap = await createImageBitmap(frameCanvas);
+        encoder.encodeFrame(bitmap, toUs(currentTimeMs));
         currentTimeMs += 1000 / fps;
         framesEncoded++;
       }
@@ -158,15 +169,17 @@ export async function runExport(
       animations.forEach((anim) => anim.finish());
       await transitionDone;
 
+      // Settled frame after transition completes
       const settledEl = renderer.getElement();
       if (settledEl) {
-        const settledBitmap = await captureElementAsImageBitmap(
+        const settledCanvas = await captureElementAsCanvas(
           settledEl,
           width,
           height,
           fontEmbedCSS,
         );
-        await encoder.encodeFrame(settledBitmap, toUs(currentTimeMs));
+        const settledBitmap = await createImageBitmap(settledCanvas);
+        encoder.encodeFrame(settledBitmap, toUs(currentTimeMs));
         currentTimeMs += 1000 / fps;
         framesEncoded++;
       }

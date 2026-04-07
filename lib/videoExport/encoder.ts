@@ -59,7 +59,7 @@ export class VideoFrameEncoder {
     if (this.error) throw this.error;
   }
 
-  async encodeFrame(
+  encodeFrame(
     bitmap: ImageBitmap,
     timestampUs: number,
     forceKeyframe = false,
@@ -70,8 +70,6 @@ export class VideoFrameEncoder {
     this.encoder.encode(frame, { keyFrame: forceKeyframe });
     frame.close();
     bitmap.close();
-
-    await this.encoder.flush();
   }
 
   async flush(): Promise<EncoderChunk[]> {
