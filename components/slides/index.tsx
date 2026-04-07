@@ -27,7 +27,6 @@ export const Slides = () => {
 
   return (
     <aside className="h-screen w-(--sidebar-width) border-l border-gray-2 p-4 flex flex-col bg-sidebar shrink-0 overflow-hidden">
-      {/* Tab Switcher */}
       <div className={styles.tabSwitcher}>
         <button
           type="button"
