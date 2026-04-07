@@ -59,10 +59,8 @@ const FormatButton: React.FC = () => {
       onClick={handleFormatCode}
       variant="ghost"
       className={cn(
-        "hidden",
-        selectedLanguage &&
-          formatterSupportedLanguages.includes(selectedLanguage.name) &&
-          "md:inline-flex",
+        "w-full justify-start gap-2",
+        (!selectedLanguage || !formatterSupportedLanguages.includes(selectedLanguage.name)) && "opacity-50 pointer-events-none"
       )}
     >
       <WandIcon width={16} height={16} />

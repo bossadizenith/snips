@@ -157,9 +157,11 @@ const ExportButton: React.FC = () => {
 
   return (
     <>
-      <ButtonGroup>
+      <div className="w-full">
         <Button
           onClick={handleExport}
+          className="w-full justify-start gap-2"
+          variant="ghost"
           disabled={isExporting || slides.length === 0}
           aria-label="Export as video"
           id="export-video-button"
@@ -167,7 +169,7 @@ const ExportButton: React.FC = () => {
           <Film className="w-4 h-4" />
           {isExporting ? "Exporting…" : "Export Video"}
         </Button>
-      </ButtonGroup>
+      </div>
 
       {rendererMounted &&
         typeof document !== "undefined" &&

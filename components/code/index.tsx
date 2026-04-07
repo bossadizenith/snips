@@ -21,6 +21,7 @@ import { shikiTheme } from "@/store/themes";
 
 import Frame from "@/components/Frame";
 import FrameContextStore from "@/store/FrameContextStore";
+import { GlobalHotkeys } from "@/components/GlobalHotkeys";
 
 import NoSSR from "@/components/NoSSR";
 import styles from "./code.module.css";
@@ -58,23 +59,6 @@ export function Code() {
     }
   }, [presentationMode, formatAllSlides, selectedLanguage]);
 
-  useHotkeys("f5", (event) => {
-    event.preventDefault();
-    setPresentationMode((prev) => !prev);
-  });
-
-  useHotkeys("esc", () => {
-    setPresentationMode(false);
-  });
-
-  useHotkeys("right", () => {
-    goToNextSlide();
-  });
-
-  useHotkeys("left", () => {
-    goToPrevSlide();
-  });
-
   useEffect(() => {
     getHighlighterCore({
       themes: [shikiTheme, tailwindLight, tailwindDark],
@@ -99,6 +83,7 @@ export function Code() {
             presentationMode && styles.presentationMode,
           )}
         >
+          <GlobalHotkeys />
           <div className="flex-1 overflow-auto relative flex justify-center items-center">
             <div className={styles.app}>
               <NoSSR>

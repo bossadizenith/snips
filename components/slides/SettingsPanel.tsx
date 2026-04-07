@@ -10,7 +10,7 @@ import {
   ComboboxValue,
 } from "@/components/ui/combobox";
 import { Switch } from "@/components/ui/switch";
-import { showBackgroundAtom } from "@/store";
+import { presentationModeAtom, showBackgroundAtom } from "@/store";
 import { selectedLanguageAtom } from "@/store/code";
 import {
   exportFPSAtom,
@@ -24,9 +24,13 @@ import { fontAtom, FONTS, type Font } from "@/store/font";
 import { darkModeAtom, themeAtom, THEMES, type Theme } from "@/store/themes";
 import { Language, LANGUAGES } from "@/utils/languages";
 import NumberInput from "@/components/ui/number-input";
+import ExportButton from "../ExportButton";
+import FormatButton from "../FormatCodeButton";
 import { ChevronUpIcon } from "@raycast/icons";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
+import { Laptop } from "lucide-react";
 import React from "react";
+import { Button } from "../ui/button";
 import styles from "./slides.module.css";
 
 const Section = ({
@@ -67,6 +71,7 @@ export const SettingsPanel = () => {
   const [hold, setHold] = useAtom(exportHoldDurationAtom);
   const [transition, setTransition] = useAtom(exportTransitionDurationAtom);
   const [resolution, setResolution] = useAtom(exportResolutionAtom);
+  const setPresentationMode = useSetAtom(presentationModeAtom);
 
   return (
     <div className={styles.settingsPanel}>
@@ -227,6 +232,21 @@ export const SettingsPanel = () => {
             </ComboboxContent>
           </Combobox>
         </Row>
+      </Section>
+
+      <Section title="Actions">
+        <div className="flex flex-col gap-2 pt-2">
+          <FormatButton />
+          <ExportButton />
+          <Button 
+            className="w-full justify-start gap-2" 
+            variant="ghost"
+            onClick={() => setPresentationMode(true)}
+          >
+            <Laptop className="size-4" />
+            Present
+          </Button>
+        </div>
       </Section>
     </div>
   );
