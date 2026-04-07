@@ -21,6 +21,7 @@ import {
   THEMES,
   unlockedThemesAtom,
 } from "@/store/themes";
+import { fontAtom } from "@/store/font";
 import { Language, LANGUAGES } from "@/utils/languages";
 import classNames from "classnames";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -182,6 +183,7 @@ function Editor({
   const storeDarkMode = useAtomValue(themeDarkModeAtom);
   const isPresentationMode = useAtomValue(presentationModeAtom);
   const activeSlideId = useAtomValue(activeSlideIdAtom);
+  const font = useAtomValue(fontAtom);
 
   useEffect(() => {
     if (!isPresentationMode && activeSlideId) {
@@ -355,7 +357,7 @@ function Editor({
     <div
       className={classNames(
         styles.editor,
-        themeFont ? fontMap[themeFont] : styles.jetBrainsMono,
+        font ? fontMap[font] : (themeFont ? fontMap[themeFont] : styles.jetBrainsMono),
         isHighlightingLines && styles.isHighlightingLines,
         animateSlideTransition && styles.isAnimating,
         showLineNumbers &&
