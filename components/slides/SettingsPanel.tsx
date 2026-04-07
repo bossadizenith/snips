@@ -121,7 +121,7 @@ export const SettingsPanel = () => {
             onValueChange={(val) => val && setFont(val)}
             itemToStringLabel={(item) => item ?? ""}
           >
-            <ComboboxTrigger size="small" className="w-30" icon={ChevronUpIcon}>
+            <ComboboxTrigger size="small" className="w-40" icon={ChevronUpIcon}>
               <ComboboxValue<Font>>
                 {(val) =>
                   val
