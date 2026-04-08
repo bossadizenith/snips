@@ -1,5 +1,4 @@
 import { refProps } from "@/app/api/shorten-url/route";
-import { toast } from "@/components/ui/toast";
 import { siteConfig } from "@/lib/site";
 
 export async function shortenUrl(url: string, ref: refProps) {
