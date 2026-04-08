@@ -16,5 +16,6 @@ export const FONTS = [
 export type Font = (typeof FONTS)[number];
 
 const fontAtom = atomWithHash<Font>("font", FONTS[0]);
+const fontSizeAtom = atomWithHash<number>("fontSize", 20);
 
-export { fontAtom };
+export { fontAtom, fontSizeAtom };
