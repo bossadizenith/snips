@@ -47,6 +47,7 @@ interface ExportRendererProps {
   width: number;
   height: number;
   font: string;
+  fontSize: number;
 }
 
 const TRANSITION_DURATION = DEFAULT_EXPORT_CONFIG.TRANSITION_DURATION_MS;
@@ -101,8 +102,9 @@ const ExportEditorContent = forwardRef<
     darkMode: boolean;
     initialCode: string;
     font: string;
+    fontSize: number;
   }
->(({ language, theme, darkMode, initialCode, font }, ref) => {
+>(({ language, theme, darkMode, initialCode, font, fontSize }, ref) => {
   const highlighter = useAtomValue(highlighterAtom);
   const containerRef = useRef<HTMLDivElement>(null);
   const magicMoveRef = useRef<MagicMove | null>(null);
@@ -202,7 +204,7 @@ const ExportEditorContent = forwardRef<
     <div
       style={{
         padding: "16px",
-        fontSize: "var(--editor-font-size)",
+        fontSize: `${fontSize}px`,
         lineHeight: "var(--editor-line-height)",
         fontFamily: font ? fontFamilyMap[font] : "inherit",
         fontVariantLigatures: "none",
@@ -231,6 +233,7 @@ export const ExportRenderer = forwardRef<
       width,
       height,
       font: propFont,
+      fontSize,
     },
     ref,
   ) => {
@@ -259,6 +262,7 @@ export const ExportRenderer = forwardRef<
         darkMode={darkMode}
         initialCode={initialCode}
         font={font}
+        fontSize={fontSize}
       />
     );
 
@@ -344,10 +348,12 @@ export const ExportRenderer = forwardRef<
             alignItems: "center",
             justifyContent: "center",
             ...themeCSS,
+            "--editor-font-size": `${fontSize}px`,
+            "--editor-line-height": `${fontSize * 1.5}px`,
             fontFamily,
             backgroundColor: "#000000",
             overflow: "hidden",
-          }}
+          } as React.CSSProperties}
           data-theme={darkMode ? "dark" : "light"}
         >
           {renderFrame()}
