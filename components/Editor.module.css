@@ -155,13 +155,13 @@
   display: block;
   min-width: 0;
   width: auto;
-  font-family: inherit;
+  font-family: inherit !important;
   line-height: var(--editor-line-height, 30px);
 }
 
 :global(.shiki-magic-move-item) {
   display: inline-block;
-  font-family: inherit;
+  font-family: inherit !important;
   line-height: var(--editor-line-height, 30px);
   vertical-align: middle;
   transition-delay: calc(
