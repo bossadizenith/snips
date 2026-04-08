@@ -22,7 +22,7 @@ import {
 } from "@/store/export";
 import { paddingAtom } from "@/store/padding";
 import { themeAtom, themeDarkModeAtom } from "@/store/themes";
-import { fontAtom } from "@/store/font";
+import { fontAtom, fontSizeAtom } from "@/store/font";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Film } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
@@ -44,6 +44,7 @@ const ExportButton: React.FC = () => {
   const transitionDuration = useAtomValue(exportTransitionDurationAtom);
   const resolution = useAtomValue(exportResolutionAtom);
   const font = useAtomValue(fontAtom);
+  const fontSize = useAtomValue(fontSizeAtom);
 
   const setIsExporting = useSetAtom(isExportingAtom);
   const setProgress = useSetAtom(exportProgressAtom);
@@ -187,6 +188,7 @@ const ExportButton: React.FC = () => {
             width={resolution.width}
             height={resolution.height}
             font={font}
+            fontSize={fontSize}
           />,
           document.body,
         )}
