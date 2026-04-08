@@ -20,7 +20,7 @@ import {
   RESOLUTIONS,
   type Resolution,
 } from "@/store/export";
-import { fontAtom, FONTS, type Font } from "@/store/font";
+import { fontAtom, FONTS, fontSizeAtom, type Font } from "@/store/font";
 import { darkModeAtom, themeAtom, THEMES, type Theme } from "@/store/themes";
 import { Language, LANGUAGES } from "@/utils/languages";
 import NumberInput from "@/components/ui/number-input";
@@ -64,6 +64,7 @@ export const SettingsPanel = () => {
   const [darkMode, setDarkMode] = useAtom(darkModeAtom);
   const [showBackground, setShowBackground] = useAtom(showBackgroundAtom);
   const [font, setFont] = useAtom(fontAtom);
+  const [fontSize, setFontSize] = useAtom(fontSizeAtom);
 
   const [language, setLanguage] = useAtom(selectedLanguageAtom);
 
@@ -149,6 +150,15 @@ export const SettingsPanel = () => {
               </ComboboxList>
             </ComboboxContent>
           </Combobox>
+        </Row>
+        <Row label="Font Size">
+          <NumberInput
+            value={fontSize}
+            onChange={(val: number) => setFontSize(val)}
+            min={20}
+            max={50}
+            className="text-xs py-0.5 bg-white/5 border border-white/10 ring-0 focus-within:ring-1 focus-within:ring-ring"
+          />
         </Row>
       </Section>
 
