@@ -21,7 +21,7 @@ import {
   THEMES,
   unlockedThemesAtom,
 } from "@/store/themes";
-import { fontAtom } from "@/store/font";
+import { fontAtom, fontSizeAtom } from "@/store/font";
 import { Language, LANGUAGES } from "@/utils/languages";
 import classNames from "classnames";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -184,6 +184,7 @@ function Editor({
   const isPresentationMode = useAtomValue(presentationModeAtom);
   const activeSlideId = useAtomValue(activeSlideIdAtom);
   const font = useAtomValue(fontAtom);
+  const fontSize = useAtomValue(fontSizeAtom);
 
   useEffect(() => {
     if (!isPresentationMode && activeSlideId) {
@@ -366,7 +367,12 @@ function Editor({
             numberOfLines > 8 && styles.showLineNumbersLarge,
           ],
       )}
-      style={{ "--editor-padding": "16px", ...themeCSS } as React.CSSProperties}
+      style={{ 
+        "--editor-padding": "16px", 
+        "--editor-font-size": `${fontSize}px`,
+        "--editor-line-height": `${fontSize * 1.5}px`,
+        ...themeCSS 
+      } as React.CSSProperties}
       data-value={sizingCode}
     >
       {!isPresentationMode && (
