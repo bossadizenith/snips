@@ -5,19 +5,18 @@ import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site";
 import { initializeSlidesAtom } from "@/store/slide";
 import useModal from "@/store/modal";
-import { useSetAtom } from "jotai";
+import { sidebarTabAtom } from "@/store";
+import { useAtom, useSetAtom } from "jotai";
 import classNames from "classnames";
 import { Info, Layers, Settings } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SlidesPanel } from "./SlidesPanel";
 import { SettingsPanel } from "./SettingsPanel";
 import styles from "./slides.module.css";
 
-type SidebarTab = "slides" | "settings";
-
 export const Slides = () => {
-  const [activeTab, setActiveTab] = useState<SidebarTab>("slides");
+  const [activeTab, setActiveTab] = useAtom(sidebarTabAtom);
   const initializeSlides = useSetAtom(initializeSlidesAtom);
   const { onOpen } = useModal();
 

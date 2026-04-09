@@ -76,6 +76,22 @@ export const GlobalHotkeys = () => {
         return;
       }
 
+      if (isF5) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        setPresentationMode((prev) => !prev);
+        return;
+      }
+
+      if (isEsc && presentationMode) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        setPresentationMode(false);
+        return;
+      }
+
       if (isInputFocused) return;
 
       if (event.key === "?") {
@@ -137,18 +153,6 @@ export const GlobalHotkeys = () => {
         const nextLang =
           availableLanguages[(currentIndex + 1) % availableLanguages.length];
         setSelectedLanguage(nextLang);
-        return;
-      }
-
-      if (isF5) {
-        event.preventDefault();
-        setPresentationMode((prev) => !prev);
-        return;
-      }
-
-      if (isEsc && presentationMode) {
-        event.preventDefault();
-        setPresentationMode(false);
         return;
       }
 

@@ -50,3 +50,4 @@ export const activeSlideIdAtom = atom<string | null>(null);
 export const animateSlideTransitionAtom = atom(false);
 
 export const presentationModeAtom = atom<boolean>(false);
+export const sidebarTabAtom = atom<"slides" | "settings">("slides");
